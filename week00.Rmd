@@ -1,0 +1,24 @@
+---
+title: "Week 0"
+subtitle: "Welcome"
+description: |
+  Getting started
+output:
+  distill::distill_article:
+    toc: true
+    toc_depth: 2
+---
+
+```{r, include=FALSE}
+  library(emo)
+```
+
+# January 6
+
+## Prepare
+
+Nothing!
+
+## During Class
+
+We'll review the syllabus, get to know each other, and get you setup for the semester.

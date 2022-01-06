@@ -1,0 +1,22 @@
+---
+title: "Data Science and Data Visualization with R"
+description: |
+  GLHLTH 562, Duke University, Spring, 2022
+site: distill::distill_website
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+
+# Learn more about creating websites with Distill at:
+# https://rstudio.github.io/distill/website.html
+
+```
+
+<center>
+```{r, out.width='20%', out.extra='style="padding:10px"'}
+knitr::include_graphics("images/562.png")
+```
+</center>
+
+This course will introduce you to data science and data visualization in R. The core content of the course focuses on data acquisition and wrangling, exploratory data analysis, data visualization, modeling, and effective communication of results. My goal is to bring you from zero to being able to work in a team on a fully reproducible data science project analyzing a dataset of your choice and answering questions you care about.

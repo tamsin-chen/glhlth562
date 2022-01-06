@@ -1,0 +1,102 @@
+---
+title: "Syllabus"
+description: |
+  GLHLTH 562, Duke University, Spring, 2022
+---
+
+<center>
+```{r, out.width='20%', out.extra='style="padding:10px"', echo=FALSE}
+knitr::include_graphics("images/562.png")
+```
+</center>
+
+This course will introduce you to data science and data visualization in R. The core content of the course focuses on data acquisition and wrangling, exploratory data analysis, data visualization, modeling, and effective communication of results. My goal is to bring you from zero to being able to work in a team on a fully reproducible data science project analyzing a dataset of your choice and answering questions you care about.
+
+# Teaching Team
+
+[Eric Green](https://globalhealth.duke.edu/people/green-eric), PhD
+
+Madeline Wilkerson, TA
+
+# Topics
+
+We'll start with the good stuff—data visualization. You'll learn how to break down a plot into its component parts, imagine the underlying data structure, and create effective visuals.
+
+Next we'll discuss the importance of having reproducible workflows. I'll introduce you to literate programming and the world of RMarkdown. We'll spend time learning about how to create two specific outputs: dashboards and slide decks.
+
+Once you know your way around R, we'll dig into the core data wrangling skills required in every data science project. You'll learn about data transformation, import, tidying, joining, strings, factors, dates, and iteraton—oh my.
+
+By this point of the course you will have enough of a foundation in R to learn about modeling, and I'll introduce you to the tidy models framework. As we talk about machine learning, we'll also spend time thinking about data science ethics and algorithmic bias.
+
+We'll finish the course with some topics of my choosing. Maybe we'll explore maps and text mining. Or maybe we'll take a beat and revisit topics that tripped us up along the way. The final three sessions will be devoted to your course projects.
+
+
+# Schedule
+
+| Week | Date | Unit | Topic |
+|--- | --- | --- | --- |
+| 0 | Jan 6 | - | Welcome |
+| 1 | Jan 11 | Data visualization | The grammar of graphics and ggplot2 API |
+| 1 | Jan 13 | Data visualization | Designing effective plots |
+| 2 | Jan 18 | Data visualization | Small multiples and patchwork |
+| 2 | Jan 20 | Data visualization | Common geoms and plot styles to know |
+| 3 | Jan 25 | Communicating data science | Reproducible workflows |
+| 3 | Jan 27 | Communicating data science | RMarkdown |
+| 4 | Feb 1 | Communicating data science | Dashboards |
+| 4 | Feb 3 | Communicating data science | Slide decks |
+| 5 | Feb 8 | Data wrangling | Data transformation |
+| 5 | Feb 10 | Data wrangling | Data import |
+| 6 | Feb 15 | Data wrangling | Tidy data |
+| 6 | Feb 17 | Data wrangling | Relational data |
+| 7 | Feb 22 | Data wrangling | Strings |
+| 7 | Feb 24 | Data wrangling | Factors |
+| 8 | Mar 1 | Data wrangling | Dates and times |
+| 8 | Mar 3 | Data wrangling | Iteration |
+| 9 | Mar 15 | Models | Data science ethics |
+| 9 | Mar 17 | Models | Modeling data |
+| 10 | Mar 22 | Models | Tidy models introduction, part 1 |
+| 10 | Mar 24 | Models | Tidy models introduction, part 2 |
+| 11 | Mar 29 | Chef's choice | Maps? |
+| 11 | Mar 31 | Chef's choice | Text mining? |
+| 12 | Apr 5 | Projects | Work session |
+| 12 | Apr 7 | Projects | Presentations Day 1 |
+| 13 | Apr 12 | Projects | Presentations Day 2 |
+
+Links will be posted the Saturday before each week begins.
+
+# Requirements
+
+There are no prerequisites to take this course aside from a good dose of curiosity and interest in learning about R, data visualization, and data science. All you need to participate is a computer with an internet connection. Our tech stack will include:
+
+* [R](https://cloud.r-project.org/)
+* [RStudio Desktop](https://rstudio.com/products/rstudio/download/#download)
+* Zoom for remote learning and office hours
+* Ed for course discussion
+
+# Format
+
+You'll prepare for each class session by reading and practicing. During class, we'll divide our time discussing concepts and running code. I'll often suggest opportunities for you to continue practicing after class. 
+
+Each week you will explore a new [*Tidy Tuesday*](https://github.com/rfordatascience/tidytuesday) dataset. The R4DS Online Learning Community posts a new dataset each Monday. We'll leave time in our Tuesday sessions to review the dataset, and then you will have until Sunday to explore it. I'll provide you with a template for reporting. In the beginning of the course when your skills are more limited, I'll ask you to think more about the data and what you want to do. As the semester goes on, I'll expect that your explorations become more sophisticated. In addition to exploring the datasets on your own, I'll also ask you to find a `#tidytuesday` entry on Twitter, examine the author's code, describe what you learned from them, and comment on their approach.
+
+You will also complete a final project alone or with a partner using a dataset of your choosing.
+
+There are no exams (including no final exam).
+
+# Grading
+
+You will be evaluated on the basis of your weekly assignments (50%) and independent project (50%). Ranges for letter grades will be set at the end of the semester. Cumulative scores of at least 90, 80, and 70 will be guaranteed at least an A-, B-, and C-, respectively.
+
+# Policies
+
+* These are challenging times. If you miss an assignment deadline (Sundays at 10pm Eastern), get in touch so we can discuss if a make-up or extension is possible. Missing more than one deadline could result in grade penalties. Class sessions will be recorded. 
+* Failure to complete the independent project will result in an Incomplete. Please see your school's policy on incompletes (e.g., [Trinity](https://trinity.duke.edu/undergraduate/academic-policies/continuation-requirements))
+* Students should abide by the [Duke Community Standard](https://studentaffairs.duke.edu/conduct/about-us/duke-community-standard) at all times. If a questionable circumstance arises, do not hesitate to seek my guidance (before is always better than after).
+
+# Equity and Inclusion at DGHI
+
+On June 10, 2020 DGHI formed the Equity Task Force (ETF) to identify and address structural inequities related to global power dynamics, race, ethnicity, gender, and all marginalized identities throughout the institute. While it is expected that these goals will be met with gradual progress, the urgency for change and the need to learn from past mistakes must be acted upon immediately.
+
+As our institute begins the process of making these changes, I will attempt to do the same throughout my courses. We as a class will honor all requests to address students by pronouns or names with which they are most comfortable, and I welcome your input on things I can do to make the course materials, my lessons, and the classroom experience more inclusive. I invite you to keep an open line of communication with me throughout this process about any areas where you think I am or the institute is excelling or could use some improvement. If you don’t feel comfortable reaching out to me about areas of concern please contact the ETF co-chairs (Kate Whetten `k.whetten@duke.edu`, Kim McNeil `km.mcneil@duke.edu`) or the relevant steering committee members.
+
+If you require any additional accommodations or arrangements (hearing, vision, English language comprehension, extenuating personal or family circumstances, etc.) please let me know ASAP and, if relevant, please contact the [Student Disability Access Office](http://www.access.duke.edu/students/requesting/index.php) to ensure the accommodation/arrangements can be implemented in a timely fashion.
