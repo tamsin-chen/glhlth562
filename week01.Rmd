@@ -1,0 +1,61 @@
+---
+title: "Week 1"
+subtitle: "Data visualization"
+description: |
+  The grammar of graphics and ggplot2 API and designing effective plots
+output:
+  distill::distill_article:
+    toc: true
+    toc_depth: 2
+---
+
+```{r, include=FALSE}
+  library(emo)
+```
+
+# Resource Roundup
+
+We'll work our way through most of [*R for Data Science*](https://r4ds.had.co.nz/index.html) by Hadley Wickham and Garrett Grolemund (R4DS). You can use the free online version or order a physical copy from [Amazon](http://amzn.to/2aHLAQ1).
+
+We'll also read several chapters in Professor Kieran Healy's book [*Data Visualization*](https://socviz.co/) (SOCVIZ). You can use the free online version or order a physical copy from [Amazon](https://www.amazon.com/gp/product/0691181624/ref=as_li_tl?ie=UTF8&tag=kieranhealysw-20&camp=1789&creative=9325&linkCode=as2&creativeASIN=0691181624&linkId=16d53b3cc1ec3bc3aac60b27c29b92e8) (it's a beautiful book that should probably be on your bookshelf at some point).
+
+It's important that you read the chapters AND run the code as you go. If you read without coding you are likely to trick yourself into thinking you've learned more than you have. This type of material requires most of us to be active learners. `Read/Type/Run` > `Read/Copy/Paste/Run` > `Read only`.
+
+# Jan 11: The grammar of graphics and ggplot2 API
+
+## Prepare
+
+* `r emo::ji("down_arrow")`: [RStudio IDE cheatsheet](https://github.com/rstudio/cheatsheets/raw/main/rstudio-ide.pdf)
+* `r emo::ji("open_book")`: [SOCVIZ Preface (Before you begin)](https://socviz.co/index.html#install)
+* `r emo::ji("open_book")`: [SOCVIZ Chapter 1](https://socviz.co/lookatdata.html#lookatdata)
+* `r emo::ji("open_book")`: [SOCVIZ Chapter 2](https://socviz.co/gettingstarted.html#gettingstarted)
+* `r emo::ji("open_book")`: [R4DS Chapter 1](https://r4ds.had.co.nz/introduction.html)
+
+## During Class
+
+Materials
+
+## After Class (Optional)
+
+* `r emo::ji("open_book")`: [ModernDive Chapter 1](https://moderndive.netlify.app/1-getting-started.html), provides a nice intro to R, RStudio, and packages if you're feeling a bit shaky.
+* `r emo::ji("computer")`: {`learnr`} tutorial on [getting started with R/RStudio](https://aosmith.shinyapps.io/part1_rbasics_getting_started/)
+
+
+# Jan 13: Designing effective plots
+
+## Prepare
+
+* `r emo::ji("tv")`: Reporting on and visualising the pandemic ([video](https://www.rstudio.com/resources/rstudioglobal-2021/reporting-on-and-visualising-the-pandemic/) 50 min)
+* `r emo::ji("down_arrow")`: [Data visualization cheatsheet](https://github.com/rstudio/cheatsheets/raw/main/data-visualization-2.1.pdf)
+* `r emo::ji("open_book")`: [SOCVIZ Chapter 5](https://socviz.co/workgeoms.html#workgeoms)
+* `r emo::ji("open_book")`: [R4DS Chapter 3](https://r4ds.had.co.nz/data-visualisation.html)
+
+
+## During Class
+
+Materials
+
+## After Class (Optional)
+
+* `r emo::ji("computer")`: Tutorials: [Visualize Data](https://rstudio.cloud/learn/primers/3)
+

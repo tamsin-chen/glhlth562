@@ -11,6 +11,8 @@ navbar:
       menu:
         - text: "Week 0"
           href: week00.html
+        - text: "Week 1"
+          href: week01.html
 
   right:
     - text: "The Method Section"
