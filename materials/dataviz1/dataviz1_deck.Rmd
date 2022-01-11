@@ -1,0 +1,696 @@
+---
+title: "Data Visualization"
+subtitle: "The grammar of graphics and ggplot2 API"  
+output:
+  xaringan::moon_reader:
+    css: [xaringan-themer.css,custom_deck.css]
+    nature:
+      slideNumberFormat: "%current%"
+      highlightStyle: github
+      highlightLines: true
+      ratio: 16:9
+      countIncrementalSlides: true
+    seal: false
+    self_contained: true
+---
+
+class: titleSlide, hide_logo
+
+```{r setup, include=FALSE}
+library(tidyverse)
+library(xaringan)
+library(xaringanExtra)
+library(xaringanthemer)
+library(here)
+library(sysfonts)
+library(showtext)
+library(countdown)
+library(lubridate)
+library(zoo)
+library(ftplottools)
+library(viridis)
+library(palmerpenguins)
+library(ggdist)
+library(patchwork)
+
+options(htmltools.dir.version = FALSE)
+knitr::opts_chunk$set(
+  fig.width=9, fig.height=3.5, fig.retina=3,
+  out.width = "100%",
+  cache = FALSE,
+  echo = TRUE,
+  message = FALSE, 
+  warning = FALSE,
+  hiline = TRUE
+)
+```
+
+```{r xaringan-panelset, echo=FALSE}
+xaringanExtra::use_panelset()
+```
+
+```{r xaringan-editable, echo=FALSE}
+xaringanExtra::use_editable(expires = 1)
+```
+
+```{r xaringan-extra-styles, echo=FALSE}
+xaringanExtra::use_extra_styles(
+  hover_code_line = TRUE,         #<<
+  mute_unhighlighted_code = TRUE  #<<
+)
+```
+
+```{r xaringanExtra-clipboard, echo=FALSE}
+xaringanExtra::use_clipboard()
+```
+
+```{r share-again, echo=FALSE}
+xaringanExtra::use_share_again()
+xaringanExtra::style_share_again(share_buttons="none")
+```
+
+```{r xaringan-themer, include=FALSE, warning=FALSE, eval=T}
+style_duo_accent(
+  primary_color = "#1f9ac9",
+  secondary_color = "#444444",
+  header_font_google = google_font("Source Sans Pro"),
+  text_font_google   = google_font("Libre Franklin", "300", "300i"),
+  code_font_google   = google_font("Anonymous Pro"),
+  base_font_size = "30px",
+  text_font_size = "1rem",
+  header_h1_font_size = "2.5rem",
+  header_h2_font_size = "2rem",
+  header_h3_font_size = "1.25rem",
+  padding = "8px 32px 8px 32px",
+)
+
+font_add_google("Poppins", "Poppins")
+font_add_google("Libre Franklin", "Frank")
+showtext_auto()
+```
+
+```{r xaringan-logo, echo=FALSE, eval=FALSE}
+xaringanExtra::use_logo(
+  image_url = "logo.png"
+)
+```
+
+# Data Visualization
+
+## The grammar of graphics and ggplot2 API
+
+<br>
+<center><img src="logo.png" width="200px"/></center>
+
+---
+class: left
+
+# Today's Agenda
+
+.pull-left[
+**A. Warm-up**
+1.  Introductions
+2.  Setup
+
+**B. The grammar of graphics and ggplot2 API**
+1.	Tidy data
+2.  The grammar of graphics
+3.	The `{ggplot2}` API 
+4.  Questions from the readings
+]
+
+.pull-right[
+**C. #TidyTuesday**
+1.	Dataset review
+2.  Expectations/process
+
+**D. How to get help (time permitting)**
+]
+
+---
+
+class: bigFocus, hide-count
+
+# Introductions
+
+In ~30 seconds, tell us about your experience with R and interest in data science. If you use R (or have used it in the past), what is your biggest data processing, visualization, or data communication challenge?
+
+```{r echo=FALSE}
+countdown::countdown(minutes = 10, font_size = "1em")
+```
+
+---
+class: left, hide_logo, hide-count
+
+## Setup
+
+.pull-left[
+**Option 1**
+* Create a folder called `glhlth562` on Box or Dropbox (not for sharing, just for backup)
+* Create a subfolder called `glhlth562/materials`
+* Create another subfolder called `glhlth562/prep`
+* Move your class prep into `glhlth562/prep`
+* Download and unzip today's materials into `glhlth562/materials`
+]
+
+.pull-right[
+**Option 2**
+* Clone the repository from https://github.com/ericpgreen/glhlth562
+* Create a subfolder called `glhlth562/prep`
+* Move your class prep into `glhlth562/prep`
+]
+
+---
+class: newTopic, hide_logo
+
+# The grammar of graphics and ggplot2 API
+
+---
+
+class: newTopicSub, hide_logo
+
+# Data science life cycle
+
+---
+
+```{r echo=FALSE, out.width="90%", fig.align="left"}
+knitr::include_graphics("img/data-science-cycle/data-science-cycle.004.png")
+```
+
+---
+
+```{r echo=FALSE, out.width="90%", fig.align="left"}
+knitr::include_graphics("img/data-science-cycle/data-science-cycle.007.png")
+```
+
+---
+class: left, hide_logo, hide-count
+
+### No one does this better than the FT's COVID team
+
+```{r ft, echo=FALSE}
+knitr::include_url("https://www.ft.com/content/a2901ce8-5eb7-4633-b89c-cbdf5b386938", height='90%')
+```
+
+---
+class: left, hide_logo, hide-count
+
+### John Burn-Murdoch on why he uses {ggplot2}
+
+```{r jbm, echo=FALSE}
+knitr::include_url("https://johnburnmurdoch.github.io/slides/r-ggplot/#/", height='90%')
+```
+
+---
+
+class: newTopicSub, hide_logo
+
+# Tidy data and data wrangling
+
+```{r echo=FALSE, out.width="60%", fig.align="center"}
+knitr::include_graphics(here::here("materials", "dataviz1", "img",  "data-science-cycle", "data-science-cycle.003.png"))
+```
+
+---
+
+class: left, hide-count
+
+### What is your guess at how the data are structured?
+
+```{r echo=FALSE, out.width="80%", fig.align="center"}
+knitr::include_graphics(here::here("materials", "dataviz1", "img", "ft2.png"))
+```
+
+```{r echo=FALSE}
+countdown::countdown(minutes = 1, font_size = "1em")
+```
+---
+
+class: left
+
+### Wide format by state/county 
+
+```{r data, echo=FALSE}
+knitr::include_graphics(here::here("materials", "dataviz1", "img", "data.png"))
+```
+
+---
+class: left
+
+### Tidy data
+
+According to Hadley Wickham, RStudio's Chief Scientist and creator of many great packages like `{ggplot2}`, [tidy data](https://www.jstatsoft.org/article/view/v059i10) have three characteristics:
+
+1. Each variable forms a column.
+2. Each observation forms a row.
+3. Each type of observational unit forms a table.
+
+---
+class: left
+
+.pull-left[
+### Long format
+```{r echo=FALSE, out.width="100%", fig.align="center"}
+  knitr::include_graphics(here::here("materials", "dataviz1", "img", "long.png"))
+```
+]
+
+.pull-right[
+### State-level data separate
+```{r echo=FALSE, out.width="100%", fig.align="center"}
+  knitr::include_graphics(here::here("materials", "dataviz1", "img", "pop.png"))
+```
+]
+
+---
+
+class: left
+
+### There is (usually) no free lunch
+
+.pull-left[
+Data are rarely ready to plot right out of the box. We'll skip the import and wrangling details for now, but take note (right) of what's required in this case.
+]
+
+.verysmall[
+.pull-right[
+```
+pop <- read_csv("https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_deaths_US.csv") %>%
+  # keep only the columns we need
+    select(Province_State, Population) %>%
+  # keep only the rows we need
+    filter(Province_State=="North Carolina" | Province_State=="Arizona") %>%
+  # aggregate population
+    group_by(Province_State) %>%
+    summarize(Population = sum(Population)) 
+
+covid <- read_csv("https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_deaths_US.csv") %>%
+  # keep only the columns we need
+    select(Province_State, Population, contains("/")) %>%
+  # keep only the rows we need
+    filter(Province_State=="North Carolina" | Province_State=="Arizona") %>%
+  # make long
+    pivot_longer(cols = c(-Province_State, -Population),
+                 names_to = "date",
+                 values_to = "totalDeaths") %>%
+  # convert date to proper date
+    mutate(date = mdy(date)) %>%
+  # aggregate by state and date
+    group_by(Province_State, date) %>%
+    summarize(totalDeaths = sum(totalDeaths)) %>%
+  # calculate daily deaths
+  # end up with some negative values, likely due to data revisions
+    group_by(Province_State) %>%
+    mutate(dailyDeaths = c(totalDeaths[1], diff(totalDeaths))) %>%
+  # make sure series is complete
+    ungroup() %>%
+    complete(Province_State, date, fill = list(0)) %>%
+  # keep only dates in range
+    filter(date >= "2020-08-20" & date <= "2021-07-12") %>%
+  # calculate rolling mean
+    group_by(Province_State) %>%
+    mutate(deaths_roll7 = zoo::rollmean(dailyDeaths, k = 7, fill = NA)) %>%
+    filter(!is.na(deaths_roll7)) %>%
+    filter(date >= "2020-09-01") %>%
+  # merge in pop data and normalize
+    left_join(pop, by="Province_State") %>%
+    mutate(deaths_roll7_100k = (deaths_roll7/Population)*100000) %>%
+  # label the last entry for each state (for the plotting step)
+    mutate(label = if_else(date == max(date), 
+                           Province_State, 
+                           NA_character_)) %>%
+    select(Province_State, date, deaths_roll7_100k, label)
+``` 
+] 
+]
+
+---
+
+class: newTopicSub, hide_logo
+
+# Grammar of graphics
+
+---
+
+class: left, hide-count
+
+### What are the key plot elements?
+
+```{r echo=FALSE, out.width="75%", fig.align="center"}
+  knitr::include_graphics(here::here("materials", "dataviz1", "img", "ft2.png"))
+```
+
+```{r echo=FALSE}
+countdown::countdown(minutes = 1, font_size = "1em")
+```
+
+---
+
+class: left
+
+### What are the key plot elements?
+
+.pull-left[
+```{r echo=FALSE, out.width="100%", fig.align="center"}
+  knitr::include_graphics(here::here("materials", "dataviz1", "img", "ft2.png"))
+```
+]
+
+.pull-right[
+  .can-edit[Your ideas]
+]
+
+---
+
+class: left
+
+### What are the key plot elements?
+
+.pull-left[
+```{r echo=FALSE, out.width="100%", fig.align="center"}
+knitr::include_graphics(here::here("materials", "dataviz1", "img", "ft2.png"))
+```
+]
+
+.pull-right[
+* Lines by group with group labels
+* Axis labels
+* Headline title
+* Down to business subtitle
+* Logo
+* Caption with data source
+* FT theme
+* Tool tip
+]
+
+---
+class: left
+
+# Grammar of graphics
+
+<div style= "float:left;position: relative; top: -20px;left: -40px;">
+<img src="img/wilkinson.jpg" style="border: 0;">
+</div>
+
+`{ggplot2}` implements the Leland Wilkinson's "grammar of graphics". Wickham (2010) describes the grammar of graphics as: 
+
+"...a tool that enables us to concisely describe the components of a graphic. Such a grammar allows us to move beyond named graphics (e.g., the "scatterplot") and gain insight into the deep structure that underlies statistical graphics."
+
+---
+class: left
+
+```{r echo=FALSE, out.width="90%", fig.align="center"}
+knitr::include_graphics(here::here("materials", "dataviz1", "img", "thomas_ggplot.png"))
+```
+
+<span style="font-size: 50%;">Source: Thomas Lin Pederson. Amazing workshop on `ggplot2`: https://github.com/thomasp85/ggplot2_workshop</span>
+
+---
+class: left
+
+```{r echo=FALSE, out.width="90%", fig.align="center"}
+knitr::include_graphics(here::here("materials", "dataviz1", "img", "ggplot_gif.gif"))
+```
+
+<span style="font-size: 50%;">Source: Thomas de Beus, https://tinyurl.com/sf8zude</span>
+
+---
+class: newTopicSub, hide_logo
+
+# {ggplot2} API
+
+---
+
+class: left
+
+### Let's use this example to explore the API
+
+```{r echo=FALSE, out.width="70%", fig.align="center"}
+knitr::include_graphics(here::here("materials", "dataviz1", "img", "ft2.png"))
+```
+
+
+---
+
+class: left
+
+### Open RStudio
+
+.pull-left[
+* Find and open the `dataviz1_template.Rmd` file in `materials/dataviz1`. 
+* Install packages in `setup` chunk
+* Scroll to `canvas` chunk
+* Press the arrow pointing down
+
+(We'll dig into the details of RMarkdown files like this later)
+]
+
+.pull-right[
+```{r echo=FALSE, out.width="100%", fig.align="center"}
+knitr::include_graphics(here::here("materials", "dataviz1", "img", "open.png"))
+```
+]
+
+---
+class: left
+
+### `glimpse()` the processed data
+
+The data are stored in an object called `covid`. In addition to running `glimpse(covid)`, you can also click on `covid` in the Environment to see a 'spreadsheet' view.
+
+```{r glimpse, echo=FALSE}
+  covid <- read_csv("https://raw.githubusercontent.com/ericpgreen/glhlth562/main/materials/dataviz1/covid.csv")
+# or
+# read_csv(here::here("materials", "dataviz1", "covid.csv"))
+  glimpse(covid)
+```
+
+---
+
+class: left
+
+### The `ggplot()` function
+
+.panelset[
+.panel[.panel-name[Code]
+
+`ggplot()` tells R that we want to plot something, but we haven't specified any data or told R how the data map to this plot canvas.
+
+```{r canvas_code, fig.show='hide'}
+# see chunk 'canvas'
+ggplot()
+```
+]
+
+.panel[.panel-name[Plot]
+
+```{r canvas_plot, echo=FALSE}
+ggplot()
+```
+]
+
+]
+
+---
+
+class: left
+
+### Map data to the canvas
+
+.panelset[
+.panel[.panel-name[Code]
+
+The first step is to tell `ggplot()` what data you want to plot and specify how the data maps onto the canvas. Which variable maps to the `x` axis? To the `y` axis?
+
+```{r mapping_code, fig.show='hide', eval=FALSE}
+# see chunk 'mapping'
+ggplot(covid, aes(x = ____, y = ____))
+```
+]
+
+.panel[.panel-name[Answer]
+
+```{r mapping_answer, fig.show='hide', eval=FALSE}
+ggplot(covid, aes(x = date, y = deaths_roll7_100k))
+```
+]
+
+.panel[.panel-name[Plot]
+
+```{r mapping_plot, echo=FALSE}
+ggplot(covid, aes(x = date, y = deaths_roll7_100k))
+```
+]
+
+
+]
+
+---
+
+class: left, hide_logo
+
+### Add a `geom_`
+
+```{r ggplotsite, echo=FALSE}
+knitr::include_url("https://ggplot2.tidyverse.org/reference/#section-layers", height='90%')
+```
+
+
+---
+
+class: left
+
+### Add a `geom_`
+
+.panelset[
+.panel[.panel-name[Code]
+
+Our plot has appropriate axes now that we've mapped the data, but the canvas is blank because we've not told R how to represent the data. Our inspiration plot uses lines, so we will too.
+
+```{r geom_code, fig.show='hide'}
+# see chunk 'geom'
+ggplot(covid, aes(x = date, y = deaths_roll7_100k)) +
+  geom_line()
+```
+]
+
+.panel[.panel-name[Plot]
+
+```{r geom_plot, echo=FALSE}
+ggplot(covid, aes(x = date, y = deaths_roll7_100k)) +
+  geom_line()
+```
+]
+
+]
+---
+
+class: left
+
+### Specify the grouping
+
+.panelset[
+.panel[.panel-name[Code]
+
+This does not look right because we did not tell R that the data are grouped. `covid` is a 'long' dataset with two series: Arizona and North Carolina. Which variable contains this grouping information?
+
+```{r grouping_code, fig.show='hide', eval=FALSE}
+# see chunk 'grouping'
+ggplot(covid, aes(x = date, y = deaths_roll7_100k,
+                  group = ____)) +
+  geom_line()
+```
+]
+
+.panel[.panel-name[Answer]
+
+```{r grouping_answer, fig.show='hide'}
+ggplot(covid, aes(x = date, y = deaths_roll7_100k,
+                  group = Province_State)) +
+  geom_line()
+```
+]
+
+.panel[.panel-name[Plot]
+
+```{r grouping_plot, echo=FALSE}
+ggplot(covid, aes(x = date, y = deaths_roll7_100k,
+                  group = Province_State)) +
+  geom_line()
+```
+]
+
+]
+
+---
+class: left
+
+### Specify the grouping color
+
+.panelset[
+.panel[.panel-name[Code]
+
+We need to add color to identify each state's line. One point of friction for new users is deciding whether to use `color` or `fill`. Remember this: Lines and points use `color`. 
+
+```{r addColor_code, fig.show='hide'}
+# see chunk 'addColor'
+ggplot(covid, aes(x = date, y = deaths_roll7_100k,
+                  color = Province_State)) +
+  geom_line()
+```
+
+Rather than specifying `group` explicitly, we can simplify to `color`, which implicitly tells R that we're coloring by group.
+
+]
+
+.panel[.panel-name[Plot]
+
+```{r addColor_plot, echo=FALSE}
+ggplot(covid, aes(x = date, y = deaths_roll7_100k,
+                  color = Province_State)) +
+  geom_line()
+```
+]
+
+]
+
+---
+
+class: left
+
+### Modify the style
+
+We'll dig into plot refinements later. For now, just take note of the layering approach.
+
+.panelset[
+.panel[.panel-name[Code]
+
+```{r changeColors_code, fig.show='hide'}
+# see chunk 'changeColors'
+ggplot(covid,                                     # data
+       aes(x = date, y = deaths_roll7_100k,       # mapping
+           color = Province_State)) +
+       geom_line() +                              # geom
+       scale_color_manual(values = c(             # theme
+                                     "#eb5e8d",     # pink 
+                                     "#0f5599"      # blue
+                                     )) +
+      ft_theme()                                  
+```
+
+]
+
+.panel[.panel-name[Plot]
+
+```{r changeColors_plot, echo=FALSE, out.width='70%'}
+ggplot(covid, aes(x = date, y = deaths_roll7_100k,
+                    color = Province_State)) +
+    geom_line() +
+    scale_color_manual(values = c("#eb5e8d", # pink 
+                                  "#0f5599"  # blue
+                                  )) +
+    ft_theme()
+```
+]
+]
+---
+
+class: left
+
+```{r echo=FALSE, out.width="90%", fig.align="center"}
+knitr::include_graphics(here::here("materials", "dataviz1", "img", "thomas_ggplot.png"))
+```
+
+<span style="font-size: 50%;">Source: Thomas Lin Pederson. Amazing workshop on `ggplot2`: https://github.com/thomasp85/ggplot2_workshop</span>
+
+---
+
+class: left
+
+# Credits
+
+Deck by Eric Green ([@ericpgreen](https://twitter.com/ericpgreen)), licensed under Creative Commons Attribution [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/)
+
+* {[`xaringan`](https://github.com/yihui/xaringan)} for slides with help from {[`xaringanExtra`](https://github.com/gadenbuie/xaringanExtra)} 
+* Data science lifecycle, [Data Science in a Box](https://datasciencebox.org/)
+* [JHU CSSE COVID-19 data](https://github.com/CSSEGISandData/COVID-19)

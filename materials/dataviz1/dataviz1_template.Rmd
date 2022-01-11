@@ -1,0 +1,191 @@
+---
+title: "Data Visualization"
+subtitle: "The grammar of graphics and ggplot2 API"
+css: custom_report.css
+output: 
+  bookdown::html_document2:
+    toc: true
+    toc_float: true
+    toc_depth: 1
+    code_folding: show
+    theme: default
+    highlight: tango
+    fig_captions: no
+    number_sections: false
+---
+
+<!-- This is a comment in markdown. 
+
+The top section is the YAML metadata. 
+
+Below are code chunks interspersed with markdown prose.
+
+We'll return to the structure of RMarkdown documents like this tomorrow.
+
+For now, skip down to the `ggplot2` API heading.
+
+-->
+
+```{r setup, include=FALSE, warning = FALSE, message = FALSE}
+  knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
+
+# install packages (one time step)
+# uncomment next two lines and run
+# once installed, comment out again
+  # install.packages(c("lubridate", "zoo", "here", "remotes"))
+  # remotes::install_github("Financial-Times/ftplottools")
+  
+# load packages
+  library(tidyverse)
+  library(lubridate)
+  library(zoo)
+  library(ftplottools)
+```
+
+```{r design, include=FALSE}
+# define colors
+  glhlth562_colors <- c(
+    `blue`       = "#1f9ac9",
+    `yellow`     = "#ffd966",
+    `black`      = "#000000",
+    `lightgrey`  = "#D3D3D3",
+    `darkgrey`   = "#444444",
+    `grey`       = "#808080"
+  )
+  
+  options(scipen=999) # turns off scientific notation
+```
+
+# `ggplot2` API
+ 
+We'll use this plot from the [Financial Times](https://ig.ft.com/coronavirus-chart/) to explore the `ggplot2` API:
+
+```{r inspiration, echo=FALSE, out.width="100%", fig.align="center", fig.cap="New deaths attributed to Covid-19, Financial Times."}
+  knitr::include_graphics(here::here("materials", "dataviz1", "img", "ft2.png"))
+```
+
+Data are rarely ready to plot right out of the box like this. We'll skip the import and wrangling details for now, but take note (right) of what's required in this case.
+
+```{r coviddata, echo=TRUE, eval=FALSE}
+# eval=FALSE means that this chunk will not run
+# we'll skip these steps and import the wrangled data instead
+
+  pop <- read_csv("https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_deaths_US.csv") %>%
+  # keep only the columns we need
+    select(Province_State, Population) %>%
+  # keep only the rows we need
+    filter(Province_State=="North Carolina" | Province_State=="Arizona") %>%
+  # aggregate population
+    group_by(Province_State) %>%
+    summarize(Population = sum(Population)) 
+
+  covid <- read_csv("https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_deaths_US.csv") %>%
+  # keep only the columns we need
+    select(Province_State, Population, contains("/")) %>%
+  # keep only the rows we need
+    filter(Province_State=="North Carolina" | Province_State=="Arizona") %>%
+  # make long
+    pivot_longer(cols = c(-Province_State, -Population),
+                 names_to = "date",
+                 values_to = "totalDeaths") %>%
+  # convert date to proper date
+    mutate(date = mdy(date)) %>%
+  # aggregate by state and date
+    group_by(Province_State, date) %>%
+    summarize(totalDeaths = sum(totalDeaths)) %>%
+  # calculate daily deaths
+  # end up with some negative values, likely due to data revisions
+    group_by(Province_State) %>%
+    mutate(dailyDeaths = c(totalDeaths[1], diff(totalDeaths))) %>%
+  # make sure series is complete
+    ungroup() %>%
+    complete(Province_State, date, fill = list(0)) %>%
+  # keep only dates in range
+    filter(date >= "2020-08-20" & date <= "2021-07-12") %>%
+  # calculate rolling mean
+    group_by(Province_State) %>%
+    mutate(deaths_roll7 = zoo::rollmean(dailyDeaths, k = 7, fill = NA)) %>%
+    filter(!is.na(deaths_roll7)) %>%
+    filter(date >= "2020-09-01") %>%
+  # merge in pop data and normalize
+    left_join(pop, by="Province_State") %>%
+    mutate(deaths_roll7_100k = (deaths_roll7/Population)*100000) %>%
+  # label the last entry for each state (for the plotting step)
+    mutate(label = if_else(date == max(date), 
+                           Province_State, 
+                           NA_character_)) %>%
+    select(Province_State, date, deaths_roll7, deaths_roll7_100k, label)
+```
+
+# Load the data
+
+The processed and ready to plot data are stored in the `covid.csv` file. Let's load it.
+
+```{r load}
+  covid <- read_csv("https://raw.githubusercontent.com/ericpgreen/glhlth562/main/materials/dataviz1/covid.csv")
+# or
+# read_csv(here::here("materials", "dataviz1", "covid.csv"))
+  glimpse(covid)
+```
+
+# Create a canvas
+
+`ggplot()` tells R that we want to plot something, but we haven't specified any data or told R how the data map to this plot canvas.
+
+```{r canvas}
+  ggplot()
+```
+
+# Map data to the canvas
+
+The first step is to tell `ggplot()` what data you want to plot and specify how the data maps onto the canvas. Which variable maps to the `x` axis? To the `y` axis?
+
+```{r mapping}
+# ggplot(data = covid, mapping = aes(x = date, y = deaths_roll7_100k))
+# most of the time you'll see the data and mapping argument names omitted
+  ggplot(covid, aes(x = ____, y = ____))
+```
+
+# Add a `geom_`
+
+Our plot has appropriate axes now that we've mapped the data, but the canvas is blank because we've not told R how to represent the data. Our inspiration plot uses lines, so we will too.
+
+```{r geom}
+  ggplot(covid, aes(x = ____, y = ____)) +
+    geom_____()
+```
+
+This does not look right because we did not tell R that the data are grouped. `covid` is a 'long' dataset with two series:: Arizona and North Carolina. Which variable contains this grouping information?
+
+```{r grouping}
+  ggplot(covid, aes(x = ____, 
+                    y = ____,
+                    group = ____)) +
+    geom_____()
+```
+
+We need to add color to identify each state's line. One point of friction for new users is deciding whether to use `color` or `fill`. Remember this: Lines and points use `color`. Rather than specifying `group` explicitly, we can simplify to `color`, which implicitly tells R that we're coloring by group.
+
+```{r addColor}
+  ggplot(covid, aes(x = ____, 
+                    y = ____,
+                    color = ____)) +
+    geom_____()
+```
+
+# Modify the look
+
+We'll dig into plot refinements after the break. For now, just take note of the layering approach.
+
+```{r changeColors}
+  ggplot(covid,                                     # data
+         aes(x = ____,                              # mapping
+             y = ____,       
+             color = ____)) +
+         geom_____() +                              # geom
+         scale_color_manual(values = c(             # theme
+                                       "#eb5e8d",     # pink 
+                                       "#0f5599"     # blue
+                                       )) +
+        ft_theme()    
+```
