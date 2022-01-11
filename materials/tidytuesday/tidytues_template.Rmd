@@ -65,4 +65,4 @@ Below are code chunks interspersed with markdown prose.
 
 ## Notes
 
-*What did you learn from their approach? What would you do differently?*
+*What did you learn from their approach?*
