@@ -208,7 +208,8 @@ class: newTopicSub, hide_logo
 # Tidy data and data wrangling
 
 ```{r echo=FALSE, out.width="60%", fig.align="center"}
-knitr::include_graphics(here::here("materials", "dataviz1", "img",  "data-science-cycle", "data-science-cycle.003.png"))
+#knitr::include_graphics(here::here("materials", "dataviz1", "img",  #"data-science-cycle", "data-science-cycle.003.png"))
+knitr::include_graphics("img/data-science-cycle/data-science-cycle.003.png")
 ```
 
 ---
