@@ -14,15 +14,13 @@ output:
     number_sections: false
 ---
 
-<!-- This is a comment in markdown. 
+<!-- 
+
+This is a comment in markdown. 
 
 The top section is the YAML metadata. 
 
 Below are code chunks interspersed with markdown prose.
-
-We'll return to the structure of RMarkdown documents like this tomorrow.
-
-For now, skip down to the `ggplot2` API heading.
 
 -->
 

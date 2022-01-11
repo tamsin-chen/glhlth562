@@ -33,7 +33,7 @@ It's important that you read the chapters AND run the code as you go. If you rea
 
 ## During Class
 
-[Deck](https://ericpgreen.github.io/glhlth562/materials/dataviz1/dataviz1_deck.html) / Materials
+[Deck](https://ericpgreen.github.io/glhlth562/materials/dataviz1/dataviz1_deck.html) / Materials ([zip](https://www.dropbox.com/s/m1vkvenokyftpa9/dataviz1.zip?dl=1) or [github](https://github.com/ericpgreen/glhlth562/tree/main/materials/dataviz1))
 
 ## After Class (Optional)
 
@@ -58,4 +58,10 @@ Deck / Materials
 ## After Class (Optional)
 
 * `r emo::ji("computer")`: Tutorials: [Visualize Data](https://rstudio.cloud/learn/primers/3)
+
+## TidyTuesday
+
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">The <a href="https://twitter.com/R4DScommunity?ref_src=twsrc%5Etfw">@R4DScommunity</a> welcomes you to week 2 of <a href="https://twitter.com/hashtag/TidyTuesday?src=hash&amp;ref_src=twsrc%5Etfw">#TidyTuesday</a>! We&#39;re exploring Bee colony loss!<br><br>📂 <a href="https://t.co/sElb4fcv3u">https://t.co/sElb4fcv3u</a><br>🗞 <a href="https://t.co/6TiLX8FWE4">https://t.co/6TiLX8FWE4</a><a href="https://twitter.com/hashtag/r4ds?src=hash&amp;ref_src=twsrc%5Etfw">#r4ds</a> <a href="https://twitter.com/hashtag/tidyverse?src=hash&amp;ref_src=twsrc%5Etfw">#tidyverse</a> <a href="https://twitter.com/hashtag/rstats?src=hash&amp;ref_src=twsrc%5Etfw">#rstats</a> <a href="https://twitter.com/hashtag/dataviz?src=hash&amp;ref_src=twsrc%5Etfw">#dataviz</a> <a href="https://t.co/xY5CFgeMf9">pic.twitter.com/xY5CFgeMf9</a></p>&mdash; Tom Mock (@thomas_mock) <a href="https://twitter.com/thomas_mock/status/1480724289955454984?ref_src=twsrc%5Etfw">January 11, 2022</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+Bees! [Data](https://github.com/rfordatascience/tidytuesday/blob/master/data/2022/2022-01-11/readme.md) / [Template](https://www.dropbox.com/s/i1mf75oja07985u/tidytuesday.zip?dl=1)
 
