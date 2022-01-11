@@ -208,7 +208,6 @@ class: newTopicSub, hide_logo
 # Tidy data and data wrangling
 
 ```{r echo=FALSE, out.width="60%", fig.align="center"}
-#knitr::include_graphics(here::here("materials", "dataviz1", "img",  #"data-science-cycle", "data-science-cycle.003.png"))
 knitr::include_graphics("img/data-science-cycle/data-science-cycle.003.png")
 ```
 
@@ -219,7 +218,6 @@ class: left, hide-count
 ### What is your guess at how the data are structured?
 
 ```{r echo=FALSE, out.width="80%", fig.align="center"}
-#knitr::include_graphics(here::here("materials", "dataviz1", "img", "ft2.png"))
 knitr::include_graphics("img/ft2.png")
 ```
 
@@ -233,7 +231,7 @@ class: left
 ### Wide format by state/county 
 
 ```{r data, echo=FALSE}
-knitr::include_graphics(here::here("materials", "dataviz1", "img", "data.png"))
+knitr::include_graphics("img/data.png")
 ```
 
 ---
@@ -253,14 +251,14 @@ class: left
 .pull-left[
 ### Long format
 ```{r echo=FALSE, out.width="100%", fig.align="center"}
-  knitr::include_graphics(here::here("materials", "dataviz1", "img", "long.png"))
+  knitr::include_graphics("img/long.png")
 ```
 ]
 
 .pull-right[
 ### State-level data separate
 ```{r echo=FALSE, out.width="100%", fig.align="center"}
-  knitr::include_graphics(here::here("materials", "dataviz1", "img", "pop.png"))
+  knitr::include_graphics("img/pop.png")
 ```
 ]
 
@@ -339,7 +337,7 @@ class: left, hide-count
 ### What are the key plot elements?
 
 ```{r echo=FALSE, out.width="75%", fig.align="center"}
-  knitr::include_graphics(here::here("materials", "dataviz1", "img", "ft2.png"))
+  knitr::include_graphics("img/ft2.png")
 ```
 
 ```{r echo=FALSE}
@@ -354,7 +352,7 @@ class: left
 
 .pull-left[
 ```{r echo=FALSE, out.width="100%", fig.align="center"}
-  knitr::include_graphics(here::here("materials", "dataviz1", "img", "ft2.png"))
+  knitr::include_graphics("img/ft2.png")
 ```
 ]
 
@@ -370,7 +368,7 @@ class: left
 
 .pull-left[
 ```{r echo=FALSE, out.width="100%", fig.align="center"}
-knitr::include_graphics(here::here("materials", "dataviz1", "img", "ft2.png"))
+knitr::include_graphics("img/ft2.png")
 ```
 ]
 
@@ -402,7 +400,7 @@ class: left
 class: left
 
 ```{r echo=FALSE, out.width="90%", fig.align="center"}
-knitr::include_graphics(here::here("materials", "dataviz1", "img", "thomas_ggplot.png"))
+knitr::include_graphics("img/thomas_ggplot.png")
 ```
 
 <span style="font-size: 50%;">Source: Thomas Lin Pederson. Amazing workshop on `ggplot2`: https://github.com/thomasp85/ggplot2_workshop</span>
@@ -411,7 +409,7 @@ knitr::include_graphics(here::here("materials", "dataviz1", "img", "thomas_ggplo
 class: left
 
 ```{r echo=FALSE, out.width="90%", fig.align="center"}
-knitr::include_graphics(here::here("materials", "dataviz1", "img", "ggplot_gif.gif"))
+knitr::include_graphics("img/ggplot_gif.gif")
 ```
 
 <span style="font-size: 50%;">Source: Thomas de Beus, https://tinyurl.com/sf8zude</span>
@@ -428,7 +426,7 @@ class: left
 ### Let's use this example to explore the API
 
 ```{r echo=FALSE, out.width="70%", fig.align="center"}
-knitr::include_graphics(here::here("materials", "dataviz1", "img", "ft2.png"))
+knitr::include_graphics("img/ft2.png")
 ```
 
 
@@ -449,7 +447,7 @@ class: left
 
 .pull-right[
 ```{r echo=FALSE, out.width="100%", fig.align="center"}
-knitr::include_graphics(here::here("materials", "dataviz1", "img", "open.png"))
+knitr::include_graphics("img/open.png")
 ```
 ]
 
@@ -680,7 +678,7 @@ ggplot(covid, aes(x = date, y = deaths_roll7_100k,
 class: left
 
 ```{r echo=FALSE, out.width="90%", fig.align="center"}
-knitr::include_graphics(here::here("materials", "dataviz1", "img", "thomas_ggplot.png"))
+knitr::include_graphics("img/thomas_ggplot.png")
 ```
 
 <span style="font-size: 50%;">Source: Thomas Lin Pederson. Amazing workshop on `ggplot2`: https://github.com/thomasp85/ggplot2_workshop</span>
