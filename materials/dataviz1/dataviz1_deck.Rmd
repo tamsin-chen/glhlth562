@@ -219,7 +219,8 @@ class: left, hide-count
 ### What is your guess at how the data are structured?
 
 ```{r echo=FALSE, out.width="80%", fig.align="center"}
-knitr::include_graphics(here::here("materials", "dataviz1", "img", "ft2.png"))
+#knitr::include_graphics(here::here("materials", "dataviz1", "img", "ft2.png"))
+knitr::include_graphics("img/ft2.png")
 ```
 
 ```{r echo=FALSE}
