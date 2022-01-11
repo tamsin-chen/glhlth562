@@ -33,7 +33,7 @@ It's important that you read the chapters AND run the code as you go. If you rea
 
 ## During Class
 
-Deck / Materials
+[Deck](https://ericpgreen.github.io/glhlth562/materials/dataviz1/dataviz1_deck.html) / Materials
 
 ## After Class (Optional)
 
