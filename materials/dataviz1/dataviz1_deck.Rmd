@@ -11,7 +11,7 @@ output:
       ratio: 16:9
       countIncrementalSlides: true
     seal: false
-    self_contained: true
+    self_contained: false
 ---
 
 class: titleSlide, hide_logo
