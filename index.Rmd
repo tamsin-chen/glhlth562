@@ -20,3 +20,5 @@ knitr::include_graphics("images/562.png")
 </center>
 
 This course will introduce you to data science and data visualization in R. The core content of the course focuses on data acquisition and wrangling, exploratory data analysis, data visualization, modeling, and effective communication of results. My goal is to bring you from zero to being able to work in a team on a fully reproducible data science project analyzing a dataset of your choice and answering questions you care about.
+
+[*Hex sticker shows the rolling mean of daily COVID-19 cases worldwide through 2021.*]

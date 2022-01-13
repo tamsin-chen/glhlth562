@@ -146,7 +146,7 @@ class: left, hide_logo, hide-count
 
 .pull-left[
 **Option 1**
-* Create a folder called `glhlth562` on Box or Dropbox (not for sharing, just for backup)
+* Create a folder called `glhlth562`
 * Create a subfolder called `glhlth562/materials`
 * Create another subfolder called `glhlth562/prep`
 * Move your class prep into `glhlth562/prep`
@@ -155,15 +155,10 @@ class: left, hide_logo, hide-count
 
 .pull-right[
 **Option 2**
-* Clone the repository from https://github.com/ericpgreen/glhlth562
+* Clone the repository from [github](https://github.com/ericpgreen/glhlth562)
 * Create a subfolder called `glhlth562/prep`
 * Move your class prep into `glhlth562/prep`
 ]
-
----
-class: newTopic, hide_logo
-
-# The grammar of graphics and ggplot2 API
 
 ---
 
@@ -436,20 +431,13 @@ class: left
 
 ### Open RStudio
 
-.pull-left[
 * Find and open the `dataviz1_template.Rmd` file in `materials/dataviz1`. 
 * Install packages in `setup` chunk
 * Scroll to `canvas` chunk
 * Press the arrow pointing down
 
 (We'll dig into the details of RMarkdown files like this later)
-]
 
-.pull-right[
-```{r echo=FALSE, out.width="100%", fig.align="center"}
-knitr::include_graphics("img/open.png")
-```
-]
 
 ---
 class: left

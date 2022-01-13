@@ -35,7 +35,7 @@ Below are code chunks interspersed with markdown prose.
   
   
   
-# clean data
+# clean data (optional: tidy tuesday provides clean data)
   
 ```
 

@@ -47,13 +47,13 @@ It's important that you read the chapters AND run the code as you go. If you rea
 
 * `r emo::ji("tv")`: Reporting on and visualising the pandemic ([video](https://www.rstudio.com/resources/rstudioglobal-2021/reporting-on-and-visualising-the-pandemic/) 50 min)
 * `r emo::ji("down_arrow")`: [Data visualization cheatsheet](https://github.com/rstudio/cheatsheets/raw/main/data-visualization-2.1.pdf)
-* `r emo::ji("open_book")`: [SOCVIZ Chapter 5](https://socviz.co/workgeoms.html#workgeoms)
 * `r emo::ji("open_book")`: [R4DS Chapter 3](https://r4ds.had.co.nz/data-visualisation.html)
+* `r emo::ji("open_book")`: [SOCVIZ Chapter 5](https://socviz.co/workgeoms.html#workgeoms)
 
 
 ## During Class
 
-Deck / Materials
+Deck / Materials ([zip](https://www.dropbox.com/s/bl45y3gs9amy3ou/dataviz2.zip?dl=1) or [github](https://github.com/ericpgreen/glhlth562/tree/main/materials/dataviz2))
 
 ## After Class (Optional)
 
