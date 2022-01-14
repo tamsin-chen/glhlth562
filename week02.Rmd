@@ -1,0 +1,60 @@
+---
+title: "Week 2"
+subtitle: "Data visualization"
+description: |
+  Plot layout and get to know a geom
+output:
+  distill::distill_article:
+    toc: true
+    toc_depth: 2
+---
+
+```{r, include=FALSE}
+  library(emo)
+```
+
+# Jan 18: Common geoms and plot styles to know
+
+## Prepare
+
+* `r emo::ji("computer")`: Get to know a `geom`
+  * Search Twitter again for more `#TidyTuesday` Week 2 (bees) entries
+  * Find examples of at least 3 different geoms used in `#TidyTuesday` charts and write down the names of these geoms
+  * Go to the {`ggplot2`} [reference documents](https://ggplot2.tidyverse.org/reference/#section-geoms) and find your selected geoms
+  * For each geom you selected, run a few of the examples and see what happens when you modify the arguments
+* `r emo::ji("computer")`: [Interactive {`ggplot2`} tutorial](https://learn.themethodsection.com/tutorials/ggplot2/basics/) from Ariel Muldoon (you'll run the code in the browser)
+  
+  
+## During Class
+
+Deck / Materials
+
+## After Class (Optional)
+
+* `r emo::ji("tv")`: [Effective visualizations](https://www.rstudio.com/resources/rstudioconf-2020/effective-visualizations/)
+* `r emo::ji("tv")`: [The glamour of graphics](https://www.rstudio.com/resources/rstudioconf-2020/the-glamour-of-graphics/)
+
+# Jan 20: Small multiples and patchwork
+
+## Prepare
+
+* `r emo::ji("open_book")`: [SOCVIZ Chapter 4 (4.1-4.4)](https://socviz.co/groupfacettx.html)
+* `r emo::ji("open_book")`: [Review R4DS 3.5 on facets](https://r4ds.had.co.nz/data-visualisation.html#facets)
+* `r emo::ji("open_book")`: [Blog post on comparing distributions](https://kieranhealy.org/blog/archives/2021/12/19/comparing-distributions/)
+* `r emo::ji("tv")`: [Learning to use the patchwork R package (how to learn a package in general)](https://www.youtube.com/watch?v=2o1YDUKyhu0) ({[`patchwork`](https://patchwork.data-imaginist.com/articles/patchwork.html)})
+
+## During Class
+
+Deck / Materials
+
+## After Class (Optional)
+
+* `r emo::ji("tv")`: [The little package that could: Taking visualizations to the next level with the scales package](https://www.rstudio.com/resources/rstudioconf-2020/the-little-package-that-could-taking-visualizations-to-the-next-level-with-the-scales-package/)
+* `r emo::ji("tv")`: [Spruce up your ggplot2 visualizations with formatted text](https://www.rstudio.com/resources/rstudioconf-2020/spruce-up-your-ggplot2-visualizations-with-formatted-text/)
+
+
+
+## TidyTuesday
+
+Drops every Monday
+

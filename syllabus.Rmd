@@ -38,8 +38,8 @@ We'll finish the course with some topics of my choosing. Maybe we'll explore map
 | 0 | Jan 6 | - | Welcome |
 | 1 | Jan 11 | Data visualization | The grammar of graphics and ggplot2 API |
 | 1 | Jan 13 | Data visualization | Designing effective plots |
-| 2 | Jan 18 | Data visualization | Small multiples and patchwork |
-| 2 | Jan 20 | Data visualization | Common geoms and plot styles to know |
+| 2 | Jan 18 | Data visualization | Common geoms and plot styles to know |
+| 2 | Jan 20 | Data visualization | Small multiples and patchwork |
 | 3 | Jan 25 | Communicating data science | Reproducible workflows |
 | 3 | Jan 27 | Communicating data science | RMarkdown |
 | 4 | Feb 1 | Communicating data science | Dashboards |
@@ -62,7 +62,7 @@ We'll finish the course with some topics of my choosing. Maybe we'll explore map
 | 12 | Apr 7 | Projects | Presentations Day 1 |
 | 13 | Apr 12 | Projects | Presentations Day 2 |
 
-Links will be posted the Saturday before each week begins.
+Assignments will be posted the Saturday before each week begins.
 
 # Requirements
 
@@ -77,7 +77,7 @@ There are no prerequisites to take this course aside from a good dose of curiosi
 
 You'll prepare for each class session by reading and practicing. During class, we'll divide our time discussing concepts and running code. I'll often suggest opportunities for you to continue practicing after class. 
 
-Each week you will explore a new [*Tidy Tuesday*](https://github.com/rfordatascience/tidytuesday) dataset. The R4DS Online Learning Community posts a new dataset each Monday. We'll leave time in our Tuesday sessions to review the dataset, and then you will have until Sunday to explore it. I'll provide you with a template for reporting. In the beginning of the course when your skills are more limited, I'll ask you to think more about the data and what you want to do. As the semester goes on, I'll expect that your explorations become more sophisticated. In addition to exploring the datasets on your own, I'll also ask you to find a `#tidytuesday` entry on Twitter, examine the author's code, describe what you learned from them, and comment on their approach.
+Each week you will explore a new [*Tidy Tuesday*](https://github.com/rfordatascience/tidytuesday) dataset. The R4DS Online Learning Community posts a new dataset each Monday. We'll leave time in our Tuesday sessions to review the dataset, and then you will have until Sunday to explore it. I'll provide you with a template for reporting. In the beginning of the course when your skills are more limited, I'll ask you to think more about the data and what you want to do. As the semester goes on, I'll expect that your explorations become more sophisticated. In addition to exploring the datasets on your own, I'll also ask you to find a `#tidytuesday` entry on Twitter, examine the author's code and describe what you learned from them.
 
 You will also complete a final project alone or with a partner using a dataset of your choosing.
 
