@@ -142,7 +142,7 @@ class: left, hide_logo, hide-count
 * Creating RMarkdown (Rmd) files in RStudio has distinct advantages over plain R scripts
 * Use projects to never need to `setwd()`
 * Everything is an object, and the details matter; run `class(myobject)` to check its type and `str(myobject)` to check its contents
-* `functions()` do stuff; learn what they do by typing `?function_name in the Console
+* `functions()` do stuff; learn what they do by typing `?function_name` in the Console
 * Packages are collections of `functions()` 
 * The {`readr`} package in the `tidyverse` has useful functions for reading data into R; {`haven`} is great for reading in files from SAS, SPSS, and STATA specifically
 * Go easy on yourself and re-read this chapter from time to time
