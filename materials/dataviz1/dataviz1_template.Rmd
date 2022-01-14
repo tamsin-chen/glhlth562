@@ -141,7 +141,7 @@ The first step is to tell `ggplot()` what data you want to plot and specify how 
 ```{r mapping}
 # ggplot(data = covid, mapping = aes(x = date, y = deaths_roll7_100k))
 # most of the time you'll see the data and mapping argument names omitted
-  ggplot(covid, aes(x = ____, y = ____))
+  ggplot(covid, aes(x = date, y = deaths_roll7_100k))
 ```
 
 # Add a `geom_`
@@ -149,26 +149,25 @@ The first step is to tell `ggplot()` what data you want to plot and specify how 
 Our plot has appropriate axes now that we've mapped the data, but the canvas is blank because we've not told R how to represent the data. Our inspiration plot uses lines, so we will too.
 
 ```{r geom}
-  ggplot(covid, aes(x = ____, y = ____)) +
-    geom_____()
+  ggplot(covid, aes(x = date, y = deaths_roll7_100k)) +
+    geom_line()
 ```
 
 This does not look right because we did not tell R that the data are grouped. `covid` is a 'long' dataset with two series:: Arizona and North Carolina. Which variable contains this grouping information?
 
 ```{r grouping}
-  ggplot(covid, aes(x = ____, 
-                    y = ____,
-                    group = ____)) +
-    geom_____()
+  ggplot(covid, aes(x = date, y = deaths_roll7_100k,
+                    group = Province_State)) +
+    geom_line()
 ```
 
 We need to add color to identify each state's line. One point of friction for new users is deciding whether to use `color` or `fill`. Remember this: Lines and points use `color`. Rather than specifying `group` explicitly, we can simplify to `color`, which implicitly tells R that we're coloring by group.
 
 ```{r addColor}
-  ggplot(covid, aes(x = ____, 
-                    y = ____,
-                    color = ____)) +
-    geom_____()
+  ggplot(covid, aes(x = date, 
+                    y = deaths_roll7_100k,
+                    color = Province_State)) +
+    geom_line()
 ```
 
 # Modify the look
@@ -177,12 +176,12 @@ We'll dig into plot refinements after the break. For now, just take note of the 
 
 ```{r changeColors}
   ggplot(covid,                                     # data
-         aes(x = ____,                              # mapping
-             y = ____,       
-             color = ____)) +
-         geom_____() +                              # geom
+         aes(x = date, 
+             y = deaths_roll7_100k,
+             color = Province_State)) +
+         geom_line() +                              # geom
          scale_color_manual(values = c(             # theme
-                                       "#eb5e8d",     # pink 
+                                       "#eb5e8d",    # pink 
                                        "#0f5599"     # blue
                                        )) +
         ft_theme()    

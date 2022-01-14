@@ -53,7 +53,7 @@ It's important that you read the chapters AND run the code as you go. If you rea
 
 ## During Class
 
-Deck / Materials ([zip](https://www.dropbox.com/s/bl45y3gs9amy3ou/dataviz2.zip?dl=1) or [github](https://github.com/ericpgreen/glhlth562/tree/main/materials/dataviz2))
+[Deck](https://ericpgreen.github.io/glhlth562/materials/dataviz2/dataviz2_deck.html) / Materials ([zip](https://www.dropbox.com/s/bl45y3gs9amy3ou/dataviz2.zip?dl=1) or [github](https://github.com/ericpgreen/glhlth562/tree/main/materials/dataviz2))
 
 ## After Class (Optional)
 

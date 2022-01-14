@@ -69,7 +69,16 @@ Here's where we left off:
                                        "#eb5e8d",   # pink 
                                        "#0f5599"    # blue
                                        )) 
-p                              
+
+# p <- ggplot(covid, aes(x = date, y = deaths_roll7_100k,     # mapping
+#              color = Province_State)) +
+#          geom_line() +                            # geom
+#          scale_color_manual(values = c(           # theme
+#                                        "#eb5e8d",   # pink 
+#                                        "#0f5599"    # blue
+#                                        )) 
+
+p
 ```
 
 We won't repeat the code each time. Instead, we'll keep building on the object `p`.
@@ -78,8 +87,8 @@ We won't repeat the code each time. Instead, we'll keep building on the object `
 
 ```{r scales}
   p <- p +
-    scale_y_continuous(breaks = seq(___, ___, ___)) + # seq(from, to, by)
-    scale_x_date(date_breaks = "1 _____",             # N unit
+    scale_y_continuous(breaks = seq(0, 2.4, .2)) + # seq(from, to, by)
+    scale_x_date(date_breaks = "1 month",             # N unit
                  #date_labels = "%b",
                  # add row for year
                  # https://stackoverflow.com/a/50116294/841405
@@ -98,18 +107,18 @@ We won't repeat the code each time. Instead, we'll keep building on the object `
                linetype="solid", color="black") +
     annotate("text", 
              x = as.Date("2020-12-20"), 
-             y = ___, 
+             y = 2, 
              label = "US vaccine launch", 
              hjust=1.1) +
     geom_segment(aes(x=as.Date("2021-03-11"), 
                      xend=as.Date("2021-03-11"), 
-                     y= ___, 
-                     yend=___), 
+                     y= 0, 
+                     yend=1.2), 
                  linetype="dashed", 
                  color="#0f5599") +
     annotate("text", 
              x = as.Date("2021-03-11"), 
-             y = ___, 
+             y = 1.2, 
              label = "NC 10% fully vaccinated",
              color="#0f5599", 
              hjust=-0.1) +
@@ -122,7 +131,7 @@ We won't repeat the code each time. Instead, we'll keep building on the object `
     annotate("text", 
              x = as.Date("2021-03-08"), 
              y = 1.4, 
-             label = "___",
+             label = "AZ 10% fully vaccinated",
              color="#eb5e8d", 
              hjust=-0.1)
   p
