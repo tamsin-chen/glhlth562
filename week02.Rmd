@@ -45,7 +45,7 @@ output:
 
 ## During Class
 
-[Deck](https://ericpgreen.github.io/glhlth562/materials/dataviz4/dataviz4_deck.html) / Materials ([zip](https://www.dropbox.com/s/63sg2t4w472zswy/dataviz4.zip?dl=0))
+[Deck](https://ericpgreen.github.io/glhlth562/materials/dataviz4/dataviz4_deck.html) / Materials ([zip](https://www.dropbox.com/s/63sg2t4w472zswy/dataviz4.zip?dl=1))
 
 ## After Class (Optional)
 

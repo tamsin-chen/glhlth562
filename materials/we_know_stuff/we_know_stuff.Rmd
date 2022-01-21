@@ -240,4 +240,123 @@ class: left, hide_logo, hide-count
 * Added `title`, `subtitle` and `caption` to `labs()`
 * Styled the plot with `theme_minimal()` and `theme()`
 
+---
+
+class: newTopic, hide_logo
+
+# Week 2
+
+## Data Visualization
+
+---
+class: newTopicSub, hide_logo
+
+# Common geoms and plot styles to know
+
+---
+
+class: left, hide_logo, hide-count
+
+## Prep for class
+
+* `r emo::ji("computer")`: Get to know a `geom`
+  * Search Twitter again for more `#TidyTuesday` Week 2 (bees) entries
+  * Find examples of at least 3 different geoms used in `#TidyTuesday` charts and write down the names of these geoms
+  * Go to the {`ggplot2`} [reference documents](https://ggplot2.tidyverse.org/reference/#section-geoms) and find your selected geoms
+  * For each geom you selected, run a few of the examples and see what happens when you modify the arguments
+* `r emo::ji("computer")`: [Interactive {`ggplot2`} tutorial](https://learn.themethodsection.com/tutorials/ggplot2/basics/) from Ariel Muldoon (you'll run the code in the browser)
+
+---
+class: left, hide_logo, hide-count
+
+## `r emo::ji("computer")` Get to know a `geom` class session
+
+* We're starting to get this plotting thing!
+* We know that after we map our data to the plot, we have to tell R how to represent the data by adding one (or MORE!) `geom_` layers.
+* We explored several `geoms` like `geom_bar()`, `geom_col()`, `geom_histogram()`, `geom_density()`, `geom_violin()`, `geom_line()`, `geom_jitter()`, `geom_point()`, `geom_smooth()`, and [others](https://ggplot2.tidyverse.org/reference/#section-geoms)
+* Through the in-class coding and the `r emo::ji("computer")` [interactive {`ggplot2`} tutorial](https://learn.themethodsection.com/tutorials/ggplot2/basics/), we practiced building ggplots layer by layer (from our underwear out)
+
+---
+
+class: left, hide_logo, hide-count
+
+## Sticky points
+
+* When attributes like `size` are defined for a `geom` OUTSIDE of `aes()`, they work as a constant (e.g., `geom_point(size=3, aes(color = myvariable))` sets all points to size 3.
+* But when these attributes are mapped to variables INSIDE `aes()`, as in `color` in the example above, they vary according to the groups in `myvariable`.
+* If we want points to be on top of a geom like violins, we define `geom_violin()` before `geom_point()`.
+* If we don't set any parameters (e.g., `geom_violin()`) then `ggplot` uses the defaults. We can learn more about any `geom` (or plot layer) by running `?geom_NAME` in the Console
+
+---
+class: newTopicSub, hide_logo
+
+# Small multiples and patchwork
+
+---
+
+class: left, hide_logo, hide-count
+
+## Prep for class
+
+* `r emo::ji("open_book")`: [SOCVIZ Chapter 4 (4.1-4.4)](https://socviz.co/groupfacettx.html)
+* `r emo::ji("open_book")`: [Review R4DS 3.5 on facets](https://r4ds.had.co.nz/data-visualisation.html#facets)
+* `r emo::ji("open_book")`: [Blog post on comparing distributions](https://kieranhealy.org/blog/archives/2021/12/19/comparing-distributions/)
+* `r emo::ji("tv")`: [Learning to use the patchwork R package (how to learn a package in general)](https://www.youtube.com/watch?v=2o1YDUKyhu0) ({[`patchwork`](https://patchwork.data-imaginist.com/articles/patchwork.html)})
+
+---
+
+class: left, hide_logo, hide-count
+
+## `r emo::ji("open_book")` [SOCVIZ Chapter 4 (4.1-4.4)](https://socviz.co/groupfacettx.html)
+
+* When your plot looks funky, you might need to tell R that your data have a grouped structure. For instance, if you are plotting something by year and the dataset has multiple values for each year (e.g., multiple countries per year) then you need to set the `group` aesthetic inside `aes()`.
+* The `group` aesthetic in ggplot `aes()` is NOT the same as the `dplyr::group_by()` function that we'll learn about soon.
+* Plots can get real busy real quick, so consider using small multiples.
+* `facet_wrap()` is a very common approach to create panels for each unit in a grouping variable (e.g., `facet_wrap(~ myvariable)`). Most common to put one variable to the right of the `~`. Can set `nrow` or `ncol` arguments, as well as `scales` to make axes fixed or free to vary.
+* `facet_grid()` is similar; use when you want to have panels for combinations of levels of 2 variables (e.g., `facet_wrap(myvariable1 ~ myvariable2)`)
+
+
+---
+class: left, hide_logo, hide-count
+
+## `r emo::ji("open_book")` [Blog post on comparing distributions](https://kieranhealy.org/blog/archives/2021/12/19/comparing-distributions/)
+
+* We got to read some error messages and find solutions. Yay!
+* Key idea here is to think about the comparisons you want the reader to make.
+* Sometimes we can make those comparisons in a single plot (e.g., see the ridgelines example)
+* When this is not a good fit, small multiples can be a good approach
+* This post shows how to help the reader by adding a reference geom to each panel so that the reader can compare between panels and within
+* It all comes back to you as the plot designer thinking about the key messages and what you want the reader to compare
+
+
+
+---
+class: left, hide_logo, hide-count
+
+## `r emo::ji("tv")`: [Learning to use the patchwork R package (how to learn a package in general)](https://www.youtube.com/watch?v=2o1YDUKyhu0) 
+
+* {[`patchwork`](https://patchwork.data-imaginist.com/articles/patchwork.html)}
+* Whereas facets break down a single plot into small multiples, a package like `patchwork` combines multiple plots into one figure
+* The basic syntax is very simple:
+  * Create some plots and assign them to objects like `p1`, `p2`, and `p3`
+  * Use operators like `+` and `/` to arrange the plots
+  
+---
+
+class: left, hide_logo, hide-count
+
+## Class session
+
+* In addition to learning about small multiples and combining plots, we also talked about how to get help
+* StackOverflow is a great option when you can ask a clear question and provide a reprodicible example of your problem
+  * A reproducible example is a short snippet of WORKING code that shows your specific problem
+  * Don't post real data without permission; instead, create a toy example that has the same characteristics of your data
+  * Don't post a question without code that someone can run
+  * See examples like [this one](https://stackoverflow.com/q/61260999/841405)
+* RStudio Community is another option that operates on similar principles but can be more welcoming and forgiving
+* Learning to debug your code is one of the hardest parts of programming.
+
+
+
+
 

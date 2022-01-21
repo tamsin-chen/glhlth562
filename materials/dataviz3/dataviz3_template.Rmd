@@ -251,7 +251,8 @@ ggplot(data = penguins,
   labs(title = "Flipper and bill length",
        subtitle = "Dimensions for Adelie, Chinstrap and Gentoo Penguins at Palmer Station LTER",
        x = "Flipper length (mm)", y = "Bill length (mm)",
-       color = "Penguin species") +
+       color = "Penguin species",
+       caption = "A caption!") +
   theme(legend.position = "bottom",
         plot.title.position = "plot",
         plot.caption = element_text(hjust = 0, face= "italic"),
