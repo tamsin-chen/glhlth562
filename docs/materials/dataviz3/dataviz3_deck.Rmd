@@ -1,0 +1,628 @@
+---
+title: "Data Visualization"
+subtitle: "Common geoms and plot styles to know"  
+output:
+  xaringan::moon_reader:
+    css: [xaringan-themer.css,custom_deck.css]
+    nature:
+      slideNumberFormat: "%current%"
+      highlightStyle: github
+      highlightLines: true
+      ratio: 16:9
+      countIncrementalSlides: true
+    seal: false
+    self_contained: true
+---
+
+class: titleSlide, hide_logo
+
+```{r setup, include=FALSE}
+library(tidyverse)
+library(xaringan)
+library(xaringanExtra)
+library(xaringanthemer)
+library(here)
+library(sysfonts)
+library(showtext)
+library(countdown)
+library(lubridate)
+library(zoo)
+library(ftplottools)
+library(viridis)
+library(palmerpenguins)
+library(ggdist)
+library(patchwork)
+
+options(htmltools.dir.version = FALSE)
+knitr::opts_chunk$set(
+  fig.width=9, fig.height=3.5, fig.retina=3,
+  out.width = "100%",
+  cache = FALSE,
+  echo = TRUE,
+  message = FALSE, 
+  warning = FALSE,
+  hiline = TRUE
+)
+```
+
+```{r xaringan-panelset, echo=FALSE}
+xaringanExtra::use_panelset()
+```
+
+```{r xaringan-editable, echo=FALSE}
+xaringanExtra::use_editable(expires = 1)
+```
+
+```{r xaringan-extra-styles, echo=FALSE}
+xaringanExtra::use_extra_styles(
+  hover_code_line = TRUE,         #<<
+  mute_unhighlighted_code = TRUE  #<<
+)
+```
+
+```{r xaringanExtra-clipboard, echo=FALSE}
+xaringanExtra::use_clipboard()
+```
+
+```{r share-again, echo=FALSE}
+xaringanExtra::use_share_again()
+xaringanExtra::style_share_again(share_buttons="none")
+```
+
+```{r xaringan-themer, include=FALSE, warning=FALSE, eval=T}
+style_duo_accent(
+  primary_color = "#1f9ac9",
+  secondary_color = "#444444",
+  header_font_google = google_font("Source Sans Pro"),
+  text_font_google   = google_font("Libre Franklin", "300", "300i"),
+  code_font_google   = google_font("Anonymous Pro"),
+  base_font_size = "30px",
+  text_font_size = "1rem",
+  header_h1_font_size = "2.5rem",
+  header_h2_font_size = "2rem",
+  header_h3_font_size = "1.25rem",
+  padding = "8px 32px 8px 32px",
+)
+
+font_add_google("Poppins", "Poppins")
+font_add_google("Libre Franklin", "Frank")
+showtext_auto()
+```
+
+```{r xaringan-logo, echo=FALSE, eval=FALSE}
+xaringanExtra::use_logo(
+  image_url = "logo.png"
+)
+```
+
+# Data Visualization
+
+## Common geoms and plot styles to know
+
+<br>
+<center><img src="logo.png" width="200px"/></center>
+
+---
+class: left, hide_logo, hide-count
+
+## Setup
+
+.pull-left[
+**Option 1**
+* Download and unzip today's materials into `glhlth562/materials`
+* Find and open the `dataviz3_template.Rmd` file in `materials/dataviz3`.
+]
+
+.pull-right[
+**Option 2**
+* Pull updates from [github](https://github.com/ericpgreen/glhlth562) (assumed you cloned this repo previously)
+* Find and open the `dataviz3_template.Rmd` file in `materials/dataviz3`.
+]
+---
+
+
+class: left
+
+### Palmer penguins
+
+The `palmerpenguins` data contains size measurements for three penguin species observed on three islands in the Palmer Archipelago, Antarctica.
+
+.pull-left[
+```{r echo=FALSE, out.width="100%", fig.align="center"}
+knitr::include_graphics("img/palmerpenguins.png")
+```
+]
+
+.pull-right[
+```{r echo=FALSE, out.width="100%", fig.align="center"}
+knitr::include_graphics("img/penguins.png")
+```
+]
+
+---
+class: left, hide-count
+
+### Histograms and density plots
+
+.panelset[
+.panel[.panel-name[Code]
+
+```{r histogram_code, eval=FALSE}
+# see chunk 'histogram'
+ggplot(data = penguins, aes(x = flipper_length_mm)) +
+  geom_histogram(aes(fill = species),
+                 alpha = 0.5,
+                 position = "identity") +
+  scale_fill_manual(values = c("darkorange","purple","cyan4")) +
+  theme_minimal() +
+  labs(x = "Flipper length (mm)",
+       y = "Frequency",
+       title = "Penguin flipper lengths")
+```
+
+]
+
+.panel[.panel-name[Plot]
+
+```{r histogram_plot, echo=FALSE, out.width='70%'}
+ggplot(data = penguins, aes(x = flipper_length_mm)) +
+  geom_histogram(aes(fill = species),
+                 alpha = 0.5,
+                 position = "identity") +
+  scale_fill_manual(values = c("darkorange","purple","cyan4")) +
+  theme_minimal() +
+  labs(x = "Flipper length (mm)",
+       y = "Frequency",
+       title = "Penguin flipper lengths")
+```
+]
+
+.panel[.panel-name[Your Turn]
+
+* Adjust alpha
+* Change the colors in `scale_fill_manual()` (see what colors are known to R by running `colors()` in your Console...then try different hex colors
+* Replace `scale_fill_manual(values = c("darkorange","purple","cyan4"))` with `scale_fill_viridis_d()` (first run `install.packages("viridis")`)
+* Change `geom_histogram()` to `geom_density`
+* Move the legend to the bottom with `theme(legend.position = "something")`
+]
+]
+
+```{r echo=FALSE}
+countdown::countdown(minutes = 3, font_size = "1em")
+```
+
+---
+class: left, hide-count
+
+### Violin plots
+
+.panelset[
+.panel[.panel-name[Code]
+
+```{r violin_code, eval=FALSE}
+# see chunk 'violin'
+ggplot(data = penguins, aes(x=species, y = flipper_length_mm, fill=species)) +
+  geom_violin() + 
+  scale_fill_manual(values = c("darkorange","purple","cyan4")) +
+  theme_minimal() +
+  labs(y = "Flipper length (mm)",
+       x = NULL,
+       title = "Penguin flipper lengths") + 
+  theme(legend.position = "none")
+```
+
+]
+
+.panel[.panel-name[Plot]
+
+```{r violin_plot, echo=FALSE, out.width='70%'}
+ggplot(data = penguins, aes(x=species, y = flipper_length_mm, fill=species)) +
+  geom_violin() +
+  scale_fill_manual(values = c("darkorange","purple","cyan4")) +
+  theme_minimal() +
+  labs(y = "Flipper length (mm)",
+       x = NULL,
+       title = "Penguin flipper lengths") + 
+  theme(legend.position = "none")
+```
+]
+
+.panel[.panel-name[Your Turn]
+
+* Add scale = "count" inside `geom_violin()`...what does it change?
+* Add `adjust = 0.5` inside `geom_violin()` and try different values
+* Add points with `geom_jitter()` and adjust with arguments `height` and `width`
+* Add a boxplot with `geom_boxplot(width=0.1, color="grey", alpha=0.2)`
+* Flip the coordinates with `coord_flip()`
+]
+]
+
+```{r echo=FALSE}
+countdown::countdown(minutes = 3, font_size = "1em")
+```
+
+---
+class: left
+
+### Raincloud plots
+
+```{r rain, echo=FALSE}
+# https://z3tt.github.io/OutlierConf2021/
+  df_peng_stats <- 
+    penguins %>% 
+    mutate(bill_ratio = bill_length_mm / bill_depth_mm) %>% 
+    filter(!is.na(bill_ratio)) %>% 
+    group_by(species) %>% 
+    mutate(
+      n = n(),
+      median = median(bill_ratio),
+      max = max(bill_ratio)
+    ) %>% 
+    ungroup() %>% 
+    mutate(species_num = as.numeric(fct_rev(species)))
+  
+  ggplot(df_peng_stats, aes(bill_ratio, species_num, color = species)) +
+    stat_summary(
+      geom = "linerange",
+      fun.min = function(x) -Inf,
+      fun.max = function(x) median(x, na.rm = TRUE),
+      linetype = "dotted",
+      orientation = "y",
+      size = .7
+    ) +
+    geom_point(
+      aes(y = species_num - .15), 
+      shape = "|",
+      size = 5,
+      alpha = .33
+    ) +
+    ggdist::stat_halfeye(
+      aes(
+        y = species_num,
+        color = species,
+        fill = after_scale(colorspace::lighten(color, .5))
+      ),
+      shape = 18,
+      point_size = 3,
+      interval_size = 1.8,
+      adjust = .5,
+      .width = c(0, 1)
+    ) +
+    geom_text(
+      aes(x = median, label = format(round(median, 2), nsmall = 2)),
+      stat = "unique",
+      color = "white",
+      family = "Open Sans",
+      fontface = "bold",
+      size = 3.4,
+      nudge_y = .15
+    ) +
+    geom_text(
+      aes(x = max, label = glue::glue("n = {n}")),
+      stat = "unique",
+      family = "Open Sans",
+      fontface = "bold",
+      size = 3.5,
+      hjust = 0,
+      nudge_x = .01,
+      nudge_y = .02
+    ) +
+    coord_cartesian(clip = "off", expand = FALSE) +
+    scale_x_continuous(
+      limits = c(1.6, 3.8),
+      breaks = seq(1.6, 3.8, by = .2)
+    ) +
+    scale_y_continuous(
+      limits = c(.55, NA),
+      breaks = 1:3,
+      labels = c("Gentoo", "Chinstrap", "Adélie")
+    ) +
+    scale_color_manual(values = c("#3d6721", "#a86826", "#006c89"), guide = "none") +
+    scale_fill_manual(values = c("#3d6721", "#a86826", "#006c89"), guide = "none") +
+    labs(
+      x = "Bill ratio",
+      y = NULL,
+      title = "Raincloud plots can tell us so much more",
+      subtitle = "Distribution of bill ratios, estimated as bill length divided by bill depth.",
+      caption = "Data: Gorman, Williams & Fraser (2014) *PLoS ONE*; Illustration: Allison Horst."
+    ) +
+    theme_minimal(base_size = 12, base_family = "Open Sans") +
+    theme(
+      panel.grid.major.x = element_line(size = .35),
+      panel.grid.major.y = element_blank(),
+      axis.text.y = element_text(size = 13),
+      axis.ticks.length = unit(0, "lines"),
+      plot.title.position = 'plot',
+      plot.margin = margin(10, 25, 10, 25),
+      axis.ticks = element_line(color = "grey92"),
+      panel.grid.minor = element_blank(),
+      legend.title = element_text(size = 12),
+      legend.text = element_text(color = "grey30"),
+      plot.title = element_text(size = 18, face = "bold"),
+      plot.subtitle = element_text(size = 12, color = "grey30"),
+      plot.caption = element_text(size = 9, margin = margin(t = 15))
+    )
+```
+
+---
+
+class: left, hide-count
+
+### Bar plots
+
+.panelset[
+.panel[.panel-name[Code `geom_bar()`]
+
+```{r bar_code, eval=FALSE}
+# see chunk 'bar'
+ggplot(penguins, aes(x = species)) +
+  geom_bar(alpha = 0.8) +
+  theme_minimal()
+```
+
+]
+
+.panel[.panel-name[Plot `geom_bar()`]
+
+```{r bar_plot, echo=FALSE, out.width='70%'}
+ggplot(penguins, aes(x = species)) +
+  geom_bar(alpha = 0.8) +
+  theme_minimal()
+```
+]
+
+.panel[.panel-name[Your Turn]
+
+* Reorder these 3 bars by setting `x` equal to `forcats::fct_infreq(species)`
+* Remove the axis titles and provide an overall plot title
+* Color the bars by species
+* Try adding `+ coord_flip()`
+* Remove `+ coord_flip()` and map `species` directly to `y` instead of `x`
+]
+]
+
+```{r echo=FALSE}
+countdown::countdown(minutes = 3, font_size = "1em")
+```
+
+---
+class: left, hide-count
+
+### Bar plots: under the hood
+
+`?geom_bar`
+
+> There are two types of bar charts: `geom_bar()` and `geom_col()`. `geom_bar()` makes the height of the bar proportional to the number of cases in each group (or if the weight aesthetic is supplied, the sum of the weights). If you want the heights of the bars to represent values in the data, use `geom_col()` instead. `geom_bar()` uses stat_count() by default: it counts the number of cases at each x position. `geom_col()` uses `stat_identity()`: it leaves the data as is.
+
+---
+class: left, hide-count
+
+### Bar plots: count by default
+
+> `geom_bar()` uses stat_count() by default: it counts the number of cases at each x position.
+
+.pull-left[
+
+```{r bar_plot_default_l, echo=TRUE, out.width='90%'}
+ggplot(penguins, 
+       aes(x = fct_infreq(species))) +
+  geom_bar() + theme_minimal()
+```
+
+]
+
+.pull-right[
+
+```{r bar_plot_default_r, echo=TRUE, out.width='70%'}
+penguins %>%
+  group_by(species) %>%
+  count() %>%
+  arrange(desc(n))
+```
+
+]
+
+---
+class: left, hide-count
+
+### Bar plots: sum of `weight` instead of counts
+
+> `geom_bar()` makes the height of the bar proportional to the number of cases in each group **(or if the weight aesthetic is supplied, the sum of the weights)**
+
+.pull-left[
+
+```{r bar_plot_weight_l, echo=TRUE, out.width='90%'}
+ggplot(penguins, aes(x = species)) +
+  geom_bar(aes(weight = 
+                 flipper_length_mm)) +
+  theme_minimal()
+```
+
+]
+
+.pull-right[
+
+```{r bar_plot_weight_r, echo=TRUE, out.width='70%'}
+penguins %>%
+  group_by(species) %>%
+  summarize(total_mm = 
+              sum(flipper_length_mm,
+                  na.rm=TRUE))
+```
+
+]
+
+---
+class: left, hide-count
+
+### Bar plots: plot data as is with `geom_col()`
+
+> If you want the heights of the bars to represent values in the data, use `geom_col()` instead...`geom_col()` uses `stat_identity()`
+
+.pull-left[
+
+```{r bar_plot_col_l, echo=TRUE, out.width='90%'}
+penguins %>% group_by(species) %>%
+  summarize(flip_m = 
+            mean(flipper_length_mm,
+                 na.rm=TRUE)) %>%
+ggplot(aes(x = species, y = flip_m)) +
+  geom_col() + theme_minimal()
+```
+
+]
+
+.pull-right[
+
+```{r bar_plot_col_r, echo=TRUE, out.width='70%'}
+penguins %>% group_by(species) %>%
+  summarize(flip_m = 
+            mean(flipper_length_mm,
+                 na.rm=TRUE))
+```
+
+]
+
+---
+
+class: left, hide-count
+
+### Dot plots
+
+.panelset[
+.panel[.panel-name[Code]
+
+```{r dot_code, eval=FALSE}
+# see chunk 'dot'
+penguins %>%
+  remove_missing() %>% group_by(species) %>% 
+  summarise(mean_bmg = mean(body_mass_g)) %>%
+  ggplot() +
+    geom_segment(aes(x = 0, xend = mean_bmg,
+                     y = reorder(species, mean_bmg),
+                     yend = reorder(species, mean_bmg)),
+                 color = "grey", size = 2) +
+    geom_point(aes(y = reorder(species, mean_bmg), x = mean_bmg),
+               size = 5, color = "darkorange") +
+    labs(x = NULL, y = NULL, title = "Gentoos are big birds", 
+         subtitle = "Average body mass (g) by species") +
+    theme_minimal() +
+    theme(plot.title = element_text(face="bold"),
+          plot.title.position = "plot")
+```
+
+]
+
+.panel[.panel-name[Plot]
+
+```{r dot_plot, echo=FALSE, out.width='70%'}
+penguins %>%
+  remove_missing() %>% group_by(species) %>% 
+  summarise(mean_bmg = mean(body_mass_g)) %>%
+  ggplot() +
+    geom_segment(aes(x = 0, xend = mean_bmg,
+                     y = reorder(species, mean_bmg),
+                     yend = reorder(species, mean_bmg)),
+                 color = "grey", size = 2) +
+    geom_point(aes(y = reorder(species, mean_bmg), x = mean_bmg),
+               size = 5, color = "darkorange") +
+    labs(x = NULL, y = NULL, title = "Gentoos are big birds", 
+         subtitle = "Average body mass (g) by species") +
+    theme_minimal() +
+    theme(plot.title = element_text(face="bold"),
+          plot.title.position = "plot")
+```
+]
+
+.panel[.panel-name[Your Turn]
+* Change from mean body mass to mean bill length
+* Change from grouping by species to by sex
+* Update all labels
+* Change the dot colors
+
+]
+]
+
+```{r echo=FALSE}
+countdown::countdown(minutes = 3, font_size = "1em")
+```
+
+---
+
+class: newTopicSub, hide_logo
+
+# Scatterplots and smoothing
+
+---
+
+class: left, hide-count
+
+### Scatterplots and smoothing
+
+.panelset[
+.panel[.panel-name[Code]
+
+```{r scatter_code, eval=FALSE}
+# see chunk 'scatter'
+ggplot(data = penguins,
+       aes(x = flipper_length_mm, y = bill_length_mm)) +
+  geom_point(aes(color = species),
+             size = 3, alpha = 0.8) +
+  theme_minimal() +
+  scale_color_manual(values = c("darkorange","purple","cyan4")) +
+  labs(title = "Flipper and bill length",
+       subtitle = "Dimensions for Adelie, Chinstrap and Gentoo Penguins at Palmer Station LTER",
+       x = "Flipper length (mm)", y = "Bill length (mm)",
+       color = "Penguin species",
+       caption = "A caption!") +
+  theme(legend.position = "bottom",
+        plot.title.position = "plot",
+        plot.caption = element_text(hjust = 0, face= "italic"),
+        plot.caption.position = "plot")
+```
+
+]
+
+.panel[.panel-name[Plot]
+
+```{r scatter_plot, echo=FALSE, out.width='70%'}
+ggplot(data = penguins,
+       aes(x = flipper_length_mm, y = bill_length_mm)) +
+  geom_point(aes(color = species),
+             size = 3, alpha = 0.8) +
+  theme_minimal() +
+  scale_color_manual(values = c("darkorange","purple","cyan4")) +
+  labs(title = "Flipper and bill length",
+       subtitle = "Dimensions for Adelie, Chinstrap and Gentoo Penguins at Palmer Station LTER",
+       x = "Flipper length (mm)", y = "Bill length (mm)",
+       color = "Penguin species",
+        caption = "A caption!") +
+  theme(legend.position = "bottom",
+        plot.title.position = "plot",
+        plot.caption = element_text(hjust = 0, face= "italic"),
+        plot.caption.position = "plot")
+```
+]
+
+.panel[.panel-name[Your Turn]
+* Add `color = species` to the `aes()` mapping (and add `shape = "Penguin species"` to `labs()`...what effect does it have?)
+* Add another geom: `geom_smooth(method = "lm", se = FALSE, aes(color = species))`
+* Change the method in `geom_smooth()` to "loess" and try different values for `span = something` within this function
+* Make small multiples for species by adding `facet_wrap(~something)` AND change the color mapping to `sex` (you will get an error for the number of colors, and you'll need to update the labels)
+]
+]
+
+```{r echo=FALSE}
+countdown::countdown(minutes = 3, font_size = "1em")
+```
+
+---
+
+class: left
+
+# Credits
+
+Deck by Eric Green ([@ericpgreen](https://twitter.com/ericpgreen)), licensed under Creative Commons Attribution [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/)
+* {[`xaringan`](https://github.com/yihui/xaringan)} for slides with help from {[`xaringanExtra`](https://github.com/gadenbuie/xaringanExtra)}
+* Allison Horst, [Palmer penguins artwork and vignettes](https://allisonhorst.github.io/palmerpenguins/articles/intro.html)
+* [Cédric Scherer](https://z3tt.github.io/OutlierConf2021/) shows off a bit with a custom raincloud plot

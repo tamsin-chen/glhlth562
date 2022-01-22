@@ -1,0 +1,378 @@
+---
+title: "Data Visualization"
+subtitle: "Small multiples and patchwork"  
+output:
+  xaringan::moon_reader:
+    css: [xaringan-themer.css,custom_deck.css]
+    nature:
+      slideNumberFormat: "%current%"
+      highlightStyle: github
+      highlightLines: true
+      ratio: 16:9
+      countIncrementalSlides: true
+    seal: false
+    self_contained: true
+---
+
+class: titleSlide, hide_logo
+
+```{r setup, include=FALSE}
+library(tidyverse)
+library(xaringan)
+library(xaringanExtra)
+library(xaringanthemer)
+library(here)
+library(sysfonts)
+library(showtext)
+library(countdown)
+library(lubridate)
+library(patchwork)
+library(socviz)
+library(gapminder)
+library(palmerpenguins)
+
+options(htmltools.dir.version = FALSE)
+knitr::opts_chunk$set(
+  fig.width=9, fig.height=3.5, fig.retina=3,
+  out.width = "100%",
+  cache = FALSE,
+  echo = TRUE,
+  message = FALSE, 
+  warning = FALSE,
+  hiline = TRUE
+)
+```
+
+```{r xaringan-panelset, echo=FALSE}
+xaringanExtra::use_panelset()
+```
+
+```{r xaringan-editable, echo=FALSE}
+xaringanExtra::use_editable(expires = 1)
+```
+
+```{r xaringan-extra-styles, echo=FALSE}
+xaringanExtra::use_extra_styles(
+  hover_code_line = TRUE,         #<<
+  mute_unhighlighted_code = TRUE  #<<
+)
+```
+
+```{r xaringanExtra-clipboard, echo=FALSE}
+xaringanExtra::use_clipboard()
+```
+
+```{r share-again, echo=FALSE}
+xaringanExtra::use_share_again()
+xaringanExtra::style_share_again(share_buttons="none")
+```
+
+```{r xaringan-themer, include=FALSE, warning=FALSE, eval=T}
+style_duo_accent(
+  primary_color = "#1f9ac9",
+  secondary_color = "#444444",
+  header_font_google = google_font("Source Sans Pro"),
+  text_font_google   = google_font("Libre Franklin", "300", "300i"),
+  code_font_google   = google_font("Anonymous Pro"),
+  base_font_size = "30px",
+  text_font_size = "1rem",
+  header_h1_font_size = "2.5rem",
+  header_h2_font_size = "2rem",
+  header_h3_font_size = "1.25rem",
+  padding = "8px 32px 8px 32px",
+)
+
+font_add_google("Poppins", "Poppins")
+font_add_google("Libre Franklin", "Frank")
+showtext_auto()
+```
+
+```{r xaringan-logo, echo=FALSE, eval=FALSE}
+xaringanExtra::use_logo(
+  image_url = "logo.png"
+)
+```
+
+# Data Visualization
+
+## Small multiples and patchwork
+
+<br>
+<center><img src="logo.png" width="200px"/></center>
+
+---
+class: left, hide_logo, hide-count
+
+## Setup
+
+* **Option 1**: Download and unzip today's materials into `glhlth562/materials` on YOUR computer
+* **Option 2**: Download then upload today's materials into `glhlth562/materials` in the cloud
+* **Option 3**: Pull updates from [github](https://github.com/ericpgreen/glhlth562) (assuming you cloned this repo previously)
+
+---
+
+class: left, hide-count
+
+### Your data are probably grouped
+
+.panelset[
+
+.panel[.panel-name[Plot]
+
+```{r grouped_plot, echo=FALSE, out.width='90%'}
+ggplot(data = gapminder,
+       mapping = aes(x = year, 
+                     y = gdpPercap)) + 
+  geom_line() 
+```
+
+]
+
+.panel[.panel-name[Data]
+
+```{r grouped_data, echo=TRUE, out.width='70%'}
+gapminder %>% 
+  select(country, year, gdpPercap) %>% 
+  arrange(year)
+```
+
+]
+
+.panel[.panel-name[Your Turn]
+
+How do you tell `ggplot()` that your data are grouped?
+
+```{r grouped_code, eval=FALSE}
+# see chunk 'grouped'
+ggplot(data = gapminder,
+       mapping = aes(x = year,
+                     y = gdpPercap)) +
+  geom_line() 
+```
+
+]
+]
+
+---
+
+class: left, hide-count
+
+### You probably need more than one plot
+
+.panelset[
+
+.panel[.panel-name[Code]
+
+```{r need-code, echo=TRUE, out.width='90%', eval=FALSE}
+# see chunk 'need'
+ggplot(data = gapminder,
+       mapping = aes(x = year,
+                     y = gdpPercap)) +
+  geom_line(aes(group = country)) 
+```
+
+]
+
+.panel[.panel-name[Plot]
+
+```{r need-plot, echo=FALSE, out.width='90%', eval=TRUE}
+ggplot(data = gapminder,
+       mapping = aes(x = year,
+                     y = gdpPercap)) +
+  geom_line(aes(group = country)) 
+```
+
+]
+
+.panel[.panel-name[Your Turn]
+What happens if you use the `color` argument instead of `group`?
+]
+
+]
+
+---
+
+class: left, hide-count
+background-image: url("img/smurfs.png")
+
+---
+
+class: left, hide-count
+
+### `facet_wrap()`
+
+.panelset[
+
+.panel[.panel-name[Code]
+
+```{r wrap-code, echo=TRUE, out.width='90%', eval=FALSE}
+# see chunk 'wrap'
+ggplot(gapminder, aes(x = year, 
+                      y = gdpPercap)) + 
+  geom_line(color="gray70", aes(group = country)) +
+  geom_smooth(size = 1.1, method = "loess", se = FALSE) +
+  scale_y_log10(labels=scales::dollar) +
+  facet_wrap(~ continent, ncol = 5) + # HERE!!
+  labs(x = "Year",
+       y = "GDP per capita",
+       title = "GDP per capita on Five Continents")
+```
+
+]
+
+.panel[.panel-name[Plot]
+
+```{r wrap-plot, echo=FALSE, out.width='90%', eval=TRUE}
+ggplot(gapminder, aes(x = year, 
+                      y = gdpPercap)) + 
+  geom_line(color="gray70", aes(group = country)) +
+  geom_smooth(size = 1.1, method = "loess", se = FALSE) +
+  scale_y_log10(labels=scales::dollar) +
+  facet_wrap(~ continent, ncol = 5) +
+  labs(x = "Year",
+       y = "GDP per capita",
+       title = "GDP per capita on Five Continents")
+```
+
+]
+
+.panel[.panel-name[Your Turn]
+* Change `ncol = 5` to `ncol = 4`, run, and then replace it with `nrow = 5`
+* Replace `continent` in `facet_wrap(~ continent, ncol = 5)` with `country` 
+]
+
+]
+
+---
+
+class: left, hide-count
+
+### `facet_grid()`
+
+.panelset[
+
+.panel[.panel-name[Code]
+
+```{r grid-code, echo=TRUE, out.width='90%', eval=FALSE}
+# see chunk 'grid'
+ggplot(gss_sm,
+       aes(x = age, y = childs)) + 
+  geom_point(alpha = 0.2) +
+  geom_smooth() +
+  facet_grid(sex ~ race)
+```
+
+]
+
+.panel[.panel-name[Plot]
+
+```{r grid-plot, echo=FALSE, out.width='90%', eval=TRUE}
+ggplot(gss_sm,
+       aes(x = age, y = childs)) + 
+  geom_point(alpha = 0.2) +
+  geom_smooth() +
+  facet_grid(sex ~ race)
+```
+
+]
+
+.panel[.panel-name[Your Turn]
+* Swap `sex` and `race` in the `facet_grid()` formula
+* Change the `alpha` value
+* Comment out `geom_smooth()`
+* Add `size=5` to `geom_point()`
+]
+
+]
+
+
+---
+
+class: left, hide_logo, hide-count
+
+### Arrange multiple plots with patchwork
+
+```{r ft, echo=FALSE}
+knitr::include_url("https://patchwork.data-imaginist.com/", height='90%')
+```
+
+---
+
+class: left, hide-count
+
+### Patchwork
+
+.panelset[
+
+.panel[.panel-name[Code]
+
+```{r patch-code, results='hide', echo=TRUE}
+# see chunk 'patch'
+p1 <- ggplot(data = penguins, aes(x = flipper_length_mm)) +
+  geom_histogram(aes(fill = species),
+                 alpha = 0.5,
+                 position = "identity") +
+  scale_fill_manual(values = c("darkorange","purple","cyan4")) +
+  theme_minimal() +
+  labs(x = "Flipper length (mm)",
+       y = "Frequency",
+       title = "Plot 1") 
+
+p2 <- ggplot(data = penguins, aes(x=species, 
+                                  y = flipper_length_mm, 
+                                  fill=species)) +
+  geom_violin() + 
+  scale_fill_manual(values = c("darkorange","purple","cyan4")) +
+  theme_minimal() +
+  labs(y = "Flipper length (mm)",
+       x = NULL,
+       title = "Plot 2") + 
+  theme(legend.position = "none")
+
+p3 <- ggplot(penguins, aes(x = species)) +
+  geom_bar(alpha = 0.8) +
+  theme_minimal() +
+  labs(title = "Plot 3")
+
+p4 <- penguins %>%
+  remove_missing() %>% group_by(species) %>% 
+  summarise(mean_bmg = mean(body_mass_g)) %>%
+  ggplot() +
+    geom_segment(aes(x = 0, xend = mean_bmg,
+                     y = reorder(species, mean_bmg),
+                     yend = reorder(species, mean_bmg)),
+                 color = "grey", size = 2) +
+    geom_point(aes(y = reorder(species, mean_bmg), x = mean_bmg),
+               size = 5, color = "darkorange") +
+    labs(x = NULL, y = NULL, title = "Plot 4", 
+         subtitle = "Average body mass (g) by species") +
+    theme_minimal() +
+    theme(plot.title = element_text(face="bold"),
+          plot.title.position = "plot")
+```
+
+]
+
+.panel[.panel-name[Plot]
+
+```{r patch-plot, echo=TRUE, out.width='70%'}
+(p1 + p2) / (p3 + p4)
+```
+
+]
+
+.panel[.panel-name[Your Turn]
+
+Review the layout options at [https://tinyurl.com/patchopt](https://tinyurl.com/patchopt) and experiment with new configurations and adding annotations
+]
+]
+
+
+
+---
+class: left
+
+# Credits
+
+Deck by Eric Green ([@ericpgreen](https://twitter.com/ericpgreen)), licensed under Creative Commons Attribution [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/)
+* {[`xaringan`](https://github.com/yihui/xaringan)} for slides with help from {[`xaringanExtra`](https://github.com/gadenbuie/xaringanExtra)}

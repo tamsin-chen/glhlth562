@@ -22,11 +22,11 @@ Madeline Wilkerson, TA
 
 We'll start with the good stuff—data visualization. You'll learn how to break down a plot into its component parts, imagine the underlying data structure, and create effective visuals.
 
-Next we'll discuss the importance of having reproducible workflows. I'll introduce you to literate programming and the world of RMarkdown. We'll spend time learning about how to create two specific outputs: dashboards and slide decks.
-
-Once you know your way around R, we'll dig into the core data wrangling skills required in every data science project. You'll learn about data transformation, import, tidying, joining, strings, factors, dates, and iteraton—oh my.
+Next, we'll dig into the core data wrangling skills required in every data science project. You'll learn about data transformation, import, tidying, joining, strings, factors, dates, and iteraton—oh my.
 
 By this point of the course you will have enough of a foundation in R to learn about modeling, and I'll introduce you to the tidy models framework. As we talk about machine learning, we'll also spend time thinking about data science ethics and algorithmic bias.
+
+Following modeling, we'll zoom out and discuss the importance of having reproducible workflows. I'll introduce you to literate programming and the world of RMarkdown. We'll spend time learning about how to create two specific outputs: dashboards and slide decks.
 
 We'll finish the course with some topics of my choosing. Maybe we'll explore maps and text mining. Or maybe we'll take a beat and revisit topics that tripped us up along the way. The final three sessions will be devoted to your course projects.
 
@@ -40,22 +40,22 @@ We'll finish the course with some topics of my choosing. Maybe we'll explore map
 | 1 | Jan 13 | Data visualization | Designing effective plots |
 | 2 | Jan 18 | Data visualization | Common geoms and plot styles to know |
 | 2 | Jan 20 | Data visualization | Small multiples and patchwork |
-| 3 | Jan 25 | Communicating data science | Reproducible workflows |
-| 3 | Jan 27 | Communicating data science | RMarkdown |
-| 4 | Feb 1 | Communicating data science | Dashboards |
-| 4 | Feb 3 | Communicating data science | Slide decks |
-| 5 | Feb 8 | Data wrangling | Data transformation |
-| 5 | Feb 10 | Data wrangling | Data import |
-| 6 | Feb 15 | Data wrangling | Tidy data |
-| 6 | Feb 17 | Data wrangling | Relational data |
-| 7 | Feb 22 | Data wrangling | Strings |
-| 7 | Feb 24 | Data wrangling | Factors |
-| 8 | Mar 1 | Data wrangling | Dates and times |
-| 8 | Mar 3 | Data wrangling | Iteration |
-| 9 | Mar 15 | Models | Data science ethics |
-| 9 | Mar 17 | Models | Modeling data |
-| 10 | Mar 22 | Models | Tidy models introduction, part 1 |
-| 10 | Mar 24 | Models | Tidy models introduction, part 2 |
+| 3 | Jan 25 | Data wrangling | Data import |
+| 3 | Jan 27 | Data wrangling | Data transformation |
+| 4 | Feb 1 | Data wrangling | Tidy data |
+| 4 | Feb 3 | Data wrangling | Relational data |
+| 5 | Feb 8 | Data wrangling | Strings |
+| 5 | Feb 10 | Data wrangling | Factors |
+| 6 | Feb 15 | Data wrangling | Dates and times |
+| 6 | Feb 17 | Data wrangling | Iteration |
+| 7 | Feb 22 | Models | Data science ethics |
+| 7 | Feb 24 | Models | Modeling data |
+| 8 | Mar 1 | Models | Tidy models introduction, part 1 |
+| 8 | Mar 3 | Models | Tidy models introduction, part 2 |
+| 9 | Mar 15 | Communicating data science | Reproducible workflows |
+| 9 | Mar 17 | Communicating data science | RMarkdown |
+| 10 | Mar 22 | Communicating data science | Dashboards |
+| 10 | Mar 24 | Communicating data science | Slide decks |
 | 11 | Mar 29 | Chef's choice | Maps? |
 | 11 | Mar 31 | Chef's choice | Text mining? |
 | 12 | Apr 5 | Projects | Work session |

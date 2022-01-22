@@ -1,0 +1,362 @@
+---
+title: "Data Visualization"
+subtitle: "We know stuff"  
+output:
+  xaringan::moon_reader:
+    css: [xaringan-themer.css,custom_deck.css]
+    nature:
+      slideNumberFormat: "%current%"
+      highlightStyle: github
+      highlightLines: true
+      ratio: 16:9
+      countIncrementalSlides: true
+    seal: false
+    self_contained: true
+---
+
+class: titleSlide, hide_logo
+
+```{r setup, include=FALSE}
+library(tidyverse)
+library(xaringan)
+library(xaringanExtra)
+library(xaringanthemer)
+library(here)
+library(sysfonts)
+library(showtext)
+library(countdown)
+
+options(htmltools.dir.version = FALSE)
+knitr::opts_chunk$set(
+  fig.width=9, fig.height=3.5, fig.retina=3,
+  out.width = "100%",
+  cache = FALSE,
+  echo = TRUE,
+  message = FALSE, 
+  warning = FALSE,
+  hiline = TRUE
+)
+```
+
+```{r xaringan-panelset, echo=FALSE}
+xaringanExtra::use_panelset()
+```
+
+```{r xaringan-editable, echo=FALSE}
+xaringanExtra::use_editable(expires = 1)
+```
+
+```{r xaringan-extra-styles, echo=FALSE}
+xaringanExtra::use_extra_styles(
+  hover_code_line = TRUE,         #<<
+  mute_unhighlighted_code = TRUE  #<<
+)
+```
+
+```{r xaringanExtra-clipboard, echo=FALSE}
+xaringanExtra::use_clipboard()
+```
+
+```{r share-again, echo=FALSE}
+xaringanExtra::use_share_again()
+xaringanExtra::style_share_again(share_buttons="none")
+```
+
+```{r xaringan-themer, include=FALSE, warning=FALSE, eval=T}
+style_duo_accent(
+  primary_color = "#1f9ac9",
+  secondary_color = "#444444",
+  header_font_google = google_font("Source Sans Pro"),
+  text_font_google   = google_font("Libre Franklin", "300", "300i"),
+  code_font_google   = google_font("Anonymous Pro"),
+  base_font_size = "30px",
+  text_font_size = "1rem",
+  header_h1_font_size = "2.5rem",
+  header_h2_font_size = "2rem",
+  header_h3_font_size = "1.25rem",
+  padding = "8px 32px 8px 32px",
+)
+
+font_add_google("Poppins", "Poppins")
+font_add_google("Libre Franklin", "Frank")
+showtext_auto()
+```
+
+```{r xaringan-logo, echo=FALSE, eval=FALSE}
+xaringanExtra::use_logo(
+  image_url = "logo.png"
+)
+```
+
+# We Know Stuff!
+
+<br>
+<center><img src="logo.png" width="200px"/></center>
+
+## Spring 2022 Edition
+
+---
+class: newTopic, hide_logo
+
+# Week 1
+
+## Data Visualization
+
+---
+class: newTopicSub, hide_logo
+
+# The grammar of graphics and ggplot2 API
+
+---
+
+class: left, hide_logo, hide-count
+
+## Prep for class
+
+* `r emo::ji("open_book")`: [SOCVIZ Preface](https://socviz.co/index.html#install)
+* `r emo::ji("open_book")`: [SOCVIZ Chapter 1](https://socviz.co/lookatdata.html#lookatdata)
+* `r emo::ji("open_book")`: [SOCVIZ Chapter 2](https://socviz.co/gettingstarted.html#gettingstarted)
+* `r emo::ji("open_book")`: [R4DS Chapter 1](https://r4ds.had.co.nz/introduction.html)
+
+---
+
+class: left, hide_logo, hide-count
+
+## `r emo::ji("open_book")` [SOCVIZ CH 1](https://socviz.co/lookatdata.html#lookatdata): Look at data
+
+* Numerical summaries of data are useful but not a substitute for visualizing (remember Anscombe’s quartet)
+* Maximize the "data-to-ink" ratio as a general rule, but always spill enough ink to help the viewer
+* You have to understand how the data were generated and what they mean before you can plot
+* Use default color palettes until you learn how to choose colors wisely
+* Think carefully about encoding meaning by different channels at once (color, shape, etc)
+* We're not good at comparing angles and area
+* It's easy to mislead and be misled
+
+---
+
+class: left, hide_logo, hide-count
+
+## `r emo::ji("open_book")` [SOCVIZ CH 2](https://socviz.co/gettingstarted.html#gettingstarted): Getting started
+
+* Strive to make your plots 100% reproducible
+* Creating RMarkdown (Rmd) files in RStudio has distinct advantages over plain R scripts
+* Use projects to never need to `setwd()`
+* Everything is an object, and the details matter; run `class(myobject)` to check its type and `str(myobject)` to check its contents
+* `functions()` do stuff; learn what they do by typing `?function_name` in the Console
+* Packages are collections of `functions()` 
+* The {`readr`} package in the `tidyverse` has useful functions for reading data into R; {`haven`} is great for reading in files from SAS, SPSS, and STATA specifically
+* Go easy on yourself and re-read this chapter from time to time
+
+---
+
+class: left, hide_logo, hide-count
+
+## `r emo::ji("open_book")` [R4DS CH 1](https://r4ds.had.co.nz/introduction.html): Introduction
+
+* The data science pipeline from import to communicate
+* The {[`tidyverse`](https://www.tidyverse.org/)}!
+* Ways to get help with R
+
+---
+
+class: left, hide_logo, hide-count
+
+## Class session
+
+* Workspace setup
+* Learning to look at a plot and imagine the underlying data structure
+* A big barrier for new coders is getting the data into the right format for analysis and visualization (hint: think tidy)
+* Learning to look at a plot and identify the elements (the grammar of graphics)
+* Introduction to `#TidyTuesday`
+
+---
+
+class: newTopicSub, hide_logo
+
+# Designing effective plots
+
+---
+
+class: left, hide_logo, hide-count
+
+## Prep for class
+
+* `r emo::ji("tv")`: Reporting on and visualising the pandemic ([video](https://www.rstudio.com/resources/rstudioglobal-2021/reporting-on-and-visualising-the-pandemic/) 50 min)
+* `r emo::ji("down_arrow")`: [Data visualization cheatsheet](https://github.com/rstudio/cheatsheets/raw/main/data-visualization-2.1.pdf)
+* `r emo::ji("open_book")`: [R4DS Chapter 3](https://r4ds.had.co.nz/data-visualisation.html)
+* `r emo::ji("open_book")`: [SOCVIZ Chapter 5](https://socviz.co/workgeoms.html#workgeoms)
+
+---
+
+class: left, hide_logo, hide-count
+
+## `r emo::ji("tv")` [Reporting on and visualising the pandemic](https://www.rstudio.com/resources/rstudioglobal-2021/reporting-on-and-visualising-the-pandemic/)
+
+* Text and annotation are your secret weapons
+* It's on you if people don't understand your chart
+* Consider the emotional and political context when you create charts
+* Continued communication is key
+* Ease of understanding is first priority
+* Consider using animation to tell a story
+
+---
+
+class: left, hide_logo, hide-count
+
+## `r emo::ji("open_book")` [R4DS CH 3](https://r4ds.had.co.nz/data-visualisation.html): Data visualisation
+
+* Introduction to the `ggplot()` function: `ggplot(data = <DATA>) + 
+  <GEOM_FUNCTION>(mapping = aes(<MAPPINGS>))`
+* Aesthetic mappings, `aes()`: 
+  * aesthetic is a visual property of the objects in your plot (e.g., size, shape, color)
+  * mapping means to link your dataset to your plot
+* Add layers to your plot with `+`
+* geoms are geometrical objects that represents your data (e.g., lines, points)
+
+---
+
+class: left, hide_logo, hide-count
+
+## `r emo::ji("open_book")` [SOCVIZ CH 5](https://socviz.co/workgeoms.html#workgeoms): Graph tables, add labels, make notes
+
+* First introduction to the pipe operator `%>%`
+* Sneak preview of {`dplyr`} functions to clean data
+* Sneak preview of facets
+* Example of `coord_flip()` to flip x and y axis orientation
+* Introducing `scale_` functions, `guides()`, and `theme()`
+
+---
+
+class: left, hide_logo, hide-count
+
+## Class session
+
+* Reproduced a plot from the *Financial Times* (clean data) to illustrate how to build layer by layer
+* Started by `aes()` mapping variables to the x and y axis and indicating grouping by color and added `geom_line()` to plot lines
+* Used `scale_color_manual()` to specify group colors
+* Used `scale_y_continuous()` and `scale_x_date()` to adjust the x and y axis scales, respectively
+* Added a vertical line with `geom_vline()` and shorter line segments with `geom_segment()`
+* Annotated the lines with `annotate()`
+* Added `title`, `subtitle` and `caption` to `labs()`
+* Styled the plot with `theme_minimal()` and `theme()`
+
+---
+
+class: newTopic, hide_logo
+
+# Week 2
+
+## Data Visualization
+
+---
+class: newTopicSub, hide_logo
+
+# Common geoms and plot styles to know
+
+---
+
+class: left, hide_logo, hide-count
+
+## Prep for class
+
+* `r emo::ji("computer")`: Get to know a `geom`
+  * Search Twitter again for more `#TidyTuesday` Week 2 (bees) entries
+  * Find examples of at least 3 different geoms used in `#TidyTuesday` charts and write down the names of these geoms
+  * Go to the {`ggplot2`} [reference documents](https://ggplot2.tidyverse.org/reference/#section-geoms) and find your selected geoms
+  * For each geom you selected, run a few of the examples and see what happens when you modify the arguments
+* `r emo::ji("computer")`: [Interactive {`ggplot2`} tutorial](https://learn.themethodsection.com/tutorials/ggplot2/basics/) from Ariel Muldoon (you'll run the code in the browser)
+
+---
+class: left, hide_logo, hide-count
+
+## `r emo::ji("computer")` Get to know a `geom` class session
+
+* We're starting to get this plotting thing!
+* We know that after we map our data to the plot, we have to tell R how to represent the data by adding one (or MORE!) `geom_` layers.
+* We explored several `geoms` like `geom_bar()`, `geom_col()`, `geom_histogram()`, `geom_density()`, `geom_violin()`, `geom_line()`, `geom_jitter()`, `geom_point()`, `geom_smooth()`, and [others](https://ggplot2.tidyverse.org/reference/#section-geoms)
+* Through the in-class coding and the `r emo::ji("computer")` [interactive {`ggplot2`} tutorial](https://learn.themethodsection.com/tutorials/ggplot2/basics/), we practiced building ggplots layer by layer (from our underwear out)
+
+---
+
+class: left, hide_logo, hide-count
+
+## Sticky points
+
+* When attributes like `size` are defined for a `geom` OUTSIDE of `aes()`, they work as a constant (e.g., `geom_point(size=3, aes(color = myvariable))` sets all points to size 3.
+* But when these attributes are mapped to variables INSIDE `aes()`, as in `color` in the example above, they vary according to the groups in `myvariable`.
+* If we want points to be on top of a geom like violins, we define `geom_violin()` before `geom_point()`.
+* If we don't set any parameters (e.g., `geom_violin()`) then `ggplot` uses the defaults. We can learn more about any `geom` (or plot layer) by running `?geom_NAME` in the Console
+
+---
+class: newTopicSub, hide_logo
+
+# Small multiples and patchwork
+
+---
+
+class: left, hide_logo, hide-count
+
+## Prep for class
+
+* `r emo::ji("open_book")`: [SOCVIZ Chapter 4 (4.1-4.4)](https://socviz.co/groupfacettx.html)
+* `r emo::ji("open_book")`: [Review R4DS 3.5 on facets](https://r4ds.had.co.nz/data-visualisation.html#facets)
+* `r emo::ji("open_book")`: [Blog post on comparing distributions](https://kieranhealy.org/blog/archives/2021/12/19/comparing-distributions/)
+* `r emo::ji("tv")`: [Learning to use the patchwork R package (how to learn a package in general)](https://www.youtube.com/watch?v=2o1YDUKyhu0) ({[`patchwork`](https://patchwork.data-imaginist.com/articles/patchwork.html)})
+
+---
+
+class: left, hide_logo, hide-count
+
+## `r emo::ji("open_book")` [SOCVIZ Chapter 4 (4.1-4.4)](https://socviz.co/groupfacettx.html)
+
+* When your plot looks funky, you might need to tell R that your data have a grouped structure. For instance, if you are plotting something by year and the dataset has multiple values for each year (e.g., multiple countries per year) then you need to set the `group` aesthetic inside `aes()`.
+* The `group` aesthetic in ggplot `aes()` is NOT the same as the `dplyr::group_by()` function that we'll learn about soon.
+* Plots can get real busy real quick, so consider using small multiples.
+* `facet_wrap()` is a very common approach to create panels for each unit in a grouping variable (e.g., `facet_wrap(~ myvariable)`). Most common to put one variable to the right of the `~`. Can set `nrow` or `ncol` arguments, as well as `scales` to make axes fixed or free to vary.
+* `facet_grid()` is similar; use when you want to have panels for combinations of levels of 2 variables (e.g., `facet_wrap(myvariable1 ~ myvariable2)`)
+
+
+---
+class: left, hide_logo, hide-count
+
+## `r emo::ji("open_book")` [Blog post on comparing distributions](https://kieranhealy.org/blog/archives/2021/12/19/comparing-distributions/)
+
+* We got to read some error messages and find solutions. Yay!
+* Key idea here is to think about the comparisons you want the reader to make.
+* Sometimes we can make those comparisons in a single plot (e.g., see the ridgelines example)
+* When this is not a good fit, small multiples can be a good approach
+* This post shows how to help the reader by adding a reference geom to each panel so that the reader can compare between panels and within
+* It all comes back to you as the plot designer thinking about the key messages and what you want the reader to compare
+
+
+
+---
+class: left, hide_logo, hide-count
+
+## `r emo::ji("tv")`: [Learning to use the patchwork R package (how to learn a package in general)](https://www.youtube.com/watch?v=2o1YDUKyhu0) 
+
+* {[`patchwork`](https://patchwork.data-imaginist.com/articles/patchwork.html)}
+* Whereas facets break down a single plot into small multiples, a package like `patchwork` combines multiple plots into one figure
+* The basic syntax is very simple:
+  * Create some plots and assign them to objects like `p1`, `p2`, and `p3`
+  * Use operators like `+` and `/` to arrange the plots
+  
+---
+
+class: left, hide_logo, hide-count
+
+## Class session
+
+* In addition to learning about small multiples and combining plots, we also talked about how to get help
+* StackOverflow is a great option when you can ask a clear question and provide a reprodicible example of your problem
+  * A reproducible example is a short snippet of WORKING code that shows your specific problem
+  * Don't post real data without permission; instead, create a toy example that has the same characteristics of your data
+  * Don't post a question without code that someone can run
+  * See examples like [this one](https://stackoverflow.com/q/61260999/841405)
+* RStudio Community is another option that operates on similar principles but can be more welcoming and forgiving
+* Learning to debug your code is one of the hardest parts of programming.
+
+
+
+
+
