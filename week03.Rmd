@@ -1,0 +1,50 @@
+---
+title: "Week 3"
+subtitle: "Data wrangling"
+description: |
+  Data import and transformation
+output:
+  distill::distill_article:
+    toc: true
+    toc_depth: 2
+---
+
+```{r, include=FALSE}
+  library(emo)
+```
+
+# Jan 25: Data import
+
+## Prepare
+
+* `r emo::ji("down_arrow")`: [Data import cheatsheet](https://raw.githubusercontent.com/rstudio/cheatsheets/main/data-import.pdf)
+* `r emo::ji("open_book")`: [R4DS Chapter 8](https://r4ds.had.co.nz/workflow-projects.html)
+* `r emo::ji("open_book")`: [R4DS Chapter 10](https://r4ds.had.co.nz/tibbles.html)
+* `r emo::ji("open_book")`: [R4DS Chapter 11](https://r4ds.had.co.nz/data-import.html)
+  
+## During Class
+
+Deck / Materials
+
+## After Class (Optional)
+
+* `r emo::ji("tv")`: [Getting data into R](https://www.rstudio.com/resources/webinars/getting-data-into-r/)
+
+# Jan 27: Data transformation
+
+## Prepare
+
+* `r emo::ji("down_arrow")`: [Data transformation cheatsheet](https://raw.githubusercontent.com/rstudio/cheatsheets/main/data-transformation.pdf)
+* `r emo::ji("open_book")`: [R4DS Chapter 5](https://r4ds.had.co.nz/transform.html)
+
+## During Class
+
+Deck / Materials
+
+## After Class (Optional)
+
+* `r emo::ji("tv")`: [Data wrangling with R and RStudio](https://www.rstudio.com/resources/webinars/data-wrangling-with-r-and-rstudio/)
+
+## TidyTuesday
+
+Drops on Mondays
