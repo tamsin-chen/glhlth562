@@ -24,7 +24,7 @@ output:
   
 ## During Class
 
-Deck / Materials ([zip](https://www.dropbox.com/s/duytwkpaf255gcc/wrangling1.zip?dl=1)
+[Deck](https://ericpgreen.github.io/glhlth562/materials/wrangling1/wrangling1_deck.html) / Materials ([zip](https://www.dropbox.com/s/duytwkpaf255gcc/wrangling1.zip?dl=1)
 
 ## After Class (Optional)
 

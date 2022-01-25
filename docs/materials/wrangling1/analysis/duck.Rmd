@@ -1,0 +1,51 @@
+---
+title: "Tricky Duck"
+output: 
+  bookdown::html_document2:
+    toc: true
+    toc_float: true
+    toc_depth: 1
+    code_folding: show
+    theme: default
+    highlight: tango
+    fig_captions: no
+    number_sections: false
+---
+
+```{r setup, include=FALSE, warning = FALSE, message = FALSE}
+  knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
+
+# load packages
+  library(tidyverse)
+```
+
+
+
+
+Run `getwd()` in the Console. Then run this chunk.
+
+```{r getwd}
+  getwd()
+```
+
+You don't get the same answer because knitting a Rmd is a self-contained action that sets the working directory to the location of the Rmd file.
+
+The `ducks.csv` file is located in `wrangling1/data/ducks.csv`. Based on the working directory, R will find `read_csv("data/ducks.csv")` if you run it in the Console. But it will fail when you knit this document. Try it.
+
+```{r duck1, eval=TRUE}
+  read_csv("data/ducks.csv")
+```
+
+**After trying (and failing to knit), replace `eval=TRUE` with `eval=FALSE` so we can move on without this error.**
+
+You could replace this with `read_csv("../data/ducks.csv")` and it will work when you knit or run the chunk, but it will fail in the Console. Try it. Paste `read_csv("../data/ducks.csv")` in the Console.
+
+```{r duck2}
+  read_csv("../data/ducks.csv")
+```
+
+A fix that works for the Console and knitr is to use the `here()` function from the `{here}` package to use paths relative to the project working directory.
+
+```{r duck3}
+  read_csv(here::here("data", "ducks.csv"))
+```

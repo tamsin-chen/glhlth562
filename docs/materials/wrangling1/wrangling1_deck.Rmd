@@ -1,0 +1,427 @@
+---
+title: "Data Wrangling"
+subtitle: "Data import and wrangling"  
+output:
+  xaringan::moon_reader:
+    css: [xaringan-themer.css,custom_deck.css]
+    nature:
+      slideNumberFormat: "%current%"
+      highlightStyle: github
+      highlightLines: true
+      ratio: 16:9
+      countIncrementalSlides: true
+    seal: false
+    self_contained: true
+---
+
+class: titleSlide, hide_logo
+
+```{r setup, include=FALSE}
+library(tidyverse)
+library(xaringan)
+library(xaringanExtra)
+library(xaringanthemer)
+library(here)
+library(sysfonts)
+library(showtext)
+library(countdown)
+library(lubridate)
+library(zoo)
+library(ftplottools)
+library(viridis)
+library(palmerpenguins)
+library(ggdist)
+library(patchwork)
+
+options(htmltools.dir.version = FALSE)
+knitr::opts_chunk$set(
+  fig.width=9, fig.height=3.5, fig.retina=3,
+  out.width = "100%",
+  cache = FALSE,
+  echo = TRUE,
+  message = FALSE, 
+  warning = FALSE,
+  hiline = TRUE
+)
+```
+
+```{r xaringan-panelset, echo=FALSE}
+xaringanExtra::use_panelset()
+```
+
+```{r xaringan-editable, echo=FALSE}
+xaringanExtra::use_editable(expires = 1)
+```
+
+```{r xaringan-extra-styles, echo=FALSE}
+xaringanExtra::use_extra_styles(
+  hover_code_line = TRUE,         #<<
+  mute_unhighlighted_code = TRUE  #<<
+)
+```
+
+```{r xaringanExtra-clipboard, echo=FALSE}
+xaringanExtra::use_clipboard()
+```
+
+```{r share-again, echo=FALSE}
+xaringanExtra::use_share_again()
+xaringanExtra::style_share_again(share_buttons="none")
+```
+
+```{r xaringan-themer, include=FALSE, warning=FALSE, eval=T}
+style_duo_accent(
+  primary_color = "#1f9ac9",
+  secondary_color = "#444444",
+  header_font_google = google_font("Source Sans Pro"),
+  text_font_google   = google_font("Libre Franklin", "300", "300i"),
+  code_font_google   = google_font("Anonymous Pro"),
+  base_font_size = "30px",
+  text_font_size = "1rem",
+  header_h1_font_size = "2.5rem",
+  header_h2_font_size = "2rem",
+  header_h3_font_size = "1.25rem",
+  padding = "8px 32px 8px 32px",
+)
+
+font_add_google("Poppins", "Poppins")
+font_add_google("Libre Franklin", "Frank")
+showtext_auto()
+```
+
+```{r xaringan-logo, echo=FALSE, eval=FALSE}
+xaringanExtra::use_logo(
+  image_url = "logo.png"
+)
+```
+
+# Data Wrangling
+
+## Geting data into (and out of) R
+
+<br>
+<center><img src="logo.png" width="200px"/></center>
+
+---
+
+class: newTopicSub, hide_logo
+
+# But first, file paths
+
+---
+
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">Today in &quot;always check your teaching assumptions&quot;:<br><br>I told my class they could save an R Markdown file the same way they would save any other file.<br><br>One student was confused - they had only ever used Google Docs and thus had never saved a file before. 😱 <a href="https://t.co/9wGGG00zR9">pic.twitter.com/9wGGG00zR9</a></p>&mdash; Kelly Bodwin (@KellyBodwin) <a href="https://twitter.com/KellyBodwin/status/1484094473898381312?ref_src=twsrc%5Etfw">January 20, 2022</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+---
+
+class: left, hide-count
+
+## Open RStudio
+
+* If you are in a project, close it.
+* In your Console run: `getwd()`
+* What does it return?
+* Next, open `wrangling1.Rproj` and run `getwd()` again in the Console.
+* What does it return?
+
+---
+
+class: left, hide-count
+
+## Important!
+
+* Note that the path to your working directory is not the same as my working directory path. Therefore, if you `setwd("some_pathway/YOURNAME/wrangling1")` the code will fail on my computer. 
+* **Absolute path (bad)**: `"some_pathway/YOURNAME/wrangling1/data/ducks.csv"`
+* **Relative path with a project (good)**: `"wrangling1/data/ducks.csv"`
+* R is picky with file names. 'Almost correct' does not cut it. You can't have extra spaces, typos, or letters in the wrong case. The same applies to paths to the files.
+
+---
+
+class: left, hide-count
+
+## What the duck?
+
+* Look for the template Rmd file in `materials/wrangling1`
+* Run the `setup` chunk and then scroll to the `duck` chunk
+* What happens when you run `knitr::include_graphics("duck.png")`?
+* How can you fix it?
+
+Windows users: See the note in [R4DS 8.3](https://r4ds.had.co.nz/workflow-projects.html#paths-and-directories) about slashes!
+
+---
+
+class: left, hide-count
+
+## Move the duck and find it again
+
+* Copy the image `duck.png`, rename it `mallard.png`, and move `mallard.png` up a level to the `materials` folder (a simple way to do this in one step is `More Gear > Copy To...`)
+* The `mallard` chunk should fail
+* `../` tells R to look up one level; `../../` says "go up two levels
+* Help R find `materials/mallard.png`
+
+---
+
+class: left, hide-count
+
+## Just when you think you understand
+
+* Knitting a Rmarkdown file is a special action: when a document is knit, the working directory for the knitting process is the directory where the Rmd file lives, not the project root
+* Open the `analysis/duck.Rmd` file to see this
+
+---
+class: left, hide-count
+
+## Tip
+
+* Always use projects
+* Always use `here::here()`
+* Never `setwd()`
+
+---
+class: newTopicSub, hide_logo
+
+# If you can find it, you can import it into R. Even shitty little Stata files.
+
+---
+
+class: bigFocus, hide-count
+
+# Importing data, local
+
+* Local files
+* csv: `read_csv()`
+* RData: `load()`
+* Stata: `haven::read_dta()`
+* SPSS: `haven::read_sav()`
+* SAS: `haven::read_sas()`
+
+---
+class: left, hide-count
+
+## Local files
+
+You're probably used to storing data on your computer and opening with software programs like Excel, SAS, SPSS, etc, so let's start there. All you need are two pieces of information:
+
+1. The type of file so we can use the correct function.
+2. The file path.
+
+---
+class: left, hide-count
+
+## csv
+
+Comma separated data are the workhorse of data science. You'll come to appreciate when people share data in this format, so pay it forward when you start sharing your own files. You currently have three main options for reading csv files (slowest to fastest):
+
+1. Base R: `read.csv()`
+2. **Tidyverse `{readr}`: `read_csv()`**
+3. `{data.table}`: `fread()`
+
+*If you use `read.csv()` (pls don't), you need to set `stringsAsFactors=FALSE` for [reasons](https://simplystatistics.org/posts/2015-07-24-stringsasfactors-an-unauthorized-biography/)
+
+---
+class: left, hide-count
+## `read_csv()`
+
+```{r}
+  df_csv <- read_csv(here::here("data", "confirmed_global.csv"))
+  spec(df_csv)
+```
+
+---
+class: left, hide-count
+## Classes
+
+A nice feature of `read_csv()` is that it tells us which class it guessed for each column in the imported object.
+
+* Logical: TRUE or FALSE
+* Integer: Whole numbers
+* Double: All other numbers (e.g., 3.4)
+* Character: Strings (e.g, "cat")
+* Factors: Great for working with categorical variables
+* Dates: `<date>`, `<time>`, and `<dttm>` (date-time)
+
+---
+class: left, hide-count
+
+## Custom specifications
+
+In 99% of cases `read_csv("path/file.csv")` is all you need, but `{readr}` has you covered for the 1%. See [this vignette](https://readr.tidyverse.org/articles/readr.html) for a detailed look at your customization options.
+
+```{r}
+# import `1/22/20` as an integer
+  df_csv <- read_csv(here::here("data", "confirmed_global.csv"),
+                     col_types = list(
+                       `1/22/20` = col_integer())) # import as integer
+  spec(df_csv)
+```
+
+---
+class: left, hide-count
+
+## Always inspect your data after import
+
+```{r}
+  lots <- read_csv(here::here("data", "lots.csv"))
+  
+  lots %>% summarise(mean_dens = mean(Density_sqkm))
+```
+
+---
+class: left, hide-count
+
+## Always inspect your data after import
+
+```{r}
+  lots
+```
+---
+class: left, hide-count
+
+## Ignoring NAs doesn't work because the class is character
+
+```{r}
+  #?mean
+  lots %>% summarise(mean_dens = mean(Density_sqkm, na.rm=TRUE))
+```
+---
+class: left, hide-count
+
+## "There are a lot of ducks" needs to be missing
+
+```{r}
+  lots %>% 
+    mutate(Density_sqkm = case_when(
+             Density_sqkm == "there are a lot of ducks" ~ NA_character_,
+             TRUE ~ Density_sqkm),
+           Density_sqkm = as.numeric(Density_sqkm)) %>%
+    summarise(mean_dens = mean(Density_sqkm, na.rm=TRUE))
+```
+
+---
+class: left, hide-count
+
+## Rdata
+
+`.RData` files are files specific to R. A really slick feature is that you can save multiple objects to one `.RData` file and load them all at once with `load()`. This can be handy when you need to save an interim step of your analysis and not lose any information converting to different file formats.
+
+```{r}
+  save(lots, file = here::here("data", "example.RData"))
+  load("data/confirmed_global.RData")
+```
+
+---
+class: left, hide-count
+
+## Excel
+
+There are several options for reading in Excel files, but I think the smoothest is the `read_excel()` function in the `{readxl}` package (part of the tidyverse).
+
+```{r}
+  df_xls <- 
+    readxl::read_excel(here::here("data", "confirmed_global.xlsx"),
+                       sheet="myData")
+```
+
+---
+class: left, hide-count
+
+## Stata, SAS, SPSS
+
+The `{haven}` package, a lesser known star in the `tidyverse`, has several functions for reading and writing data from/to other stats programs.
+
+```{r}
+  library(haven)
+  df_dta <- read_dta(here::here("data", "confirmed_global.dta"))
+  df_spss <- read_sav(here::here("data", "confirmed_global.sav"))
+  df_sas <- read_sas(here::here("data", "confirmed_global.sas7bdat"))
+```
+
+---
+
+class: bigFocus, hide-count
+
+# Importing data, web
+
+* csv: `read_csv(INSERT URL HERE)`
+* Google Sheets: `googlesheets4::read_sheet()`
+* copy/paste with `{datapasta}`
+* APIs with `{httr}` and `{jsonlite}`
+* web scraping with `{rvest}`
+* Databases with `{DBI}` and a database backend
+
+---
+class: left, hide-count
+
+## csv
+
+If you're lucky, you might find the data you want online posted as a csv file. Simply use `read_csv()` to read it into R by passing a URL instead of a local file name.
+
+```{r}
+  myUrl <- "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv"
+
+  df_url <- read_csv(myUrl)
+```
+---
+class: left, hide-count
+
+## Google Sheets
+
+The `{googlesheets4}` package, also a member of the `tidyverse`, lets you read and write from/to Google Sheets. Running `sheets_deauth()` after loading the package will turn off authentication so you can read publicly shared sheets without having to login.
+
+```{r}
+  library(googlesheets4)
+  gs4_deauth()
+
+  gsURL <- "https://docs.google.com/spreadsheets/d/1ibAj_plJBjumAvr8P8_TzwWaU8gTciOeuTwVjN4cZIM/edit?usp=sharing"
+  
+  df_gs <- read_sheet(gsURL)
+```
+
+---
+class: left, hide-count
+
+## APIs
+
+Sometimes data are available via APIs—application programming interfaces. You read the API "docs" to understand how to make and parse requests via R. 
+
+```{r, echo=FALSE}
+knitr::include_url("https://fromthebottomoftheheap.net/2021/01/31/getting-data-from-canada-covid-19-tracker-using-r/", height='90%')
+```
+
+---
+class: left, hide-count
+
+## Copy/paste with `{datapasta}`
+
+```{r, echo=FALSE}
+knitr::include_graphics(here::here("img", "tribble_paste.gif"))
+```
+
+---
+class: left, hide-count
+
+## Scraping
+
+Sometimes you need datapasta but on a grand, automated scale. One option is called web scraping, and it can be controversial. We'll return to this in the class on iteration.
+
+---
+class: left, hide-count
+
+## Databases
+
+Large projects and applications will often store data in a database hosted in the cloud. You can access these databases from R with the `{DBI}` package (and a DB specific package like `{RPostgreSQL}`) and query the data with `{dbplyr}`, a database backend that functions like `{dplyr}`.
+
+```{r, echo=FALSE}
+knitr::include_url("https://db.rstudio.com/", height='90%')
+```
+
+---
+class: left, hide-count
+
+# Credits
+
+Deck by Eric Green ([@ericpgreen](https://twitter.com/ericpgreen)), licensed under Creative Commons Attribution [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/)
+
+* {[`xaringan`](https://github.com/yihui/xaringan)} for slides with help from {[`xaringanExtra`](https://github.com/gadenbuie/xaringanExtra)} 
+* Data types example inspired by [Data Science in a Box](https://datasciencebox.org/)
+* 

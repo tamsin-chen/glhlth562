@@ -1,0 +1,226 @@
+---
+title: "Data Wrangling"
+subtitle: "Data import"
+css: custom_report.css
+output: 
+  bookdown::html_document2:
+    toc: true
+    toc_float: true
+    toc_depth: 1
+    code_folding: show
+    theme: default
+    highlight: tango
+    fig_captions: no
+    number_sections: false
+---
+
+```{r setup, include=FALSE, warning = FALSE, message = FALSE}
+  knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
+
+# load packages
+  library(tidyverse)
+```
+
+```{r design, include=FALSE}
+# define colors
+  glhlth562_colors <- c(
+    `blue`       = "#1f9ac9",
+    `yellow`     = "#ffd966",
+    `black`      = "#000000",
+    `lightgrey`  = "#D3D3D3",
+    `darkgrey`   = "#444444",
+    `grey`       = "#808080"
+  )
+  
+  options(scipen=999) # turns off scientific notation
+```
+
+# File paths
+
+## What the duck?
+
+What happens when you run this chunk? Spoiler: it won't work. How can you fix it?
+
+```{r duck}
+  knitr::include_graphics("duck.png")
+```
+
+## Move the duck and find it again
+
+* Copy the image `duck.png`, rename it `mallard.png`, and move `mallard.png` up a level to the `materials` folder (a simple way to do this in one step is `More Gear > Copy To...`)
+* The `mallard` chunk should fail
+* `../` tells R to look up one level; `../../` says "go up two levels
+* Help R find `materials/mallard.png`
+
+```{r mallard}
+  knitr::include_graphics("mallard.png")
+```
+
+## Just when you think you understand
+
+* Knitting a Rmarkdown file is a special action: when a document is knit, the working directory for the knitting process is the directory where the Rmd file lives, not the project root
+* Open the `analysis/duck.Rmd` file to see this
+
+# Importing data, local
+
+## csv
+
+```{r}
+  df_csv <- read_csv(here::here("data", "confirmed_global.csv"))
+  spec(df_csv)
+```
+
+### Custom specifications
+
+```{r}
+# import `1/22/20` as an integer
+  df_csv <- read_csv(here::here("data", "confirmed_global.csv"),
+                     col_types = list(
+                       `1/22/20` = col_integer())) # import as integer
+  spec(df_csv)
+```
+
+### Always inspect your data after import
+
+```{r}
+  lots <- read_csv(here::here("data", "lots.csv"))
+  
+  lots %>% 
+    summarise(mean_dens = mean(Density_sqkm))
+```
+
+What's going on?
+
+```{r}
+  lots
+```
+
+### Ignoring NAs doesn't work because the class is character
+
+```{r}
+  #?mean
+  lots %>% summarise(mean_dens = mean(Density_sqkm, na.rm=TRUE))
+```
+
+### "There are a lot of ducks" needs to be missing
+
+```{r}
+  lots %>% 
+    mutate(Density_sqkm = case_when(
+             Density_sqkm == "there are a lot of ducks" ~ NA_character_,
+             TRUE ~ Density_sqkm),
+           Density_sqkm = as.numeric(Density_sqkm)) %>%
+    summarise(mean_dens = mean(Density_sqkm, na.rm=TRUE))
+```
+
+## Rdata
+
+```{r}
+  save(lots, file = here::here("data", "example.RData"))
+  load("data/confirmed_global.RData")
+```
+
+## Excel
+
+```{r}
+  df_xls <- readxl::read_excel(here::here("data", "confirmed_global.xlsx"),
+                               sheet="myData")
+```
+
+## Stata, SAS, SPSS
+
+```{r}
+  library(haven)
+  df_dta <- read_dta(here::here("data", "confirmed_global.dta"))
+  df_spss <- read_sav(here::here("data", "confirmed_global.sav"))
+  df_sas <- read_sas(here::here("data", "confirmed_global.sas7bdat"))
+```
+
+# Importing data, web
+
+## csv
+
+```{r}
+  myUrl <- "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv"
+
+  df_url <- read_csv(myUrl)
+```
+
+## Google Sheets
+
+The `{googlesheets4}` package, also a member of the `tidyverse`, lets you read and write from/to Google Sheets. Running `sheets_deauth()` after loading the package will turn off authentication so you can read publicly shared sheets without having to login.
+
+```{r}
+  library(googlesheets4)
+  gs4_deauth() # turns off authentication to read publicly shared sheets without login
+
+  gsURL <- "https://docs.google.com/spreadsheets/d/1ibAj_plJBjumAvr8P8_TzwWaU8gTciOeuTwVjN4cZIM/edit?usp=sharing"
+  
+  df_gs <- read_sheet(gsURL)
+```
+
+## APIs
+
+```{r}
+# https://fromthebottomoftheheap.net/2021/01/31/getting-data-from-canada-covid-19-tracker-using-r/
+
+  library(httr)
+  library(jsonlite)
+  #library(tidyverse) # we've already loaded
+
+# build request 
+  base  <- "https://api.covid19tracker.ca"
+  ep    <- "/reports/province/sk"
+  query <- "?date=2021-01-31"
+  req   <- paste0(base, ep, query)
+  req
+  
+# make the request
+  response <- GET(req)
+  response # status 200 signals success
+  
+# look at information received
+  jsonlite::prettify(content(response, 'text', encoding = 'UTF-8'))
+  
+# run a complete example
+  base <- 'https://api.covid19tracker.ca'
+  ep <- '/reports/province/sk'
+  req <- paste0(base, ep)
+  response <- GET(req)
+  cases <- response %>%
+    content(as = 'text', encoding = 'UTF-8') %>%
+    fromJSON() %>%
+    pluck('data') %>%
+    as_tibble()
+  cases
+  
+# plot
+  cases %>%
+  mutate(date = as.Date(date)) %>%
+  ggplot(aes(x = date, y = change_cases)) +
+    geom_line() +
+    labs(x = NULL, y = 'Cases',
+         title = 'Daily Covid-19 cases in Saskatchewan',
+         caption = 'Source: N. Little. COVID-19 Tracker Canada (2021), COVID19tracker.ca')
+```
+## datapasta
+
+```{r}
+# install
+  install.packages("datapasta")
+  library(datapasta)
+
+# Go to https://milesmcbain.github.io/datapasta/articles/how-to-datapasta.html
+# Copy Brisbane weather table
+# Use addin for pasting tribble
+# assign to object called weather
+
+# For Later:
+# Set the keyboard shortcuts 
+#  Tools -> Addins -> Browse Addins, then click Keyboard Shortcuts...
+#  Look for tribble_paste
+#  Use Recommend Ctrl + Shift + t as shortcut
+
+```
+
+
