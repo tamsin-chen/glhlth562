@@ -416,6 +416,21 @@ knitr::include_url("https://db.rstudio.com/", height='90%')
 ```
 
 ---
+
+class: newTopicSub, hide_logo
+
+# Exporting data
+
+---
+class: left, hide-count
+
+## Writing data to your computer
+
+* `readr::write_csv(object, file = "path")`
+* `writexl::write_xlsx(object, file = "path")` (see `??writexl::write_xlsx` for saving multiple objects to different sheets)
+* `save(object, file = "path")`
+
+---
 class: left, hide-count
 
 # Credits

@@ -1,0 +1,165 @@
+---
+title: "Data Wrangling"
+subtitle: "Data transformation"
+css: custom_report.css
+output: 
+  bookdown::html_document2:
+    toc: true
+    toc_float: true
+    toc_depth: 1
+    code_folding: show
+    theme: default
+    highlight: tango
+    fig_captions: no
+    number_sections: false
+---
+
+```{r setup, include=FALSE, warning = FALSE, message = FALSE}
+  knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
+  options(scipen=999) # turns off scientific notation
+
+# define colors
+  glhlth562_colors <- c(
+    `blue`       = "#1f9ac9",
+    `yellow`     = "#ffd966",
+    `black`      = "#000000",
+    `lightgrey`  = "#D3D3D3",
+    `darkgrey`   = "#444444",
+    `grey`       = "#808080"
+  )
+
+# load packages
+  library(nycflights13)
+  library(tidyverse)
+```
+
+# `filter()`
+
+`filter()` allows you to subset observations based on their values 
+
+## Find all flights that had an arrival delay of two or more hours
+
+```{r}
+  flights %>% 
+    filter()
+```
+
+## Find all flights that flew to Houston (IAH or HOU)
+
+```{r}
+
+```
+
+## Find all flights that were operated by United, American, or Delta, but don't use the OR operator (`|`)
+
+```{r}
+
+```
+
+## Find all flights that departed in summer (July, August, and September) using `between()`
+
+```{r}
+
+```
+
+# `arrange()`
+
+`arrange()` sorts the observations
+
+## How could you use arrange(dep_time) to sort all missing values to the start?
+
+`arrange()` always puts missing values at the end, even if you use `desc()`. The trick is to use `is.na()` because this evaluates to TRUE or FALSE. TRUE > FALSE in the default sorting.
+
+```{r}
+# these put NA last
+  flights %>% arrange(dep_time)
+  flights %>% arrange(desc(dep_time))
+  
+# make NA come first
+  
+```
+
+## Sort flights to find the flights with the shortest flight time
+
+```{r}
+
+```
+
+# `select()`
+
+`select()` subsets the data by column
+
+## What does the `any_of()` function do? Why might it be helpful in conjunction with this vector? How is it different from `all_of()`?
+
+```{r}
+vars <- c("year", "month", "day", "dep_delay", "arr_delay")
+
+flights %>% 
+  select()
+```
+
+# `mutate()`
+
+`mutate()` adds new columns (or overwrites old ones) that are functions of existing columns
+
+## Find the 10 most delayed flights using a ranking function. How do you want to handle ties? Carefully read the documentation for min_rank().
+
+Jeffrey Arnold has a nice suggestion for working through this one:
+
+> The dplyr package provides multiple functions for ranking, which differ in how they handle tied values: row_number(), min_rank(), dense_rank(). To see how they work, let’s create a data frame with duplicate values in a vector and see how ranking functions handle ties.
+
+```{r}
+tibble(x = c(10, 5, 1, 5, 5)) %>%
+  mutate(
+    x_row_number = row_number(x),
+    x_min_rank = min_rank(x),
+    x_dense_rank = dense_rank(x)
+  ) %>%
+  arrange(x)
+```
+
+How could you use `arrange()` and `slice()`? Or `top_n()`? What about ties?
+
+```{r}
+flights %>%
+  arrange() %>%
+  slice()
+
+flights %>%
+  arrange() %>%
+  slice()
+```
+# `summarize()`
+
+`summarize()` collapses a data frame to a single summary row
+
+## Which carrier has the worst delays? Challenge: can you disentangle the effects of bad airports vs. bad carriers? Why/why not? (Hint: think about `flights %>% group_by(carrier, dest) %>% summarise(n())`)
+
+```{r}
+flights %>% 
+  group_by(carrier, dest) %>% 
+  summarise(n())
+```
+
+Carriers can experience days related to the airports they fly into and out of. One approach is to look at delays by route.
+
+```{r}
+flights %>%
+# calculate delays by route and carrier
+  filter() %>%    # ?? look just at records with data for arr_delay
+  group_by() %>%  # ?? we want to look at combinations of carrier and route
+  summarise(
+    arr_delay = sum(arr_delay),
+    flights = n()
+  ) %>%
+# calculate total delay by route
+  group_by() %>%  # ??
+  mutate(
+    arr_delay_total = sum(arr_delay),
+    flights_total = sum(flights)
+  ) 
+```
+If you fill in the blanks correctly you'll be part of the way to an answer. What are the remaining things you need to do?
+
+
+
