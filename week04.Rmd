@@ -1,0 +1,49 @@
+---
+title: "Week 4"
+subtitle: "Data wrangling"
+description: |
+  Tidy data and relational data
+output:
+  distill::distill_article:
+    toc: true
+    toc_depth: 2
+---
+
+```{r, include=FALSE}
+  library(emo)
+```
+
+# Feb 1: Tidy data
+
+## Prepare
+
+* `r emo::ji("down_arrow")`: [Tidying data cheatsheet](https://raw.githubusercontent.com/rstudio/cheatsheets/main/tidyr.pdf)
+* `r emo::ji("open_book")`: [R4DS Chapter 12](https://r4ds.had.co.nz/tidy-data.html)
+* `r emo::ji("notebook")`: Wickham, H. (2014). Tidy data. [*Journal of Statistical Software, 59(10)*, 1–23](https://doi.org/10.18637/jss.v059.i10).
+* `r emo::ji("notebook")`: Broman, K., W. & Woo, K. H. (2018). Data organization in spreadsheets. *The American Statistician, 72(1)*, 2-10, DOI: [10.1080/00031305.2017.1375989](https://doi.org/10.1080/00031305.2017.1375989)
+  
+## During Class
+
+Deck / Materials
+
+## After Class (Optional)
+
+* `r emo::ji("studio_microphone")`: Making Data Simple podcast: [Hadley Wickham talks about his journey in data science, tidy data concepts, and his many books](https://podcasts.apple.com/fi/podcast/hadley-wickham-talks-about-his-journey-in-data-science/id605818735?i=1000485015810).
+
+# Feb 3: Relational data
+
+## Prepare
+
+* `r emo::ji("open_book")`: [R4DS Chapter 13](https://r4ds.had.co.nz/relational-data.html)
+
+## During Class
+
+Deck / Materials
+
+## After Class (Optional)
+
+* `r emo::ji("tv")`: [Using dplyr's join functions in R to filter and merge data frames](https://www.youtube.com/watch?v=jAl0fRqxK3s)
+
+## TidyTuesday
+
+Drops Mondays
