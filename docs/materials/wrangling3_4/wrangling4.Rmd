@@ -1,0 +1,199 @@
+---
+title: "Data Wrangling"
+subtitle: "Relational data"  
+output:
+  xaringan::moon_reader:
+    css: [xaringan-themer.css,custom_deck.css]
+    nature:
+      slideNumberFormat: "%current%"
+      highlightStyle: github
+      highlightLines: true
+      ratio: 16:9
+      countIncrementalSlides: true
+    seal: false
+    self_contained: true
+---
+
+class: titleSlide, hide_logo
+
+```{r setup, include=FALSE}
+library(tidyverse)
+library(xaringan)
+library(xaringanExtra)
+library(xaringanthemer)
+library(here)
+library(sysfonts)
+library(showtext)
+library(countdown)
+
+options(scipen=999)
+
+options(htmltools.dir.version = FALSE)
+knitr::opts_chunk$set(
+  fig.width=9, fig.height=3.5, fig.retina=3,
+  out.width = "100%",
+  cache = FALSE,
+  echo = TRUE,
+  message = FALSE, 
+  warning = FALSE,
+  hiline = TRUE
+)
+```
+
+```{r xaringan-panelset, echo=FALSE}
+xaringanExtra::use_panelset()
+```
+
+```{r xaringan-editable, echo=FALSE}
+xaringanExtra::use_editable(expires = 1)
+```
+
+```{r xaringan-extra-styles, echo=FALSE}
+xaringanExtra::use_extra_styles(
+  hover_code_line = TRUE,         #<<
+  mute_unhighlighted_code = TRUE  #<<
+)
+```
+
+```{r xaringanExtra-clipboard, echo=FALSE}
+xaringanExtra::use_clipboard()
+```
+
+```{r share-again, echo=FALSE}
+xaringanExtra::use_share_again()
+xaringanExtra::style_share_again(share_buttons="none")
+```
+
+```{r xaringan-themer, include=FALSE, warning=FALSE, eval=T}
+style_duo_accent(
+  primary_color = "#1f9ac9",
+  secondary_color = "#444444",
+  header_font_google = google_font("Source Sans Pro"),
+  text_font_google   = google_font("Libre Franklin", "300", "300i"),
+  code_font_google   = google_font("Anonymous Pro"),
+  base_font_size = "30px",
+  text_font_size = "1rem",
+  header_h1_font_size = "2.5rem",
+  header_h2_font_size = "2rem",
+  header_h3_font_size = "1.25rem",
+  padding = "8px 32px 8px 32px",
+)
+
+font_add_google("Poppins", "Poppins")
+font_add_google("Libre Franklin", "Frank")
+showtext_auto()
+```
+
+```{r xaringan-logo, echo=FALSE, eval=FALSE}
+xaringanExtra::use_logo(
+  image_url = "logo.png"
+)
+```
+
+# Data Wrangling
+
+## Relational data
+
+<br>
+<center><img src="logo.png" width="200px"/></center>
+
+---
+class: left, hide-count
+
+### Joining different data tables is a very common task
+
+<center><img src="https://d33wubrfki0l68.cloudfront.net/245292d1ea724f6c3fd8a92063dcd7bfb9758d02/5751b/diagrams/relational-nycflights.png"/></center>
+
+---
+class: left, hide-count
+
+### Types of joins
+
+1. Mutating joins: combine variables from two tables
+2. Filtering joins: include or exclude rows but don't add new columns
+
+---
+
+class: left, hide-count
+
+### A simple example
+
+.pull-left[
+**R4DS**
+<center><img src="https://d33wubrfki0l68.cloudfront.net/108c0749d084c03103f8e1e8276c20e06357b124/5f113/diagrams/join-setup.png"/></center>
+]
+.pull-right[
+**tidyexplain**
+<center><img src="https://www.garrickadenbuie.com/project/tidyexplain/images/static/png/original-dfs.png"/></center>
+]
+
+---
+
+class: left, hide-count
+
+### Inner join
+
+<center><img src="https://raw.githubusercontent.com/gadenbuie/tidyexplain/main/images/inner-join.gif"/></center>
+
+---
+
+class: left, hide-count
+
+### Left join
+
+<center><img src="https://raw.githubusercontent.com/gadenbuie/tidyexplain/main/images/left-join.gif"/></center>
+
+---
+
+class: left, hide-count
+
+### Left join with extra rows in right (y)
+
+<center><img src="https://raw.githubusercontent.com/gadenbuie/tidyexplain/main/images/left-join-extra.gif"/></center>
+
+
+---
+
+class: left, hide-count
+
+### Right join
+
+<center><img src="https://raw.githubusercontent.com/gadenbuie/tidyexplain/main/images/right-join.gif"/></center>
+
+---
+
+class: left, hide-count
+
+### Full join
+
+<center><img src="https://raw.githubusercontent.com/gadenbuie/tidyexplain/main/images/full-join.gif"/></center>
+
+
+---
+
+class: left, hide-count
+
+### Semi join
+
+<center><img src="https://raw.githubusercontent.com/gadenbuie/tidyexplain/main/images/semi-join.gif"/></center>
+
+
+---
+
+class: left, hide-count
+
+### Anti join
+
+<center><img src="https://raw.githubusercontent.com/gadenbuie/tidyexplain/main/images/anti-join.gif"/></center>
+
+
+---
+class: left, hide-count
+
+# Credits
+
+Deck by Eric Green ([@ericpgreen](https://twitter.com/ericpgreen)), licensed under Creative Commons Attribution [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/)
+
+* {[`xaringan`](https://github.com/yihui/xaringan)} for slides with help from {[`xaringanExtra`](https://github.com/gadenbuie/xaringanExtra)} 
+* [R for Data Science](https://r4ds.had.co.nz/index.html), by Wickham and Grolemund 
+* {[`tidyexplain`](https://www.garrickadenbuie.com/project/tidyexplain/)} join animations

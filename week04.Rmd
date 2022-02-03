@@ -24,7 +24,7 @@ output:
   
 ## During Class
 
-Deck / Materials
+[Deck](https://ericpgreen.github.io/glhlth562/materials/wrangling3_4/wrangling3_deck.html) / Materials ([zip](https://www.dropbox.com/s/i66t7f4fqzhnk0s/wrangling3_4.zip?dl=1))
 
 ## After Class (Optional)
 
@@ -38,7 +38,7 @@ Deck / Materials
 
 ## During Class
 
-Deck / Materials
+[Deck](https://ericpgreen.github.io/glhlth562/materials/wrangling3_4/wrangling4_deck.html) / Materials ([zip](https://www.dropbox.com/s/i66t7f4fqzhnk0s/wrangling3_4.zip?dl=1))
 
 ## After Class (Optional)
 
@@ -46,4 +46,4 @@ Deck / Materials
 
 ## TidyTuesday
 
-Drops Mondays
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">The <a href="https://twitter.com/R4DScommunity?ref_src=twsrc%5Etfw">@R4DScommunity</a> welcomes you to week 5 of <a href="https://twitter.com/hashtag/TidyTuesday?src=hash&amp;ref_src=twsrc%5Etfw">#TidyTuesday</a>! We&#39;re exploring dog breeds!!<br><br>📁 <a href="https://t.co/sElb4fcv3u">https://t.co/sElb4fcv3u</a><br>📰 <a href="https://t.co/EEp6maav9f">https://t.co/EEp6maav9f</a><a href="https://twitter.com/hashtag/r4ds?src=hash&amp;ref_src=twsrc%5Etfw">#r4ds</a> <a href="https://twitter.com/hashtag/tidyverse?src=hash&amp;ref_src=twsrc%5Etfw">#tidyverse</a> <a href="https://twitter.com/hashtag/rstats?src=hash&amp;ref_src=twsrc%5Etfw">#rstats</a> <a href="https://twitter.com/hashtag/dataviz?src=hash&amp;ref_src=twsrc%5Etfw">#dataviz</a> <a href="https://t.co/Z1hEuV8kvS">pic.twitter.com/Z1hEuV8kvS</a></p>&mdash; Tom Mock (@thomas_mock) <a href="https://twitter.com/thomas_mock/status/1488320731746385920?ref_src=twsrc%5Etfw">February 1, 2022</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
