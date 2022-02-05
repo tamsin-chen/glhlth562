@@ -107,6 +107,8 @@ flights2 %>%
 ```{r}
 flights2 %>% 
   left_join(planes, by = "tailnum")
+
+#left_join(flights2, planes, by = "tailnum")
 ```
 
 ### Keys have different names
@@ -115,5 +117,17 @@ flights2 %>%
 flights2 %>% 
   left_join(airports, c("dest" = "faa"))
 ```
+
+
+
+
+
+
+
+
+
+
+
+
 
 
