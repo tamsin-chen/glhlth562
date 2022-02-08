@@ -22,7 +22,7 @@ output:
   
 ## During Class
 
-Deck / Materials
+[Deck](https://ericpgreen.github.io/glhlth562/materials/wrangling5/wrangling5_deck.html) / Materials ([zip](https://www.dropbox.com/s/j3xm7iivf4u2glm/wrangling5.zip?dl=1))
 
 ## After Class (Optional)
 
@@ -46,3 +46,4 @@ Deck / Materials
 ## TidyTuesday
 
 No `#TidyTuesday` this week. Instead, you'll complete lab assignment that I prepare.
+
