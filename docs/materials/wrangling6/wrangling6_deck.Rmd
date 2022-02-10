@@ -1,0 +1,441 @@
+---
+title: "Data Wrangling"
+subtitle: "Factors"  
+output:
+  xaringan::moon_reader:
+    css: [xaringan-themer.css,custom_deck.css]
+    nature:
+      slideNumberFormat: "%current%"
+      highlightStyle: github
+      highlightLines: true
+      ratio: 16:9
+      countIncrementalSlides: true
+    seal: false
+    self_contained: true
+---
+
+class: titleSlide, hide_logo
+
+```{r setup, include=FALSE}
+library(tidyverse)
+library(xaringan)
+library(xaringanExtra)
+library(xaringanthemer)
+library(here)
+library(sysfonts)
+library(showtext)
+library(countdown)
+library(nycflights13)
+library(gapminder)
+
+options(scipen=999)
+
+options(htmltools.dir.version = FALSE)
+knitr::opts_chunk$set(
+  fig.width=9, fig.height=3.5, fig.retina=3,
+  out.width = "100%",
+  cache = FALSE,
+  echo = TRUE,
+  message = FALSE, 
+  warning = FALSE,
+  hiline = TRUE
+)
+```
+
+```{r xaringan-panelset, echo=FALSE}
+xaringanExtra::use_panelset()
+```
+
+```{r xaringan-editable, echo=FALSE}
+xaringanExtra::use_editable(expires = 1)
+```
+
+```{r xaringan-extra-styles, echo=FALSE}
+xaringanExtra::use_extra_styles(
+  hover_code_line = TRUE,         #<<
+  mute_unhighlighted_code = TRUE  #<<
+)
+```
+
+```{r xaringanExtra-clipboard, echo=FALSE}
+xaringanExtra::use_clipboard()
+```
+
+```{r share-again, echo=FALSE}
+xaringanExtra::use_share_again()
+xaringanExtra::style_share_again(share_buttons="none")
+```
+
+```{r xaringan-themer, include=FALSE, warning=FALSE, eval=T}
+style_duo_accent(
+  primary_color = "#1f9ac9",
+  secondary_color = "#444444",
+  header_font_google = google_font("Source Sans Pro"),
+  text_font_google   = google_font("Libre Franklin", "300", "300i"),
+  code_font_google   = google_font("Anonymous Pro"),
+  base_font_size = "30px",
+  text_font_size = "1rem",
+  header_h1_font_size = "2.5rem",
+  header_h2_font_size = "2rem",
+  header_h3_font_size = "1.25rem",
+  padding = "8px 32px 8px 32px",
+)
+
+font_add_google("Poppins", "Poppins")
+font_add_google("Libre Franklin", "Frank")
+showtext_auto()
+```
+
+```{r xaringan-logo, echo=FALSE, eval=FALSE}
+xaringanExtra::use_logo(
+  image_url = "logo.png"
+)
+```
+
+# Data Wrangling
+
+## Factors
+
+<br>
+<center><img src="logo.png" width="200px"/></center>
+
+---
+
+class: left, hide_logo
+
+## Factors
+
+R uses factors to handle categorical variables, variables that have a fixed and known set of possible values
+
+```{r}
+x <- factor(c("BS", "MS", "PhD", "MS"))
+x
+```
+
+---
+class: left, hide_logo
+
+### What are factors
+
+We can think of factors like character (level labels) and an integer (level numbers) glued together
+
+```{r}
+glimpse(x)
+as.integer(x)
+```
+
+---
+
+class: left, hide_logo
+
+### Can be tricky
+
+```{r}
+x <- factor(c("never 0", "2", "2", "4"))
+levels(x)
+```
+--
+
+```{r}
+as.integer(x)
+```
+
+--
+
+```{r}
+mean(as.integer(x)) # it's not 8/2 = 4
+```
+
+---
+class: left, hide_logo
+
+### Get to know your factors
+
+
+```{r}
+str(gapminder$continent)
+levels(gapminder$continent)
+nlevels(gapminder$continent)
+```
+
+---
+class: left, hide_logo
+
+### Get to know your factors
+
+```{r}
+glimpse(gapminder)
+```
+
+
+---
+class: left, hide_logo
+
+### A few ways to count
+
+.pull-left[
+```{r}
+gapminder %>% 
+  count(continent)
+```
+]
+.pull-right[
+```{r}
+fct_count(gapminder$continent)
+```
+]
+
+---
+class: left, hide_logo
+
+### Default order is alphabetical
+
+```{r}
+gapminder$continent %>%
+  levels()
+```
+
+--
+
+```{r}
+gapminder$continent %>% 
+  fct_infreq() %>%
+  levels()
+```
+
+--
+
+```{r}
+gapminder$continent %>% 
+  fct_infreq() %>%
+  fct_rev() %>% 
+  levels()
+```
+
+---
+class: left, hide_logo
+
+### Change order of the levels, principled
+
+.panelset[
+.panel[.panel-name[Default]
+
+```{r, out.width='70%'}
+gapminder %>% 
+  count(continent, name="count") %>%
+  ggplot(aes(y = continent, x = count)) + 
+    geom_col()
+```
+
+]
+
+.panel[.panel-name[By frequency]
+```{r, out.width='70%'}
+gapminder %>%
+  mutate(continent = fct_infreq(continent)) %>%
+  count(continent, name="count") %>%
+  ggplot(aes(y = continent, x = count)) + 
+    geom_col()
+```
+]
+
+.panel[.panel-name[Reverse]
+```{r, out.width='70%'}
+gapminder %>%
+  mutate(continent = fct_infreq(continent) %>% fct_rev()) %>%
+  count(continent, name="count") %>%
+  ggplot(aes(y = continent, x = count)) + 
+    geom_col()
+```
+
+]
+]
+
+---
+class: left, hide_logo
+
+### Order by a second variable
+
+.panelset[
+.panel[.panel-name[Default]
+
+```{r, out.width='70%'}
+gap_asia_2007 <- gapminder %>% filter(year == 2007, continent == "Asia")
+ggplot(gap_asia_2007, aes(x = lifeExp, y = country)) + geom_point()
+```
+
+]
+
+.panel[.panel-name[By life expectancy]
+
+```{r, out.width='70%'}
+gap_asia_2007 <- gapminder %>% filter(year == 2007, continent == "Asia")
+ggplot(gap_asia_2007, aes(x = lifeExp, y = fct_reorder(country, lifeExp))) +
+  geom_point()
+```
+]
+]
+
+
+---
+class: left, hide_logo
+
+### When your factor provides the color or fill
+
+.panelset[
+.panel[.panel-name[Setup]
+
+```{r}
+h_countries <- c("Egypt", "Haiti", "Romania", "Thailand", "Venezuela")
+
+h_gap <- gapminder %>%
+  filter(country %in% h_countries) %>% droplevels()
+
+levels(h_gap$country)
+```
+]
+
+.panel[.panel-name[Default]
+```{r, out.width='70%'}
+ggplot(h_gap, aes(x = year, y = lifeExp, color = country)) +
+  geom_line()
+```
+
+]
+
+.panel[.panel-name[`fct_reorder2()`]
+```{r, out.width='70%'}
+ggplot(h_gap, aes(x = year, y = lifeExp,
+                  color = fct_reorder2(country, year, lifeExp))) +
+  geom_line() + labs(color = "country")
+```
+
+]
+]
+
+---
+class: left, hide_logo
+
+### Change order of the levels, "because I said so"
+
+```{r}
+h_gap$country %>% levels()
+h_gap$country %>% fct_relevel("Romania", "Haiti") %>% levels()
+```
+
+
+---
+class: left, hide_logo
+
+### Recode the levels
+
+```{r}
+i_gap <- gapminder %>% 
+  filter(country %in% c("United States", "Sweden", "Australia")) %>% 
+  droplevels()
+
+i_gap$country %>% levels()
+
+i_gap$country %>%
+  fct_recode("USA" = "United States", "Oz" = "Australia") %>% levels()
+```
+
+---
+class: left, hide_logo
+
+### More recoding
+
+```{r}
+gss_cat %>% count(partyid)
+```
+
+---
+class: left, hide_logo
+
+### Clean up the levels with `fct_recode()`
+
+.panelset[
+.panel[.panel-name[Summary]
+
+```{r, eval=FALSE}
+gss_cat %>%
+  mutate(partyid = fct_recode(partyid,
+    "Republican, strong"    = "Strong republican",
+    "Republican, weak"      = "Not str republican",
+    "Independent, near rep" = "Ind,near rep",
+    "Independent, near dem" = "Ind,near dem",
+    "Democrat, weak"        = "Not str democrat",
+    "Democrat, strong"      = "Strong democrat"
+  )) %>%
+  count(partyid)
+```
+
+]
+
+.panel[.panel-name[Summary]
+```{r, echo=FALSE}
+gss_cat %>%
+  mutate(partyid = fct_recode(partyid,
+    "Republican, strong"    = "Strong republican",
+    "Republican, weak"      = "Not str republican",
+    "Independent, near rep" = "Ind,near rep",
+    "Independent, near dem" = "Ind,near dem",
+    "Democrat, weak"        = "Not str democrat",
+    "Democrat, strong"      = "Strong democrat"
+  )) %>%
+  count(partyid)
+```
+]
+---
+class: left, hide_logo
+
+### Do a bunch with `fct_collapse()`
+
+```{r}
+gss_cat %>%
+  mutate(partyid = fct_collapse(partyid,
+    other = c("No answer", "Don't know", "Other party"),
+    rep = c("Strong republican", "Not str republican"),
+    ind = c("Ind,near rep", "Independent", "Ind,near dem"),
+    dem = c("Not str democrat", "Strong democrat")
+  )) %>%
+  count(partyid)
+```
+
+
+---
+class: left, hide_logo
+
+### Lump small groups with `fct_lump()`
+
+.panelset[
+.panel[.panel-name[Look at the data]
+
+```{r}
+gss_cat %>%
+  count(relig)
+```
+]
+
+.panel[.panel-name[Lump]
+```{r}
+gss_cat %>%
+  mutate(relig = fct_lump(relig, n = 5)) %>%
+  count(relig, sort = TRUE) %>%
+  print(n = Inf)
+```
+]
+]
+
+
+---
+class: left, hide-count
+
+# Credits
+
+Deck by Eric Green ([@ericpgreen](https://twitter.com/ericpgreen)), licensed under Creative Commons Attribution [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/)
+
+* {[`xaringan`](https://github.com/yihui/xaringan)} for slides with help from {[`xaringanExtra`](https://github.com/gadenbuie/xaringanExtra)} 
+* [R for Data Science](https://r4ds.had.co.nz/index.html), by Wickham and Grolemund
+* [Data Science in a Box](https://datasciencebox.org/)
+* STAT 545, [Be the boss of your factors](https://stat545.com/factors-boss.html)
