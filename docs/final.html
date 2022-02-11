@@ -87,29 +87,26 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 
 
   <!--radix_placeholder_meta_tags-->
-  <title>GLHLTH562: Data Science and Visualization with R: Syllabus</title>
+  <title>GLHLTH562: Data Science and Visualization with R: Final Project</title>
 
-  <meta property="description" itemprop="description" content="GLHLTH 562, Duke University, Spring, 2022"/>
 
 
 
   <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
-  <meta property="og:title" content="GLHLTH562: Data Science and Visualization with R: Syllabus"/>
+  <meta property="og:title" content="GLHLTH562: Data Science and Visualization with R: Final Project"/>
   <meta property="og:type" content="article"/>
-  <meta property="og:description" content="GLHLTH 562, Duke University, Spring, 2022"/>
   <meta property="og:locale" content="en_US"/>
   <meta property="og:site_name" content="GLHLTH562: Data Science and Visualization with R"/>
 
   <!--  https://dev.twitter.com/cards/types/summary -->
   <meta property="twitter:card" content="summary"/>
-  <meta property="twitter:title" content="GLHLTH562: Data Science and Visualization with R: Syllabus"/>
-  <meta property="twitter:description" content="GLHLTH 562, Duke University, Spring, 2022"/>
+  <meta property="twitter:title" content="GLHLTH562: Data Science and Visualization with R: Final Project"/>
 
   <!--/radix_placeholder_meta_tags-->
   <!--radix_placeholder_rmarkdown_metadata-->
 
   <script type="text/json" id="radix-rmarkdown-metadata">
-  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description"]}},"value":[{"type":"character","attributes":{},"value":["Syllabus"]},{"type":"character","attributes":{},"value":["GLHLTH 562, Duke University, Spring, 2022"]}]}
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","output"]}},"value":[{"type":"character","attributes":{},"value":["Final Project"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["toc","toc_depth"]}},"value":[{"type":"logical","attributes":{},"value":[true]},{"type":"integer","attributes":{},"value":[2]}]}]}]}
   </script>
   <!--/radix_placeholder_rmarkdown_metadata-->
   <!--radix_placeholder_navigation_in_header-->
@@ -2140,7 +2137,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <!--radix_placeholder_front_matter-->
 
 <script id="distill-front-matter" type="text/json">
-{"title":"Syllabus","description":"GLHLTH 562, Duke University, Spring, 2022","authors":[]}
+{"title":"Final Project","authors":[]}
 </script>
 
 <!--/radix_placeholder_front_matter-->
@@ -2187,230 +2184,243 @@ Content
 <!--/radix_placeholder_site_before_body-->
 
 <div class="d-title">
-<h1>Syllabus</h1>
+<h1>Final Project</h1>
 <!--radix_placeholder_categories-->
 <!--/radix_placeholder_categories-->
-<p><p>GLHLTH 562, Duke University, Spring, 2022</p></p>
+
 </div>
 
 
 <div class="d-article">
-<center>
-<div class="layout-chunk" data-layout="l-body">
-<p><img src="images/562.png" width="20%" style="padding:10px" /></p>
+<div class="d-contents d-contents-float">
+<nav class="l-text toc figcaption" id="TOC">
+<h3>Contents</h3>
+<ul>
+<li><a href="#overview">Overview</a></li>
+<li><a href="#data">Data</a>
+<ul>
+<li><a href="#deliverables">Deliverables</a></li>
+<li><a href="#tips">Tips</a></li>
+<li><a href="#marking">Marking</a></li>
+</ul></li>
+</ul>
+</nav>
 </div>
-</center>
-<p>This course will introduce you to data science and data visualization in R. The core content of the course focuses on data acquisition and wrangling, exploratory data analysis, data visualization, modeling, and effective communication of results. My goal is to bring you from zero to being able to work in a team on a fully reproducible data science project analyzing a dataset of your choice and answering questions you care about.</p>
-<h1 id="teaching-team">Teaching Team</h1>
-<p><a href="https://globalhealth.duke.edu/people/green-eric">Eric Green</a>, PhD</p>
-<p>Madeline Wilkerson, TA</p>
-<h1 id="topics">Topics</h1>
-<p>We’ll start with the good stuff—data visualization. You’ll learn how to break down a plot into its component parts, imagine the underlying data structure, and create effective visuals.</p>
-<p>Next, we’ll dig into the core data wrangling skills required in every data science project. You’ll learn about data transformation, import, tidying, joining, strings, factors, dates, and iteraton—oh my.</p>
-<p>By this point of the course you will have enough of a foundation in R to learn about modeling, and I’ll introduce you to the tidy models framework. As we talk about machine learning, we’ll also spend time thinking about data science ethics and algorithmic bias.</p>
-<p>Following modeling, we’ll zoom out and discuss the importance of having reproducible workflows. I’ll introduce you to literate programming and the world of RMarkdown. We’ll spend time learning about how to create two specific outputs: dashboards and slide decks.</p>
-<p>We’ll finish the course with some topics of my choosing. Maybe we’ll explore maps and text mining. Or maybe we’ll take a beat and revisit topics that tripped us up along the way. The final three sessions will be devoted to your course projects.</p>
-<h1 id="schedule">Schedule</h1>
-<table>
+<p>Pick a dataset, any dataset…</p>
+<p>…and do something with it. That is your final project in a nutshell.</p>
+<h1 id="overview">Overview</h1>
+<p>The final project for this class will consist of analysis on a dataset of your choosing. You can choose the data based on your interests or based on work in other courses or research projects. The goal of this project is for you to demonstrate proficiency in the techniques we have covered in this class (and beyond, if you like) and apply them to a novel dataset in a meaningful way.</p>
+<p>The goal is not to do an exhaustive data analysis i.e., do not calculate every statistic and procedure you have learned for every variable, but rather let me know that you are proficient at asking meaningful questions and answering them with results of data analysis, that you are proficient in using R, and that you are proficient at interpreting and presenting the results. Focus on methods that help you begin to answer your research questions. You do not have to apply every procedure we learned (and you can use techniques we haven’t officially covered in class, if you’re feeling adventurous). Also, critique your own methods and provide suggestions for improving your analysis. Issues pertaining to the reliability and validity of your data, and appropriateness of the statistical analysis should be discussed here.</p>
+<p>The project is very open ended. You should create some kind of compelling visualizations of this data in R with an accompanying write-up. There is no limit on what tools or packages you may use, but you are required to work primarily in the tidyverse (vs base R).</p>
+<p>You do not need to visualize all of the data at once. A single high quality visualization will receive a much higher grade than a large number of poor quality visualizations. Also pay attention to your presentation. Neatness, coherency, and clarity will count. All analyses must be done in RStudio, using R.</p>
+<p>You may work alone or in teams of 2 or 3. We prefer that you work in teams.</p>
+<h1 id="data">Data</h1>
+<p>To have the greatest chance of success with this project you should select a manageable dataset. This means that the data should be readily accessible and large enough that multiple relationships can be explored. As such, your dataset must have at least 50 observations, ideally many more. Exceptions can be made but you must speak with me first. The dataset’s variables should include categorical variables, discrete numerical variables, and continuous numerical variables.</p>
+<p>If you are using a dataset that comes in a format that we haven’t encountered in class, make sure that you are able to load it into R as this can be tricky depending on the source. If you are having trouble ask for help before it is too late.</p>
+<p><strong>Do not reuse datasets used in class.</strong></p>
+<p>Below are a list of data repositories that might be of interest to browse. You’re not limited to these resources, and in fact you’re encouraged to venture beyond them. But you might find something interesting there:</p>
+<ul>
+<li><a href="https://github.com/rfordatascience/tidytuesday">TidyTuesday</a></li>
+<li><a href="https://www.opendata.nhs.scot/">NHS Scotland Open Data</a></li>
+<li><a href="https://edinburghopendata.info/">Edinburgh Open Data</a></li>
+<li><a href="https://statistics.gov.scot/home">Open access to Scotland’s official statistics</a></li>
+<li><a href="https://www.bikeshare.com/data/">Bikeshare data portal</a></li>
+<li><a href="https://data.gov.uk/">UK Gov Data</a></li>
+<li><a href="https://www.kaggle.com/datasets">Kaggle datasets</a></li>
+<li><a href="http://openintrostat.github.io/openintro/">OpenIntro datasets</a></li>
+<li><a href="https://github.com/awesomedata/awesome-public-datasets">Awesome public datasets</a></li>
+<li><a href="https://chronicdata.cdc.gov/Youth-Risk-Behaviors/DASH-Youth-Risk-Behavior-Surveillance-System-YRBSS/q6p7-56au">Youth Risk Behavior Surveillance System (YRBSS)</a></li>
+<li><a href="https://www.icpsr.umich.edu/icpsrweb/content/ICPSR/fenway.html">PRISM Data Archive Project</a></li>
+<li><a href="https://dataverse.harvard.edu/">Harvard Dataverse</a></li>
+<li>If you know of others, let me know, and we’ll add here…</li>
+</ul>
+<p>If the data are not publicly available, you must have the owner’s permission to use the data for this assignment. If your dataset includes protected health information or if you are otherwise unable to share it with us, you must use the <a href="https://synthpop.org.uk/get-started.html"><code>synthpop</code> package</a> to create a synthetic dataset.</p>
+<h2 id="deliverables">Deliverables</h2>
+<ol type="1">
+<li>Proposal - due February 28</li>
+<li>Presentation - due April 6</li>
+<li>Project files and write-up - due April 12</li>
+</ol>
+<h3 id="proposal">Proposal</h3>
+<p>This is a draft of the introduction section of your project as well as a data analysis plan and your dataset.</p>
+<ul>
+<li><p><strong>Section 1 - Introduction:</strong> The introduction should introduce your general research question and your data (where it came from, how it was collected, what are the cases, what are the variables, etc.).</p></li>
+<li><p><strong>Section 2 - Data:</strong> Place your data in the `/data` folder and use the <code>dataReporter</code> package to create a codebook. Do not include unnecessary columns in your dataset.</p></li>
+<li><p><strong>Section 3 - Data analysis plan:</strong></p>
+<ul>
+<li><p>Describe the key variables to answer your question</p></li>
+<li><p>Very preliminary exploratory data analysis, including some summary statistics and visualizations, along with some explanation on how they help you learn more about your data. (You can add to these later as you work on your project.)</p></li>
+<li><p>The method(s) that you believe will be useful in answering your question(s). (You can update these later as you work on your project.)</p></li>
+<li><p>What results from these specific statistical methods are needed to support your hypothesized answer?</p></li>
+</ul></li>
+</ul>
+<p>The grading scheme for the project proposal is as follows. Note that after you receive feedback for your proposal you can improve it based on the feedback and re-submit it. If you re-submit, your final score for the proposal will be the average of two scores you receive (first and second submission).</p>
+<table style="width:99%;">
+<colgroup>
+<col style="width: 83%" />
+<col style="width: 15%" />
+</colgroup>
 <thead>
 <tr class="header">
-<th>Week</th>
-<th>Date</th>
-<th>Unit</th>
-<th>Topic</th>
+<th>Total</th>
+<th>10 pts</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td>0</td>
-<td>Jan 6</td>
-<td>-</td>
-<td>Welcome</td>
+<td>Data</td>
+<td>3 pts</td>
 </tr>
 <tr class="even">
-<td>1</td>
-<td>Jan 11</td>
-<td>Data visualization</td>
-<td>The grammar of graphics and ggplot2 API</td>
+<td>Proposal</td>
+<td>5 pts</td>
 </tr>
 <tr class="odd">
-<td>1</td>
-<td>Jan 13</td>
-<td>Data visualization</td>
-<td>Designing effective plots</td>
+<td>Workflow, organization, code quality</td>
+<td>1 pt</td>
 </tr>
 <tr class="even">
-<td>2</td>
-<td>Jan 18</td>
-<td>Data visualization</td>
-<td>Common geoms and plot styles to know</td>
-</tr>
-<tr class="odd">
-<td>2</td>
-<td>Jan 20</td>
-<td>Data visualization</td>
-<td>Small multiples and patchwork</td>
-</tr>
-<tr class="even">
-<td>3</td>
-<td>Jan 25</td>
-<td>Data wrangling</td>
-<td>Data import</td>
-</tr>
-<tr class="odd">
-<td>3</td>
-<td>Jan 27</td>
-<td>Data wrangling</td>
-<td>Data transformation</td>
-</tr>
-<tr class="even">
-<td>4</td>
-<td>Feb 1</td>
-<td>Data wrangling</td>
-<td>Tidy data</td>
-</tr>
-<tr class="odd">
-<td>4</td>
-<td>Feb 3</td>
-<td>Data wrangling</td>
-<td>Relational data</td>
-</tr>
-<tr class="even">
-<td>5</td>
-<td>Feb 8</td>
-<td>Data wrangling</td>
-<td>Strings</td>
-</tr>
-<tr class="odd">
-<td>5</td>
-<td>Feb 10</td>
-<td>Data wrangling</td>
-<td>Factors</td>
-</tr>
-<tr class="even">
-<td>6</td>
-<td>Feb 15</td>
-<td>Data wrangling</td>
-<td>Dates and times</td>
-</tr>
-<tr class="odd">
-<td>6</td>
-<td>Feb 17</td>
-<td>Data wrangling</td>
-<td>Iteration</td>
-</tr>
-<tr class="even">
-<td>7</td>
-<td>Feb 22</td>
-<td>Models</td>
-<td>Data science ethics</td>
-</tr>
-<tr class="odd">
-<td>7</td>
-<td>Feb 24</td>
-<td>Models</td>
-<td>Modeling data</td>
-</tr>
-<tr class="even">
-<td>8</td>
-<td>Mar 1</td>
-<td>Models</td>
-<td>Tidy models introduction, part 1</td>
-</tr>
-<tr class="odd">
-<td>8</td>
-<td>Mar 3</td>
-<td>Models</td>
-<td>Tidy models introduction, part 2</td>
-</tr>
-<tr class="even">
-<td>9</td>
-<td>Mar 15</td>
-<td>Communicating data science</td>
-<td>Reproducible workflows</td>
-</tr>
-<tr class="odd">
-<td>9</td>
-<td>Mar 17</td>
-<td>Communicating data science</td>
-<td>RMarkdown</td>
-</tr>
-<tr class="even">
-<td>10</td>
-<td>Mar 22</td>
-<td>Communicating data science</td>
-<td>Dashboards</td>
-</tr>
-<tr class="odd">
-<td>10</td>
-<td>Mar 24</td>
-<td>Communicating data science</td>
-<td>Slide decks</td>
-</tr>
-<tr class="even">
-<td>11</td>
-<td>Mar 29</td>
-<td>Chef’s choice</td>
-<td>Maps?</td>
-</tr>
-<tr class="odd">
-<td>11</td>
-<td>Mar 31</td>
-<td>Chef’s choice</td>
-<td>Text mining?</td>
-</tr>
-<tr class="even">
-<td>12</td>
-<td>Apr 5</td>
-<td>Projects</td>
-<td>Work session</td>
-</tr>
-<tr class="odd">
-<td>12</td>
-<td>Apr 7</td>
-<td>Projects</td>
-<td>Presentations Day 1</td>
-</tr>
-<tr class="even">
-<td>13</td>
-<td>Apr 12</td>
-<td>Projects</td>
-<td>Presentations Day 2</td>
+<td>Teamwork</td>
+<td>1 pt</td>
 </tr>
 </tbody>
 </table>
-<p>Assignments will be posted the Saturday before each week begins.</p>
-<h1 id="requirements">Requirements</h1>
-<p>There are no prerequisites to take this course aside from a good dose of curiosity and interest in learning about R, data visualization, and data science. All you need to participate is a computer with an internet connection. Our tech stack will include:</p>
+<h3 id="presentation">Presentation</h3>
+<p>5 minutes maximum, and each team member should say something substantial. You can either present live during your slot or pre-record and submit your video to be played during the workshop.</p>
+<p>Prepare a slide deck using <code>xaringan</code>. There isn’t a limit to how many slides you can use, just a time limit (5 minutes total). If you work with a partner, each person should have a chance to speak during the presentation. Your presentation should not just be an account of everything you tried (“then we did this, then we did this, etc.”), instead it should convey what choices you made, and why, and what you found.</p>
+<p>Before you finalize your presentation, make sure your chunks are turned off with <code>echo = FALSE</code>.</p>
+<p>Presentations will take place during the last two sessions of the semester. You will watch presentations from other teams in your workshop and provide feedback in the form of peer evaluations. The presentation line-up will be generated randomly and posted on April 5.</p>
+<p>The grading scheme for the presentation is as follows:</p>
+<table>
+<colgroup>
+<col style="width: 95%" />
+<col style="width: 4%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Total</th>
+<th>50 pts</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Time management: Did the team divide the time well amongst themselves or got cut off going over time?</td>
+<td>4 pts</td>
+</tr>
+<tr class="even">
+<td>Content: Is the research question well designed and is the data being used relevant to the research question?</td>
+<td>5 pts</td>
+</tr>
+<tr class="odd">
+<td>Professionalism: How well did the team present? Does the presentation appear to be well practiced? Did everyone get a chance to say something meaningful about the project?</td>
+<td>5 pts</td>
+</tr>
+<tr class="even">
+<td>Teamwork: Did the team present a unified story, or did it seem like independent pieces of work patched together?</td>
+<td>6 pts</td>
+</tr>
+<tr class="odd">
+<td>Content: Did the team use appropriate statistical procedures and interpretations of results accurately?</td>
+<td>10 pts</td>
+</tr>
+<tr class="even">
+<td>Creativity and Critical Thought: Is the project carefully thought out? Are the limitations carefully considered? Does it appear that time and effort went into the planning and implementation of the project?</td>
+<td>10 pts</td>
+</tr>
+<tr class="odd">
+<td>Slides: Are the slides well organized, readable, not full of text, featuring figures with legible labels, legends, etc.?</td>
+<td>10 pts</td>
+</tr>
+</tbody>
+</table>
+<h3 id="executive-summary">Executive summary</h3>
+<p>Along with your presentation slides, we want you to provide a summary of your project in the README of your directory/repository. This executive summary should provide information on the dataset you’re using, your research question(s), your methodology, and your findings. The executive summary is worth 15 points and will be evaluated based on whether it follows guidance and whether it’s concise but detailed enough.</p>
+<h3 id="project-directory-structure">Project Directory Structure</h3>
+<p>You may prepare a zip file of your project files or give us access to your Github repository (if you use one):</p>
 <ul>
-<li><a href="https://cloud.r-project.org/">R</a></li>
-<li><a href="https://rstudio.com/products/rstudio/download/#download">RStudio Desktop</a></li>
-<li>Zoom for remote learning and office hours</li>
-<li>Ed for course discussion</li>
+<li><code>final.Rproj</code></li>
+<li><code>README.Rmd</code> + <code>README.md</code>: Your executive summary (<a href="https://rmarkdown.rstudio.com/docs/reference/github_document.html">github flavored markdown</a>)</li>
+<li><code>/data</code>: Your dataset in CSV or RDS format and your data dictionary</li>
+<li><code>/deck</code>: Your slide deck (Rmd + html)</li>
+<li><code>/proposal</code>: Your project proposal (Rmd + html)</li>
 </ul>
-<h1 id="format">Format</h1>
-<p>You’ll prepare for each class session by reading and practicing. During class, we’ll divide our time discussing concepts and running code. I’ll often suggest opportunities for you to continue practicing after class.</p>
-<h2 id="weekly-assignments">Weekly Assignments</h2>
+<p>Style and format does count for this assignment, so please take the time to make sure everything looks good and your data and code are properly formatted. Your files must run without error. Remember, any local images you use must be included in your directory.</p>
+<h2 id="tips">Tips</h2>
 <ul>
-<li>Each week you will explore a new <a href="https://github.com/rfordatascience/tidytuesday"><em>Tidy Tuesday</em></a> dataset. The R4DS Online Learning Community posts a new dataset each Monday. We’ll leave time in our Tuesday sessions to review the dataset, and then you will have until Sunday to explore it. I’ll provide you with a template for reporting. In the beginning of the course when your skills are more limited, I’ll ask you to think more about the data and what you want to do. As the semester goes on, I’ll expect that your explorations become more sophisticated. In addition to exploring the datasets on your own, I’ll also ask you to find a <code>#tidytuesday</code> entry on Twitter, examine the author’s code and describe what you learned from them.</li>
-<li><a href="masks.html">Mid-semester skills/comprehension check-in</a> (replaces 2 weeks of TidyTuesday)</li>
-</ul>
-<h2 id="final-project">Final Project</h2>
-<p>You will also complete a final project alone or with partners using a dataset of your choosing. Details are <a href="final.html">here</a>.</p>
-<h2 id="exams">Exams</h2>
-<p>There are no exams (including no final exam).</p>
-<h1 id="grading">Grading</h1>
-<p>You will be evaluated on the basis of your weekly assignments (50%) and independent project (50%). Ranges for letter grades will be set at the end of the semester. Cumulative scores of at least 90, 80, and 70 will be guaranteed at least an A-, B-, and C-, respectively.</p>
-<h1 id="policies">Policies</h1>
+<li><p>Review the marking guidelines below and ask questions if any of the expectations are unclear.</p></li>
+<li><p>Make sure each team member is contributing, both in terms of quality and quantity of contribution (we will be reviewing commits from different team members).</p></li>
+<li><p>Set aside time to work together and apart (physically).</p></li>
+<li><p>When you’re done, review your documents to make sure you’re happy with the final state of your work.</p></li>
+<li><p>Code: In your presentation your code should be hidden (<code>echo = FALSE</code>) so that your document is neat and easy to read. However your document should include all your code such that if I re-knit your R Markdown file I should be able to obtain the results you presented.</p>
 <ul>
-<li>These are challenging times. If you miss an assignment deadline (Sundays at 10pm Eastern), get in touch so we can discuss if a make-up or extension is possible. Missing more than one deadline could result in grade penalties. Class sessions will be recorded.</li>
-<li>Failure to complete the independent project will result in an Incomplete. Please see your school’s policy on incompletes (e.g., <a href="https://trinity.duke.edu/undergraduate/academic-policies/continuation-requirements">Trinity</a>)</li>
-<li>Students should abide by the <a href="https://studentaffairs.duke.edu/conduct/about-us/duke-community-standard">Duke Community Standard</a> at all times. If a questionable circumstance arises, do not hesitate to seek my guidance (before is always better than after).</li>
+<li>Exception: If you want to highlight something specific about a piece of code, you’re welcomed to show that portion.</li>
+</ul></li>
+<li><p>Teamwork: You are to complete the assignment as a team. All team members are expected to contribute equally to the completion of this assignment and team evaluations will be given at its completion - anyone judged to not have sufficient contributed to the final product will have their grade penalized. While different teams members may have different backgrounds and abilities, it is the responsibility of every team member to understand how and why all code and approaches in the assignment works.</p></li>
 </ul>
-<h1 id="equity-and-inclusion-at-dghi">Equity and Inclusion at DGHI</h1>
-<p>On June 10, 2020 DGHI formed the Equity Task Force (ETF) to identify and address structural inequities related to global power dynamics, race, ethnicity, gender, and all marginalized identities throughout the institute. While it is expected that these goals will be met with gradual progress, the urgency for change and the need to learn from past mistakes must be acted upon immediately.</p>
-<p>As our institute begins the process of making these changes, I will attempt to do the same throughout my courses. We as a class will honor all requests to address students by pronouns or names with which they are most comfortable, and I welcome your input on things I can do to make the course materials, my lessons, and the classroom experience more inclusive. I invite you to keep an open line of communication with me throughout this process about any areas where you think I am or the institute is excelling or could use some improvement. If you don’t feel comfortable reaching out to me about areas of concern please contact the ETF co-chairs (Kate Whetten <code>k.whetten@duke.edu</code>, Kim McNeil <code>km.mcneil@duke.edu</code>) or the relevant steering committee members.</p>
-<p>If you require any additional accommodations or arrangements (hearing, vision, English language comprehension, extenuating personal or family circumstances, etc.) please let me know ASAP and, if relevant, please contact the <a href="http://www.access.duke.edu/students/requesting/index.php">Student Disability Access Office</a> to ensure the accommodation/arrangements can be implemented in a timely fashion.</p>
+<h2 id="marking">Marking</h2>
+<table style="width:99%;">
+<colgroup>
+<col style="width: 81%" />
+<col style="width: 16%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Total</th>
+<th>100 pts</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Proposal</td>
+<td>10 pts</td>
+</tr>
+<tr class="even">
+<td>Presentation</td>
+<td>50 pts</td>
+</tr>
+<tr class="odd">
+<td>Executive summary</td>
+<td>15 pts</td>
+</tr>
+<tr class="even">
+<td>Reproducibility and organization</td>
+<td>10 pts</td>
+</tr>
+<tr class="odd">
+<td>Team peer evaluation</td>
+<td>10 pts</td>
+</tr>
+<tr class="even">
+<td>Classmates’ evaluation</td>
+<td>5 pts</td>
+</tr>
+</tbody>
+</table>
+<h3 id="criteria">Criteria</h3>
+<p>Your project will be assessed on the following criteria:</p>
+<ul>
+<li>Content - What is the quality of research and/or policy question and relevancy of data to those questions?</li>
+<li>Correctness - Are procedures carried out and explained correctly?</li>
+<li>Writing and Presentation - What is the quality of the presentation, writing, and explanations?</li>
+<li>Creativity and Critical Thought - Is the project carefully thought out? Are the limitations carefully considered? Does it appear that time and effort went into the planning and implementation of the project?</li>
+</ul>
+<p>A general breakdown of scoring is as follows:</p>
+<ul>
+<li>90%-100% - Outstanding effort. Student understands how to apply all statistical concepts, can put the results into a cogent argument, can identify weaknesses in the argument, and can clearly communicate the results to others.</li>
+<li>80%-89% - Good effort. Student understands most of the concepts, puts together an adequate argument, identifies some weaknesses of their argument, and communicates most results clearly to others.</li>
+<li>70%-79% - Passing effort. Student has misunderstanding of concepts in several areas, has some trouble putting results together in a cogent argument, and communication of results is sometimes unclear.</li>
+<li>60%-69% - Struggling effort. Student is making some effort, but has misunderstanding of many concepts and is unable to put together a cogent argument. Communication of results is unclear.</li>
+<li>Below 60% - Student is not making a sufficient effort.</li>
+</ul>
+<h3 id="team-peer-evaluation">Team peer evaluation</h3>
+<p>You will be asked to fill out a survey where you rate the contribution and teamwork of each team member out of 10 points. You will additionally report a contribution percentage for each team member. Filling out the survey is a prerequisite for getting credit on the team member evaluation. If you are suggesting that an individual did less than 20% of the work, please provide some explanation. If any individual gets an average peer score indicating that they did less than 10% of the work, this person will receive half the grade of the rest of the group.</p>
+<h3 id="late-work-policy">Late work policy</h3>
+<ul>
+<li>There is no late submission / make up for the presentation. You must be in class on the day of the presentation to get credit for it <em>or</em> pre-record and submit your presentation by 9am in the morning of the presentations.</li>
+<li>The late work policy for the write-up is 5% of the maximum obtainable mark per calendar day up to seven calendar days after the deadline. If you intend to submit work late for the project, you must notify us before the original deadline as well as as soon as the completed work is submitted.</li>
+</ul>
+<hr />
+<p>Final project template modified from <a href="https://datasciencebox.org/project.html">Data Science in a Box</a></p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
