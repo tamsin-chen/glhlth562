@@ -33,7 +33,7 @@ Deck / Materials
 ## Prepare
 
 * `r emo::ji("down_arrow")`: [purrr cheatsheet](https://raw.githubusercontent.com/rstudio/cheatsheets/main/purrr.pdf)
-`r emo::ji("tv")`: [Using the purrr and broom R packages to easily perform thousands of statistical tests (CC112)](https://www.youtube.com/watch?v=lhst1oc9mKQ)
+* `r emo::ji("tv")`: [Using the purrr and broom R packages to easily perform thousands of statistical tests (CC112)](https://www.youtube.com/watch?v=lhst1oc9mKQ)
 * `r emo::ji("open_book")`: [R4DS Chapter 21](https://r4ds.had.co.nz/iteration.html) (recommended but not required: read/skim chapters 17-20)
 
 ## During Class
