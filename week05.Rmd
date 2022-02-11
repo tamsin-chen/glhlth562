@@ -45,5 +45,5 @@ output:
 
 ## TidyTuesday
 
-No `#TidyTuesday` this week. Instead, you'll complete lab assignment that I prepare.
+No `#TidyTuesday` this week. Instead, you'll complete [this lab assignment](masks.html). It is due February 20 at 10pm ET.
 

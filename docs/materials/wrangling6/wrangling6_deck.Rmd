@@ -386,6 +386,7 @@ gss_cat %>%
   count(partyid)
 ```
 ]
+]
 ---
 class: left, hide_logo
 

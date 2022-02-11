@@ -1,0 +1,27 @@
+---
+title: "Masks"
+subtitle: "A skills check-in"
+description: |
+  This assignment is a replacement for two `#TidyTuesdays`.
+output:
+  distill::distill_article:
+    toc: true
+    toc_depth: 2
+---
+
+```{r, include=FALSE}
+  library(emo)
+```
+
+
+I'm one of 330k+ who follow [Dr. Ashish Jha](https://twitter.com/ashishkjha) on Twitter. He's the Dean of Brown's School of Public Health and a frequent contributor to news programs trying to explain the pandemic to the American public.
+
+This tweet caught my eye:
+
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">Here are the four largest states<br><br>Geographically, politically diverse with very different strategies and mitigation policies<br><br>Infections are down 50-80% across these states<br><br>And hospitalizations have turned the corner in each of these states<br><br>Deaths are starting to follow <a href="https://t.co/MM6tKm6ffY">pic.twitter.com/MM6tKm6ffY</a></p>&mdash; Ashish K. Jha, MD, MPH (@ashishkjha) <a href="https://twitter.com/ashishkjha/status/1490373105268707336?ref_src=twsrc%5Etfw">February 6, 2022</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+This pattern has always struck me as odd. States can have similar outcomes despite having very different approaches to preventing transmission. But then again, there is a lot of within state variability in practices and outcomes. I decided it would be interesting to get more granular data at the county level and explore a bit. What can we say about mask mandates and COVID transmission at the county level?
+
+In exploring this question, you'll have an opportunity to put your accumulated R knowledge to work. You'll import data, join tables, transform variables, work with strings and factors, and more.
+
+Download [this zip folder](https://www.dropbox.com/s/jysjp14gldtcmfx/masks.zip?dl=0) to get started.
