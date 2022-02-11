@@ -24,4 +24,4 @@ This pattern has always struck me as odd. States can have similar outcomes despi
 
 In exploring this question, you'll have an opportunity to put your accumulated R knowledge to work. You'll import data, join tables, transform variables, work with strings and factors, and more.
 
-Download [this zip folder](https://www.dropbox.com/s/jysjp14gldtcmfx/masks.zip?dl=0) to get started.
+Download [this zip folder](https://www.dropbox.com/s/jysjp14gldtcmfx/masks.zip?dl=1) to get started.
