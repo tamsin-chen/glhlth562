@@ -28,11 +28,13 @@ What can we say about mask mandates and SARS-CoV-2 transmission at the county le
 
 # Data
 
-Please consult [this directed acyclic graph](dagitty.net/m2Zk3dJ) (DAG) to understand what data you need to obtain. Never heard of DAGs? Consider [watching this excellent talk](https://www.youtube.com/watch?v=KNPYUVmY3NM) by Richard McElreath, author of ["Statistical Rethinking"](https://xcelab.net/rm/statistical-rethinking/). Fair warning: it's going to make you question every analysis you've ever run. It's optional viewing.
+Please consult [this directed acyclic graph](http://dagitty.net/dags.html?id=2Zk3dJ) (DAG) to understand what data you need to obtain. Never heard of DAGs? Consider [watching this excellent talk](https://www.youtube.com/watch?v=KNPYUVmY3NM) by Richard McElreath, author of ["Statistical Rethinking"](https://xcelab.net/rm/statistical-rethinking/). Fair warning: it's going to make you question every analysis you've ever run. It's optional viewing.
 
 ```{r dagpng, echo=FALSE}
   knitr::include_graphics("img/dag.png")
 ```
+<br>
+
 DAGs can help you be clear on what you need to adjust for based on your assumptions. I know, your prior approach might have been to adjust for everything. That's common. Kitchen sink regressions. McElreath will have you re-thinking this strategy.
 
 This DAG represents MY assumptions about the causal link between mask mandates, cases, and hospitalizations. I decided on the variables and drew the arrows. The logic of DAGs determined the minimal adjustment set for causal effect identification.

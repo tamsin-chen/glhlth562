@@ -49,10 +49,18 @@ raw <- read_sheet("https://docs.google.com/spreadsheets/d/1kQ35JKpk3vNaM7ZfFK2DF
 ```{r}
 # google "r vector from row"
 # https://stackoverflow.com/a/55262815/841405
-  raw %>%
+  start_date <- raw %>%
     slice(2) %>%
     unlist(use.names = FALSE) %>%
-    as_tibble() 
+    as_tibble() %>% 
+    mutate(value = str_remove(value, "Positive COVID-19 Cases\n")) %>%
+    mutate(value = str_trim(value, "both")) %>%
+    mutate(value = str_replace(value, "\\,.*", "")) %>%
+    mutate(value = str_replace(value, "\\-.*", "")) %>%
+    slice(3:n())
+
+
+  rep(start_date$value, each=3)         
 ```
 
 This is a start, but this is only a vector of 28 elements, and currently we have 80 columns in raw (these counts will change as DPS adds more data). I'd like you to think about three things:

@@ -1,0 +1,50 @@
+---
+title: "Week 6"
+subtitle: "Data wrangling"
+description: |
+  Dates/times and iteration
+output:
+  distill::distill_article:
+    toc: true
+    toc_depth: 2
+---
+
+```{r, include=FALSE}
+  library(emo)
+```
+
+# Feb 15: Dates and times
+
+## Prepare
+
+* `r emo::ji("down_arrow")`: [Dates and times cheatsheet](https://raw.githubusercontent.com/rstudio/cheatsheets/main/lubridate.pdf)
+* `r emo::ji("open_book")`: [R4DS Chapter 16](https://r4ds.had.co.nz/dates-and-times.html)
+  
+## During Class
+
+Deck / Materials
+
+## After Class (Optional)
+
+`r emo::ji("tv")`: [Communicating the Value of Data Science | Data Science Hangout | Elaine McVey at the Looma Project](https://youtu.be/IkqItgPSPro)
+
+# Feb 17: Iteration
+
+## Prepare
+
+* `r emo::ji("down_arrow")`: [purrr cheatsheet](https://raw.githubusercontent.com/rstudio/cheatsheets/main/purrr.pdf)
+`r emo::ji("tv")`: [Using the purrr and broom R packages to easily perform thousands of statistical tests (CC112)](https://www.youtube.com/watch?v=lhst1oc9mKQ)
+* `r emo::ji("open_book")`: [R4DS Chapter 21](https://r4ds.had.co.nz/iteration.html) (recommended but not required: read/skim chapters 17-20)
+
+## During Class
+
+Deck / Materials
+
+## After Class (Optional)
+
+`r emo::ji("tv")`: [Expanding R Horizons: Integrating R with Plumber APIs](https://www.rstudio.com/resources/webinars/expanding-r-horizons-integrating-r-with-plumber-apis/)
+
+## TidyTuesday
+
+No `#TidyTuesday` this week. Instead, you'll complete [this lab assignment](masks.html). It is due February 20 at 10pm ET.
+
