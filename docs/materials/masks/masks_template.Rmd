@@ -24,7 +24,7 @@ output:
   gs4_deauth()
 ```
 
-What can we say about mask mandates and SARS-CoV-2 transmission at the county level? That's out motivating question. In exploring this question, you'll have an opportunity to put your accumulated R knowledge to work. You'll import data, join tables, transform variables, work with strings and factors, and more.
+What can we say about mask mandates and SARS-CoV-2 transmission at the county level? That's our motivating question. In exploring this question, you'll have an opportunity to put your accumulated R knowledge to work. You'll import data, join tables, transform variables, work with strings and factors, and more.
 
 # Data
 
