@@ -593,7 +593,7 @@ class: left, hide_logo
 We pass our `plot_bill_length()` function to the `purrr:map()` function. It iterates over the vector `c("Adelie", "Gentoo", "Chinstrap")` to produce three plots.
 
 ```{r, eval=FALSE}
-`map`(c("Adelie", "Gentoo", "Chinstrap"), ~ `plot_bill_length(.)`)
+map(c("Adelie", "Gentoo", "Chinstrap"), ~ plot_bill_length(.))
 ```
 
 `~` is pronounced "twiddle"
