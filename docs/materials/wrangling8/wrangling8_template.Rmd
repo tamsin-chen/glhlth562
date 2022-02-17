@@ -1,0 +1,188 @@
+---
+title: "Data Wrangling"
+subtitle: "Iteration"
+css: custom_report.css
+output: 
+  bookdown::html_document2:
+    toc: true
+    toc_float: true
+    toc_depth: 1
+    code_folding: show
+    theme: default
+    highlight: tango
+    fig_captions: no
+    number_sections: false
+---
+
+```{r setup, include=FALSE, warning = FALSE, message = FALSE}
+  knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
+  options(scipen=999) # turns off scientific notation
+
+# define colors
+  glhlth562_colors <- c(
+    `blue`       = "#1f9ac9",
+    `yellow`     = "#ffd966",
+    `black`      = "#000000",
+    `lightgrey`  = "#D3D3D3",
+    `darkgrey`   = "#444444",
+    `grey`       = "#808080"
+  )
+
+# load packages
+  library(tidyverse)
+  library(palmerpenguins)
+  library(broom)
+```
+
+# Iteration
+
+
+
+## It might even be in your present
+
+Take this example, but imagine you want 3 separate plots, not facets.
+
+```{r}
+ggplot(penguins, 
+       aes(x = bill_length_mm)) +
+  geom_histogram() +
+  facet_wrap(~species, nrow = 3) + 
+  theme_bw() +
+  theme(plot.title = 
+          element_text(face="bold"))
+```
+
+## Copy/paste with few changes
+
+```{r}
+p1 <- penguins %>% filter(species == "Adelie") %>%
+  ggplot(aes(x = bill_length_mm)) + geom_histogram() + 
+  labs(x = "Bill length (mm)", y = NULL,
+       title = "Distribution of bill length among Adelie penguins") +
+  theme_bw() + theme(plot.title = element_text(face="bold"))
+
+p2 <- penguins %>% filter(species == "Gentoo") %>%
+  ggplot(aes(x = bill_length_mm)) + geom_histogram() +
+  labs(x = "Bill length (mm)", y = NULL,
+       title = "Distribution of bill length among Gentoo penguins") +
+  theme_bw() + theme(plot.title = element_text(face="bold"))
+
+p3 <- penguins %>% filter(species == "Chinstrap") %>%
+  ggplot(aes(x = bill_length_mm)) + geom_histogram() + 
+  labs(x = "Bill length (mm)", y = NULL,
+       title = "Distribution of bill length among Chinstrap penguins") +
+  theme_bw() + theme(plot.title = element_text(face="bold"))
+```
+
+## Here's a function to create these plots
+
+```{r}
+plot_bill_length <- function(penguin_species) {
+  
+  penguins %>%
+    filter(species == penguin_species) %>%
+    ggplot(aes(x = bill_length_mm)) +
+    geom_histogram() + 
+    labs(x = "Bill length (mm)",
+         y = NULL,
+         title = glue::glue("Distribution of bill length among",
+                            penguin_species,
+                            "penguins",
+                            .sep = " ")) +
+    theme_bw() +
+      theme(plot.title = element_text(face="bold"))
+}
+```
+
+## Give into writing functions
+
+```{r}
+p1 <- plot_bill_length(penguin_species = "Adelie")
+p2 <- plot_bill_length(penguin_species = "Gentoo")
+p3 <- plot_bill_length(penguin_species = "Chinstrap")
+```
+
+
+## Let's break this down
+
+```{r, eval=FALSE}
+plot_bill_length <- function(penguin_species) {
+  
+  penguins %>%
+    filter(species == penguin_species) %>%
+    ggplot(aes(x = bill_length_mm)) +
+    geom_histogram() + 
+    labs(x = "Bill length (mm)",
+         y = NULL,
+         title = glue::glue("Distribution of bill length among",
+                            penguin_species,
+                            "penguins",
+                            .sep = " ")) +
+    theme_bw() +
+      theme(plot.title = element_text(face="bold"))
+}
+```
+
+## For loops + functions
+
+```{r}
+for (`s` in c("Adelie", "Gentoo", "Chinstrap")) {
+  print(plot_bill_length(penguin_species = `s`))
+  # alternatively ggsave(filename = glue::glue(s, ".png"))
+}
+```
+
+## Here's a basic for loop setup
+
+Compute the mean of every column in mtcars
+
+```{r}
+output <- vector("double", ncol(mtcars))
+names(output) <- names(mtcars)
+for (i in names(mtcars)) {
+  output[i] <- mean(mtcars[[i]])
+}
+
+output
+```
+
+## Evergreen sidenote: There are usually many pathways from A to B
+
+```{r}
+mtcars %>%
+  summarise_all(mean)
+```
+
+## Here's an example
+
+
+```{r}
+`map`(c("Adelie", "Gentoo", "Chinstrap"), ~ `plot_bill_length(.)`)
+```
+
+## Anonymous functions
+
+```{r}
+map_dbl(mtcars, ~ length(unique(.x)))
+```
+
+### Passing arguments with `...`
+
+```{r}
+x <- list(1:5, c(1:10, NA))
+x
+map_dbl(x, mean, na.rm = TRUE)
+```
+
+
+## A typical use case
+
+```{r}
+mtcars %>%
+  group_by(cyl) %>%
+  nest() %>%
+  mutate(results = map(.x = data, ~ lm(mpg ~ wt, data = .x) %>% tidy())) %>%
+  unnest(cols = results) %>%
+  filter(term=="wt")
+```
+
