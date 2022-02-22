@@ -31,8 +31,8 @@ We'll screen the 2020 film, ["Coded Bias"](https://www.imdb.com/title/tt11394170
 
 ## Prepare
 
-* `r emo::ji("open_book")`: [R4DS Chapter 22 21](https://r4ds.had.co.nz/model-intro.html)
-* `r emo::ji("open_book")`: [R4DS Chapter 23 21](https://r4ds.had.co.nz/model-basics.html)
+* `r emo::ji("open_book")`: [R4DS Chapter 22](https://r4ds.had.co.nz/model-intro.html)
+* `r emo::ji("open_book")`: [R4DS Chapter 23](https://r4ds.had.co.nz/model-basics.html)
 
 ## During Class
 
