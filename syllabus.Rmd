@@ -49,7 +49,7 @@ We'll finish the course with some topics of my choosing. Maybe we'll explore map
 | 6 | Feb 15 | Data wrangling | Dates and times |
 | 6 | Feb 17 | Data wrangling | Iteration |
 | 7 | Feb 22 | Models | Data science ethics |
-| 7 | Feb 24 | Models | Modeling data |
+| 7 | Feb 24 | Models | Catch-up / Prepare for models |
 | 8 | Mar 1 | Models | Tidy models introduction, part 1 |
 | 8 | Mar 3 | Models | Tidy models introduction, part 2 |
 | 9 | Mar 15 | Communicating data science | Reproducible workflows |
