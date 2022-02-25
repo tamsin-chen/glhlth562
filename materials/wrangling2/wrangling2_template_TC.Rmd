@@ -1,0 +1,212 @@
+---
+title: "Data Wrangling"
+subtitle: "Data transformation"
+css: custom_report.css
+output: 
+  bookdown::html_document2:
+    toc: true
+    toc_float: true
+    toc_depth: 1
+    code_folding: show
+    theme: default
+    highlight: tango
+    fig_captions: no
+    number_sections: false
+---
+
+```{r setup, include=FALSE, warning = FALSE, message = FALSE}
+  knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
+  options(scipen=999) # turns off scientific notation
+
+# define colors
+  glhlth562_colors <- c(
+    `blue`       = "#1f9ac9",
+    `yellow`     = "#ffd966",
+    `black`      = "#000000",
+    `lightgrey`  = "#D3D3D3",
+    `darkgrey`   = "#444444",
+    `grey`       = "#808080"
+  )
+
+# load packages
+  library(nycflights13)
+  library(tidyverse)
+```
+
+# `filter()`
+
+FILTER OPERATES ON THE ROWS.
+SELECT OPERATES ON THE COLUMNS.
+
+`filter()` allows you to subset observations based on their values 
+
+## Find all flights that had an arrival delay of two or more hours
+
+These are all equivalent:
+* filter(flights, month == 1, day == 1)
+* filter(flights, month == 1 & day == 1)
+* flights %>% filter(month == 1, day == 1)
+
+Filter if missing or not missing:
+* filter(is.na(variable)) -- Give me all the records for which it is true that the given variable is N/A
+* filter(!is.na(variable)) -- Give me all the records for which it is true that the given variable is not N/A
+
+```{r}
+  flights %>% 
+    filter(arr_delay >= 120) # because 120 minutes in 2 hours
+```
+
+## Find all flights that flew to Houston (IAH or HOU)
+
+```{r}
+  flights %>% 
+    filter(dest == "IAH" | dest == "HOU")
+
+# which is equivalent to:
+  flights %>%
+    filter(dest %in% c("IAH", "HOU"))
+```
+
+## Find all flights that were operated by United, American, or Delta, but don't use the OR operator (`|`)
+
+```{r}
+  flights %>% 
+    filter(carrier %in% c("UA", "AA", "DC"))
+```
+
+## Find all flights that departed in summer (July, August, and September) using `between()`
+
+```{r}
+  flights %>%
+    filter(between(month, 6, 8)) # you can also put a manual vector of values instead of month, like "1:12"
+```
+
+# `arrange()`
+
+`arrange()` sorts the observations
+
+## How could you use arrange(dep_time) to sort all missing values to the start?
+
+`arrange()` always puts missing values at the end, even if you use `desc()`. The trick is to use `is.na()` because this evaluates to TRUE or FALSE. TRUE > FALSE in the default sorting.
+
+You can arrange by multiple things sequentially. E.g., arrange(flights, desc(year), month, day).
+
+```{r}
+# these put NA last
+  flights %>% arrange(dep_time) # arrange dep_time in ascending order (default)
+  flights %>% arrange(desc(dep_time)) # arrange dep_time in descending order
+  
+# make NA come first
+  flights %>% arrange(desc(is.na(dep_time)), dep_time) # This first arranges the data on the dep_time column to put NAs first, then in ascending order of dep_time.
+```
+
+## Sort flights to find the flights with the shortest flight time
+
+```{r}
+
+```
+
+# `select()`
+
+`select()` subsets the data by column
+
+## What does the `any_of()` function do? Why might it be helpful in conjunction with this vector? How is it different from `all_of()`?
+
+```{r}
+vars <- c("year", "month", "day", "dep_delay", "arr_delay")
+
+flights %>% 
+  select()
+
+select(flights, -(year:day)) # Select all the columns from flights except for the columns between year and day
+
+select(flights, -all_of("year")) # Select all columns except for "year"
+
+select(flights, any_of(vars)) # This can be helpful, compared to all_of, because it allows for missing values.
+
+select(flights, starts_with("arr")) # Select the columns whose variable names start with "arr"
+
+select(flights, contains("arr")) # Select the columns whose variable names contain "arr"
+```
+
+# `mutate()`
+
+`mutate()` adds new columns (or overwrites old ones) that are functions of existing columns
+
+```{r}
+flights %>%
+  select(year:day, ends_with("delay"), air_time) %>% 
+  mutate(
+    gain = dep_delay - arr_delay,
+    hours = air_time / 60,
+    gain_per_hour = gain / hours
+  )
+```
+
+## Find the 10 most delayed flights using a ranking function. How do you want to handle ties? Carefully read the documentation for min_rank().
+
+Jeffrey Arnold has a nice suggestion for working through this one:
+
+> The dplyr package provides multiple functions for ranking, which differ in how they handle tied values: row_number(), min_rank(), dense_rank(). To see how they work, let’s create a data frame with duplicate values in a vector and see how ranking functions handle ties.
+
+```{r}
+tibble(x = c(10, 5, 1, 5, 5)) %>%
+  mutate(
+    x_row_number = row_number(x),
+    x_min_rank = min_rank(x),
+    x_dense_rank = dense_rank(x)
+  ) %>%
+  arrange(x)
+```
+
+How could you use `arrange()` and `slice()`? Or `top_n()`? What about ties?
+
+```{r}
+flights %>%
+  arrange() %>%
+  slice()
+
+flights %>%
+  arrange() %>%
+  slice()
+```
+# `summarize()`
+
+`summarize()` collapses a data frame to a single summary row
+
+## Which carrier has the worst delays? Challenge: can you disentangle the effects of bad airports vs. bad carriers? Why/why not? (Hint: think about `flights %>% group_by(carrier, dest) %>% summarise(n())`)
+
+```{r}
+flights %>% 
+  group_by(carrier, dest) %>% # First group my data by combination of carrier and destination
+  summarise(n()) # Then summarize by counting frequencies
+```
+
+Carriers can experience days related to the airports they fly into and out of. One approach is to look at delays by route.
+
+```{r}
+flights %>%
+# calculate delays by route and carrier
+  filter(!is.na(arr_delay)) %>%    # ?? look just at records with data for arr_delay
+  group_by(carrier, origin, dest) %>%  # ?? we want to look at combinations of carrier and route
+  summarise(
+    arr_delay = sum(arr_delay),
+    flights = n()
+  ) %>%
+# calculate total delay by route
+  group_by(origin, dest) %>%  # ??
+  mutate(
+    arr_delay_total = sum(arr_delay),
+    flights_total = sum(flights)
+  ) 
+```
+If you fill in the blanks correctly you'll be part of the way to an answer. What are the remaining things you need to do?
+
+REMEMBER TO UNGROUP YOUR DATA AFTER GROUPING. If you create a new data frame by grouping and summarizing data, use the ungroup() function to get rid of the grouping. Your data frame will still look the way you want it to. This just allows R to continue calculating operations on your data as it looks, without the old groups.
+
+```{r}
+flights %>%
+  select(time_hour, tailnum, arr_delay) %>%
+  arrange(tailnum, desc(time_hour)) %>%
+  distinct(tailnum, .keep_all = TRUE)
+```

@@ -41,31 +41,49 @@ output:
 
 ```{r}
 gapminder %>% 
-  filter(str____(country, "_____"))
+  filter(str_detect(country, "ee"))
 ```
 
 ### whose names start with "South"
 
 ```{r}
 gapminder %>% 
-  filter(str____(country, "_____"))
+  filter(str_detect(country, "ee"))
+
+gapminder %>%
+  select(contains("co"))
+
+gapminder %>%
+  filter(str_starts(country, "South"))
+
+# or equivalently:
+gapminder %>%
+  filter(str_detect(country, "^South"))
 ```
 
 ### whose names end in "land"
 
 ```{r}
-
+gapminder %>%
+  filter(str_detect(country, "land$"))
 ```
 
 ### have a word in their name that starts with "Ga"
 
 ```{r}
+gapminder %>%
+  filter(str_detect(country, "Ga"))
 
+gapminder %>%
+  filter(str_detect(country, "\\bGa")) # "\b" is for word boundary
+
+# these happen to be equivalent in this case, but wouldn't necessarily be for all data.
 ```
 
 ### have punctuation in their name
 
 ```{r}
-
+gapminder %>%
+  filter(str_detect(country, "[:punct:]"))
 ```
 

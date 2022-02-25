@@ -1,0 +1,97 @@
+---
+title: "week03_class1"
+author: "tamsin-chen"
+date: "1/25/2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(readr)
+```
+
+# Week 3, class 1
+
+## R4DS Chapter 8
+
+Save R script as diamonds.R
+
+```{r save PDFs and CSVs straight from R}
+ggplot(diamonds, aes(carat, price)) + 
+  geom_hex()
+ggsave("diamonds.pdf")
+
+write_csv(diamonds, "diamonds.csv")
+```
+
+## R4DS Chapter 10
+
+Tibbles are part of the core of the tidyverse package.
+Tibbles are data frames, but they tweak some of the older behavior of normal data frames in R.
+
+```{r coerce data into tibbles}
+as_tibble(iris)
+#> # A tibble: 150 x 5
+#>   Sepal.Length Sepal.Width Petal.Length Petal.Width Species
+#>          <dbl>       <dbl>        <dbl>       <dbl> <fct>  
+#> 1          5.1         3.5          1.4         0.2 setosa 
+#> 2          4.9         3            1.4         0.2 setosa 
+#> 3          4.7         3.2          1.3         0.2 setosa 
+#> 4          4.6         3.1          1.5         0.2 setosa 
+#> 5          5           3.6          1.4         0.2 setosa 
+#> 6          5.4         3.9          1.7         0.4 setosa 
+#> # … with 144 more rows
+```
+
+```{r create tibble manually from vectors}
+tibble(
+  x = 1:5, 
+  y = 1, 
+  z = x ^ 2 + y
+)
+#> # A tibble: 5 x 3
+#>       x     y     z
+#>   <int> <dbl> <dbl>
+#> 1     1     1     2
+#> 2     2     1     5
+#> 3     3     1    10
+#> 4     4     1    17
+#> 5     5     1    26
+```
+
+```{r compare and contrast tibbles and data frames}
+df <- data.frame(abc = 1, xyz = "a")
+df$x
+df[, "xyz"]
+df[, c("abc", "xyz")]
+
+# The two main differences between tibbles and data frames are (1) HOW THEY PRINT and (2) HOW THEY SUBSET DATA.
+```
+
+```{r transposed tibbles, or tribbles}
+tribble(
+  ~x, ~y, ~z,
+  #--|--|----
+  "a", 2, 3.6,
+  "b", 1, 8.5
+)
+#> # A tibble: 2 x 3
+#>   x         y     z
+#>   <chr> <dbl> <dbl>
+#> 1 a         2   3.6
+#> 2 b         1   8.5
+```
+
+## Importing / reading in data
+
+* read_csv() reads comma delimited files
+* read_csv2() reads semicolon separated files (common in countries where , is used as the decimal place)
+* read_tsv() reads tab delimited files
+* read_delim() reads in files with any delimiter
+* read_csv(".csv", skip = 2) skips two rows of data (for headers etc. you don't want)
+* read_csv(".csv", colnames = FALSE) for data with no column names; R will automatically label them X1-Xn
+* read_csv(".csv", na = ".") tells R how N/A values are represented in the csv file you are loading in (in this case, periods)
+
+[Cheat sheet](file:///Users/macbook4/Downloads/data-import.pdf)
+

@@ -1,0 +1,176 @@
+---
+title: "Data Visualization"
+subtitle: "Small multiples and patchwork"
+css: custom_report.css
+output: 
+  bookdown::html_document2:
+    toc: true
+    toc_float: true
+    toc_depth: 1
+    code_folding: show
+    theme: default
+    highlight: tango
+    fig_captions: no
+    number_sections: false
+---
+
+```{r setup}
+#| include = FALSE, 
+#| warning = FALSE, 
+#| message = FALSE
+
+  knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
+  
+# load packages
+  library(tidyverse)
+  library(patchwork)
+  library(socviz)
+  library(gapminder)
+  library(palmerpenguins)
+```
+
+```{r design, include=FALSE}
+# define colors
+  glhlth562_colors <- c(
+    `blue`       = "#1f9ac9",
+    `yellow`     = "#ffd966",
+    `black`      = "#000000",
+    `lightgrey`  = "#D3D3D3",
+    `darkgrey`   = "#444444",
+    `grey`       = "#808080"
+  )
+  
+  options(scipen=999) # turns off scientific notation
+```
+ 
+# Your data are probably grouped
+
+```{r grouped}
+ggplot(data = gapminder,
+       mapping = aes(x = year,
+                     y = gdpPercap)) +
+  geom_line() 
+```
+
+
+```{r grouped-yourturn}
+
+```
+
+# You probably need more than one plot
+
+```{r need}
+ggplot(data = gapminder,
+       mapping = aes(x = year,
+                     y = gdpPercap)) +
+  geom_line(aes(group = country)) 
+```
+
+Difference between group = and group_by(). We use the group = argument when plotting, telling ggplot that our data are grouped. On the other hand, group_by() is a function that we use to transform a data frame.
+
+```{r need-yourturn}
+ggplot(data = gapminder,
+       mapping = aes(x = year,
+                     y = gdpPercap)) +
+  geom_line(aes(group = country))
+```
+
+
+# `facet_wrap()`
+
+```{r wrap}
+ggplot(gapminder, aes(x = year, 
+                      y = gdpPercap)) + 
+  geom_line(color="gray70", aes(group = country)) +
+  geom_smooth(size = 1.1, method = "loess", se = FALSE) + # Here, we are using LOESS for smoothing.
+  scale_y_log10(labels=scales::dollar) +
+  facet_wrap(~ continent, ncol = 5) + # The ~ sign in R is a formula. A data structure in R.
+  labs(x = "Year",
+       y = "GDP per capita",
+       title = "GDP per capita on Five Continents")
+
+# Plot all your data!! Don't do so much data summary that you can't get a sense of what the underlying data look like.
+```
+
+```{r wrap-yourturn}
+ggplot(gapminder, aes(x = year, 
+                      y = gdpPercap)) + 
+  geom_line(color="gray70", aes(group = country)) +
+  geom_smooth(size = 1.1, method = "loess", se = FALSE) + # Here, we are using LOESS for smoothing.
+  scale_y_log10(labels=scales::dollar) +
+  facet_wrap(~ country, nrow = 5) +
+  labs(x = "Year",
+       y = "GDP per capita",
+       title = "GDP per capita on Five Continents")
+```
+
+# `facet_grid()`
+
+```{r grid}
+ggplot(gss_sm,
+       aes(x = age, y = childs)) + 
+  geom_point(alpha = 0.2) +
+  geom_smooth() +
+  facet_grid(sex ~ race)
+```
+
+```{r grid-yourturn}
+ggplot(gss_sm,
+       aes(x = age, y = childs)) + 
+  geom_point(alpha = 0.7, size = 5) +
+  # geom_smooth() +
+  facet_grid(race ~ sex)
+```
+
+# Arrange multiple plots with patchwork
+
+```{r patch}
+p1 <- ggplot(data = penguins, aes(x = flipper_length_mm)) +
+  geom_histogram(aes(fill = species),
+                 alpha = 0.5,
+                 position = "identity") +
+  scale_fill_manual(values = c("darkorange","purple","cyan4")) +
+  theme_minimal() +
+  labs(x = "Flipper length (mm)",
+       y = "Frequency",
+       title = "Plot 1") 
+
+p2 <- ggplot(data = penguins, aes(x=species, 
+                                  y = flipper_length_mm, 
+                                  fill=species)) +
+  geom_violin() + 
+  scale_fill_manual(values = c("darkorange","purple","cyan4")) +
+  theme_minimal() +
+  labs(y = "Flipper length (mm)",
+       x = NULL,
+       title = "Plot 2") + 
+  theme(legend.position = "none")
+
+p3 <- ggplot(penguins, aes(x = species)) +
+  geom_bar(alpha = 0.8) +
+  theme_minimal() +
+  labs(title = "Plot 3")
+
+p4 <- penguins %>%
+  remove_missing() %>% group_by(species) %>% 
+  summarise(mean_bmg = mean(body_mass_g)) %>%
+  ggplot() +
+    geom_segment(aes(x = 0, xend = mean_bmg,
+                     y = reorder(species, mean_bmg),
+                     yend = reorder(species, mean_bmg)),
+                 color = "grey", size = 2) +
+    geom_point(aes(y = reorder(species, mean_bmg), x = mean_bmg),
+               size = 5, color = "darkorange") +
+    labs(x = NULL, y = NULL, title = "Plot 4", 
+         subtitle = "Average body mass (g) by species") +
+    theme_minimal() +
+    theme(plot.title = element_text(face="bold"),
+          plot.title.position = "plot")
+```
+
+```{r patch-yourturn}
+# you don't need to copy above code
+# just start arranging plots (p1 to p4) with patchwork
+(p1 | p2) / (p3 | p4)
+```
+

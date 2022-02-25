@@ -1,0 +1,300 @@
+---
+title: "week01_class2"
+author: "tamsin-chen"
+date: "1/12/2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Week 1, class 2
+
+## R4DS Chapter 3
+
+R4DS Chapter 3 focuses on ggplot2, one of the core members of the tidyverse. First, load the tidyverse.
+
+```{r cars}
+library(tidyverse)
+```
+
+### Plotting engine size by fuel efficiency using ggplot
+
+```{r pressure, echo=FALSE}
+ggplot(data = mpg) + geom_point(mapping = aes(x = displ, y = hwy))
+```
+
+The plot shows a negative relationship between engine size and fuel efficiency. In other words, cars with big engines use more fuel.
+
+ggplot() creates a coordinate system you can add layers to. The first argument of ggplot() is the dataset to use in the graph. So ggplot(data = mpg) creates an empty graph.
+
+```{r}
+ggplot(data = mpg)
+```
+
+geom_point() tells ggplot you want a scatterplot. Each geom() function takes a mapping argument. This defines how variables in your dataset are mapped to visual properties. The mapping argument is always paired with aes(), and the x and y arguments of aes() specify which variables to map to the x and y axes.
+
+The template is always:
+  ggplot(data = <DATA>) + <GEOM_FUNCTION>(mapping = aes(<MAPPINGS>))
+  
+The rows in mpg are the different cars. There are as many cars as there are points in the scatterplot above. Using view(mpg) to browse the dataset, we can see there are 234 cars. The columns are the engine size and fuel efficiency of each car (so a total of three columns, where the first is some ID for the car).
+
+```{r}
+view(mpg)
+```
+
+What does the drv variable describe? 
+
+```{r}
+?mpg
+```
+
+According to ?mpg, drv refers to the type of drive train, where f = front-wheel drive, r = rear-wheel drive, 4 = four-wheel drive.
+
+Make a scatterplot of hwy vs cyl.
+
+```{r}
+ggplot(data = mpg) + geom_point(mapping = aes(x = hwy, y = cyl))
+ggplot(data = mpg) + geom_point(mapping = aes(x = class, y = drv))
+```
+The first graph shows us that vehicles with more cylinders tend to have lower fuel efficiency. The second graph has far fewer points. There are only 12 distinct combinations of vehicle class and type of drive.
+
+```{r}
+ggplot(data = mpg) + geom_point(mapping = aes(x = displ, y = hwy, color = class))
+```
+
+With the above code, ggplot2 automatically assigns a unique level of the aesthetic (here, a unique color) to each unique value of the variable, a process known as scaling. ggplot2 will also add a legend that explains which levels correspond to which values.
+
+```{r}
+ggplot(data = mpg) + geom_point(mapping = aes(x = displ, y = hwy, size = class))
+ggplot(data = mpg) + geom_point(mapping = aes(x = displ, y = hwy, alpha = class))
+ggplot(data = mpg) + geom_point(mapping = aes(x = displ, y = hwy, shape = class))
+```
+```{r}
+ggplot(data = mpg) + geom_point(mapping = aes(x = displ, y = hwy), color = "blue")
+ggplot(data = mpg) + geom_point(mapping = aes(x = displ, y = hwy), size = 0.5)
+ggplot(data = mpg) + geom_point(mapping = aes(x = displ, y = hwy), shape = 11)
+ggplot(data = mpg) + geom_point(mapping = aes(x = displ, y = hwy), stroke = 5)
+ggplot(data = mpg) + geom_point(mapping = aes(x = displ, y = hwy, color = displ < 5))
+```
+
+### Facets
+
+Facets are subplots that each display one subset of the data. The following code facets the plot by a single variable. To facet the plot by a combination of two variables, use facet_grid().
+Note that in the facet_grid() examples, the syntax is (row~ column), and we should always put the variable with more unique levels in the columns (e.g., put cylinder in the columns and drive in the rows).
+
+```{r}
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy)) + 
+  facet_wrap(~class, nrow = 2)
+
+ggplot(data = mpg) +
+  geom_point(mapping = aes(x = displ, y = hwy)) +
+  facet_grid(drv ~ cyl)
+
+ggplot(data = mpg) +
+  geom_point(mapping = aes(x = displ, y = hwy)) +
+  facet_grid(. ~ cyl)
+
+ggplot(data = mpg) +
+  geom_point(mapping = aes(x = displ, y = hwy)) +
+  facet_wrap(~cyl, nrow = 1)
+
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy)) +
+  facet_grid(drv ~ .)
+```
+
+### Geoms
+
+When layering multiple geoms, you can specify your data and mappings at the level of the entire plot or for each geom.
+
+```{r}
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy))
+
+ggplot(data = mpg) + 
+  geom_smooth(mapping = aes(x = displ, y = hwy))
+
+ggplot(data = mpg, mapping = aes(x = displ, y = hwy)) + 
+  geom_point() + 
+  geom_smooth()
+
+ggplot() + 
+  geom_point(data = mpg, mapping = aes(x = displ, y = hwy)) + 
+  geom_smooth(data = mpg, mapping = aes(x = displ, y = hwy))
+```
+
+More layering of geoms:
+
+```{r}
+ggplot(data = mpg) +
+  geom_smooth(mapping = aes(x = displ, y = hwy, linetype = drv))
+
+ggplot(data = mpg, mapping = aes(x = displ, y = hwy)) +
+  geom_point() +
+  geom_smooth()
+
+ggplot(data = mpg, mapping = aes(x = displ, y = hwy)) +
+  geom_point(mapping = aes(color = class)) +
+  geom_smooth(data = filter(mpg, class == "subcompact"), se = FALSE)
+
+ggplot(data = mpg, mapping = aes(x = displ, y = hwy, color = drv)) + 
+  geom_point() + 
+  geom_smooth(se = FALSE)
+
+ggplot(data = mpg, mapping = aes(x = displ, y = hwy)) +
+  geom_point(size = 4) +
+  geom_smooth(se = FALSE)
+
+ggplot(data = mpg, mapping = aes(x = displ, y = hwy)) +
+  geom_point(size = 4) +
+  geom_smooth(mapping = aes(group = drv), se = FALSE)
+
+ggplot(data = mpg, mapping = aes(x = displ, y = hwy)) +
+  geom_point(mapping = aes(color = drv), size = 4) +
+  geom_smooth(mapping = aes(group = drv, color = drv), se = FALSE)
+
+ggplot(data = mpg, mapping = aes(x = displ, y = hwy)) +
+  geom_point(mapping = aes(color = drv), size = 4) +
+  geom_smooth(mapping = aes(group = drv, color = drv, linetype = drv), se = FALSE)
+```
+
+### Stats
+
+Each geom performs an underlying statistical transformation to the data. Every geom has a default stat and every stat has a default geom. The two pieces of code below produce the same graph.
+
+```{r}
+ggplot(data = diamonds) +
+  geom_bar(mapping = aes(x = cut))
+
+ggplot(data = diamonds) +
+  stat_count(mapping = aes(x = cut))
+```
+
+You can override the default stat for a geom if you like. The first graph below plots proportions instead of counts. The second plots median, min and max.
+
+```{r}
+ggplot(data = diamonds) +
+  geom_bar(mapping = aes(x = cut, y = stat(prop), group = 1))
+
+ggplot(data = diamonds) + 
+  stat_summary(
+    mapping = aes(x = cut, y = depth),
+    fun.min = min,
+    fun.max = max,
+    fun = median
+  )
+```
+
+### Position adjustments
+
+```{r}
+ggplot(data = diamonds) + 
+  geom_bar(mapping = aes(x = cut, fill = clarity))
+
+ggplot(data = diamonds, mapping = aes(x = cut, fill = clarity)) + 
+  geom_bar(alpha = 1/5, position = "identity")
+
+ggplot(data = diamonds, mapping = aes(x = cut, color = clarity)) + 
+  geom_bar(fill = NA, position = "identity")
+
+ggplot(data = diamonds) + 
+  geom_bar(mapping = aes(x = cut, fill = clarity), position = "fill")
+
+ggplot(data = diamonds) + 
+  geom_bar(mapping = aes(x = cut, fill = clarity), position = "dodge")
+
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy), position = "jitter")
+```
+
+### Coordinate systems
+
+coord_flip() switches the x and y axes, which can be useful for horizontal boxplots or long labels.
+coord_polar() uses polar coordinates.
+
+```{r}
+ggplot(data = mpg, mapping = aes(x = class, y = hwy)) + 
+  geom_boxplot()
+
+ggplot(data = mpg, mapping = aes(x = class, y = hwy)) + 
+  geom_boxplot() +
+  coord_flip()
+
+bar <- ggplot(data = diamonds) + 
+  geom_bar(
+    mapping = aes(x = cut, fill = cut),
+    show.legend  = FALSE,
+    width = 1
+  ) + 
+  theme(aspect.ratio = 1) +
+  labs(x = NULL, y = NULL)
+
+bar + coord_flip()
+bar + coord_polar()
+```
+
+### Summary: The layered grammar of graphics
+
+Code template:
+
+ggplot(data = <DATA>) +
+  <GEOM_FUNCTION>(
+    mapping = aes(<MAPPINGS>),
+    stat = <STAT>,
+    position = <POSITION>
+  ) +
+  <COORDINATE_FUNCTION> +
+  <FACET_FUNCTION>
+
+
+## "Reporting on and visualizing the pandemic" by FT's John Burn-Murdoch
+
+Lesson 1. Title and annotation help non-chart people get the main takeaway of the data
+
+Lesson 2. The smartest version of a chart is not always the clearest version of a chart
+
+Using a lot of visual bandwidth to plot on a linear y-axis rather than log y-axis. Use a log scale to free up reader's mental bandwidth. They can already take for granted that the virus spreads exponentially - we all know that.
+
+Lesson 3. Information visualization is personal and often political.
+
+E.g., people wondered whether use of log scale was intentionally trying to downplay pandemic.
+
+Lesson 4. Stay in touch with your audience. Provide a twitter handle etc. for immediate feedback on a viz.
+
+Lesson 5. Ease of understanding has to come first.
+
+E.g., spline vs. rolling average
+
+## SOCVIZ Chapter 5
+
+### Pipes
+
+```{r}
+library(dplyr)
+```
+
+It can be easy to lose track of what we're plotting when we stuff all the data transformations and instructions into the mapping function. Instead, we can calculate the frequency table we want first, then plot that table.
+
+The pipe operator (%>%) helps us perform the actions that get us from one table to the next. In our pipeline, we can do a number of different functions from the dplyr library, including:
+group_by()
+  filter() (for rows)
+  select() (for columns)
+  mutate(), which adds columns to the table without aggregating it
+  summarize(), which creates new variables at a higher level of grouping
+
+## Class on 1/13/22
+
+Last class, we talked about the idea of tidy data. We introduced tidy data very briefly.
+
+The tidyverse is a collection of packages.
+A package is a collection of functions.
+Folks at RStudio have been at the forefront of creating tidyverse.
+People might ask: "Are you using tidyverse or Base R?" It's the package we load that contains a bunch of packages.
+dplyr is one package we will be doing a deep dive on in a few weeks.
+
+Housekeeping:
+- Save materials from class in the "materials" folder.
+- Make sure that the upper-right corner of RStudio screen is pointing to the glhlth562 project. Everything will be saved there. (By contrast to Stata, where we always have to cd into directories, we just specify the project in the top-right corner.)

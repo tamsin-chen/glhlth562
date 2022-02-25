@@ -1,0 +1,130 @@
+---
+title: "week02_class1"
+author: "tamsin-chen"
+date: "1/18/2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+```
+
+# Week 2, class 1
+
+## Trying out geoms on my own
+
+Search Twitter again for more #TidyTuesday Week 2 (bees) entries. Find examples of at least 3 different geoms used in #TidyTuesday charts and write down the names of these geoms.
+
+From [ocean-v](https://github.com/ocean-v/my_tidytuesday/blob/main/2022_Week_02_code.r) [original twitter post](https://twitter.com/pat_macro/status/1483457396572037124)):
+* geom_sf visualizes sf objects. An sf object is a collection of simple features that includes attributes and geometries in the form of a dataframe.
+* geom_scatterpie was not in the ggplot2 geom dictionary. Someone developed a scatter pie plot package that plots multiple pie charts in a geometric arrangement.
+
+From [NicciPotts](https://github.com/NicciPotts/tidytuesday/blob/main/bees.R) ([original twitter post](https://twitter.com/nicci_potts/status/1481713459939229704)):
+* geom_polygon to create hexagonal honeycomb-like shapes with a fill.
+* geom_text is useful for labeling plots (e.g., labeling data points or annotating the height of bars). geom_text adds only text; geom_label adds a rectangle behind the text.
+* geom_segment draws a straight line between (x, y) and (xend, yend).
+
+From [efranke22](https://github.com/efranke22/tidytuesday/blob/main/2022/bees_week2.Rmd) ([original twitter post](https://twitter.com/efranke7282/status/1481039935834570755)):
+* geom_hline adds reference lines to a plot; useful for annotating.
+* geom_curve draws a curved line.
+* geom_jitter is a convenient shortcut for geom_point(position = "jitter"). It adds a small amount of random variation to the location of each point, and is a useful way of handling overplotting caused by discreteness in smaller datasets.
+
+Load in data:
+```{r}
+tuesdata <- tidytuesdayR::tt_load('2022-01-11')
+colony <- tuesdata$colony
+stressor <- tuesdata$stressor
+```
+
+Prep data:
+```{r}
+# removing relevant missing values from colony
+colony <- colony %>% filter(!is.na(colony_lost))
+colony <- colony %>% filter(!is.na(colony_added))
+colony <- colony %>% filter(colony_n<10000)
+```
+
+Try out geoms:
+```{r}
+# geom_jitter()
+plot1<- ggplot(colony, aes(x = colony_lost, y = colony_added)) +
+  geom_jitter()
+
+plot1
+
+# geom_segment()
+plot2 <- plot1 +
+  geom_segment(aes(x = 5000, y = 5000, xend = 10000, yend = 10000))
+
+plot2
+
+# geom_hline() and geom_vline()
+plot3 <- plot2 +
+  geom_hline(yintercept = 2000) +
+  geom_vline(xintercept = 2000)
+
+plot3
+```
+
+## ggplot2 tutorial
+
+Check version of ggplot2 and load it in.
+```{r}
+packageVersion("ggplot2")
+library(ggplot2)
+```
+
+Check out the preloaded mtcars dataframe.
+```{r}
+# see first six lines
+head(mtcars)
+# see structure of data
+str(mtcars)
+```
+
+Boxplots
+```{r}
+ggplot(data = mtcars, aes(x = factor(cyl), y = mpg)) +
+  geom_boxplot()
+# The x-axis variable is usually a categorical variable for boxplots. We turn cyl into a categorical variable using factor().
+```
+
+Mapping aesthetics to continuous variables
+```{r}
+# Aesthetics are usually mapped to categorical variables (e.g., linetype = stressor, or shape = stressor). But you can map color and size to continuous variables.
+ggplot(mtcars, aes(x = wt, y = mpg, size = disp)) +
+  geom_point()
+```
+
+Mapping aesethetics globally, for specific geoms, and inside/outside of aesthetics
+```{r}
+# Generally, if you are mapping an aesthetic to a variable from your dataset, you do it inside aes(), but if you are setting an aesthetic to a constant value, you do it outside aes().
+ggplot(mtcars, aes(x = factor(cyl), y = mpg, color = factor(cyl))) +
+    geom_boxplot() +
+    geom_point(color = "purple")
+```
+
+Layering geoms with transparency
+```{r}
+# The last geom coded is the one that lies on top of the whole plot.
+# You can change the alpha value to make geoms transparent so they are more visible on top of one another.
+ggplot(mtcars, aes(x = mpg, fill = am) ) +
+    geom_histogram() + 
+    geom_density(aes(y = after_stat(count) ), alpha = 0.2)
+```
+
+Facets
+Have to fix something here re: manipulating the mtcars dataframe manually first before plotting.
+```{r}
+# Setting different x-axis scales for different facets.
+ggplot(mtcars, aes(x = wt, y = mpg) ) +
+    geom_point() +
+    facet_wrap(~numcyl, scales = "free_x")
+```
+
+## Tidy Tuesday tips
+* eval false! Allows you to knit the .rmd by skipping over a piece of code that you know is not going to run.
+* Grading is flexible... An 'A' looks different for different people.
+
+

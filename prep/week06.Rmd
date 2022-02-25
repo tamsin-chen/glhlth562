@@ -1,0 +1,38 @@
+---
+title: "week06"
+author: "tamsin-chen"
+date: "2/15/2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(lubridate) # even though lubridate is part of tidyverse, it's not loaded by default in tidyverse
+```
+
+# Week 6
+
+```{r}
+
+d1 <- "January 1, 2010"
+d2 <- "2015-Mar-07"
+d3 <- "06-Jun-2017"
+d4 <- c("August 19 (2015)", "July 1 (2015)")
+d5 <- "12/30/14"
+
+mdy(d1) # [1] "2010-01-01"
+ymd(d2) # [1] "2015-03-07"
+dmy(d3) # [1] "2017-06-06"
+mdy(d4) # [1] "2015-08-19" "2015-07-01"
+mdy(d5) # [1] "2014-12-30"
+
+make_date(year, month, day))
+```
+
+NOTES FROM 2/15 CLASS:
+No hard requirement to do one figure, three figures, etc.
+It's just an opportunity to show that you've amassed some knowledge of what we've covered so far (aside from iteration).
+
+FOR FINAL PROJECT:
+Eric's preference is to work in teams. The team results tend to be a little more creative, take a few more risks.

@@ -1,0 +1,135 @@
+---
+title: "#TidyTuesday"
+subtitle: "Class Week 1 / TT Week 2"
+author: "Tamsin Chen"
+css: custom_report.css
+output: 
+  bookdown::html_document2:
+    toc: true
+    toc_float: true
+    toc_depth: 1
+    code_folding: show
+    theme: default
+    highlight: tango
+    fig_captions: no
+    number_sections: false
+---
+
+```{r setup, include=FALSE, warning = FALSE, message = FALSE}
+  knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
+  options(scipen=999) # turns off scientific notation
+
+# load packages
+  library(tidyverse)
+  library(tidytuesdayR)   # install.packages("tidytuesdayR") to get new data each week
+
+# load data
+  tuesdata <- tidytuesdayR::tt_load('2022-01-11')
+  
+  colony <- tuesdata$colony
+  stressor <- tuesdata$stressor
+
+# clean data (optional: tidy tuesday provides clean data)
+  
+```
+
+# Exploration
+
+I want to explore how the percent of bee colonies affected by different kinds of stressors might change over time. For my first TT project, I will focus on one state (New York) to build my confidence in R.
+
+```{r data prep}
+# correct a typo in the stressor dataframe
+stressor[stressor == "Disesases"] <- "Diseases"
+
+# create a dataframe containing just the New York data
+ny_stressor <- stressor %>% filter(state=="New York")
+
+# rename the month ranges to quarters
+ny_stressor <- ny_stressor %>%
+  mutate(
+    quarter = case_when(
+      months=="January-March" ~ "Q1",
+      months=="April-June" ~ "Q2",
+      months=="July-September" ~ "Q3",
+      months=="October-December" ~ "Q4"
+    )
+  )
+
+# create another dataframe, ny_stressor_annual, that averages stress_pct by year and stressor
+ny_stressor_annual <- ny_stressor %>%
+                      filter(!is.na(stress_pct)) %>%
+                      group_by(year, stressor) %>%
+                      summarize(mean_stress_pct = mean(stress_pct))
+```
+
+
+Below, I start with a line graph where the x-axis is time in quarters and y-axis is percent of bee colonies affected by a given stressor, with the different stressors plotted in different colors. I then try a faceted version of the line graph (faceted by stressor). Finally, I try aggregating data by year-stressor combinations to simplify my original line graph, which I thought looked a bit too busy.
+
+Referring to [this help article](https://ggplot2.tidyverse.org/articles/articles/faq-axes.html#how-can-i-add-multi-row-axis-labels-with-a-grouping-variable), I use the interaction() function to plot quarter-year combinations on the x-axis.
+
+I also referred to [this Stack Overflow post](https://stackoverflow.com/questions/9617629/connecting-across-missing-values-with-geom-line) for help on connecting over missing data in a line graph.
+
+I had trouble formatting the x-axis in plot1 and plot2. Ideally, I would have displayed x-axis tick labels for all quarters and just unique years (similar to Prof Green's example in class 2), but I had trouble applying Prof Green's technique to my interaction() x-axis. As a temporary workaround, I angled the x-axis tick labels and adjusted text size.
+
+```{r plot}
+# create first plot using using geom_line()
+plot1 <- ggplot(ny_stressor[!is.na(ny_stressor$stress_pct),], aes(x = interaction(quarter, year), y = stress_pct, group = stressor, color = stressor)) +
+  geom_line() +
+  labs(title = "Varroa mites consistently the biggest cause of stress in New York bees",
+       subtitle = "Percent of bee colonies affected by stressor at any time during the quarter",
+       y = NULL,
+       x = NULL,
+       caption = "Source: U.S. Department of Agriculture") +
+  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1, size = 6)) +
+  scale_y_continuous(labels = scales::label_percent(scale = 1, accuracy = 1))
+
+plot1
+
+# create a faceted version of the plot
+plot2 <- plot1 + 
+  facet_wrap(~stressor) +
+  theme(axis.text.x = element_text(angle = 90, vjust = 1, hjust = 1, size = 4))
+
+plot2
+
+# create a simplified version of plot1, using averages of stress_pct by year and stressor
+plot3 <- ggplot(ny_stressor_annual, aes(x = year, y = mean_stress_pct, group = stressor, color = stressor)) +
+  geom_line() +
+  labs(title = "Varroa mites consistently the biggest cause of stress in New York bees",
+       subtitle = "Percent of bee colonies affected by stressor",
+       y = NULL,
+       x = NULL,
+       caption = "Source: U.S. Department of Agriculture") +
+  scale_x_continuous(breaks = c(2015, 2016, 2017, 2018, 2019, 2020, 2021)) +
+  scale_y_continuous(labels = scales::label_percent(scale = 1, accuracy = 1))
+
+plot3
+```
+
+# Review
+
+## Find and run
+
+| Name | Details |
+|:--   |:--      |
+| Author | Javier Tamayo-Leiva |
+| Tweet | [url](https://twitter.com/TamayoLeiva_J/status/1481711300325613576) |
+| Code | [url](https://github.com/TamayoLeivaJ/TidyTuesday/blob/gh-pages/2022/2022_Week_002/2022_Week_002.R) |
+
+## Notes
+
+I was not able to run Tamayo-Leiva's code in full because I could not install geom_textline (a package that creates curved text). Also, when I attempted to install the systemfonts package, I received a warning that the package had "non-zero exit status." I apologize I was not successful in my troubleshooting. I'm linking to his code above but unfortunately not copy+pasting his code here (because I wanted to try to knit this .rmd file).
+
+Here is what I learned from reading through Tamayo-Leiva's code on GitHub and comparing it to his finished image posted on Twitter.
+
+### Pairing group_by() and summarize() is very powerful for data wrangling
+Tamayo-Leiva used the group_by() function to group data in the stressor dataframe by year-stressor combinations, then calculated the mean of stress_pct for each group. Pairing group_by() with summarize() (and any summary function, like mean(), sum(), etc.) seems very powerful. Prof Green used this pairing of functions in class 2 to recreate the FT graph.
+
+### Grouping less important data can help highlight more important data
+Tamayo-Leiva averaged stress_pct across the following stressors: Diseases, Unknown, and Other. By doing this, Tamayo-Leiva was able to plot just four lines on his graph (by contrast to my first line graph, which has six lines and looks very busy). I found this quite effective at drawing attention to the Varroa mite line, which Tamayo-Leiva emphasized in his annotation.
+
+### Negative and positive values can be plotted on the same graph
+For his second graph, Tamayo-Leiva first transformed the colony loss data into a negative scale, then plotted both colony loss and colony renovation on the same graph. He also used grey for colony loss and gold for colony renovation. I found his use of the negative scale and a dull color was an effective and intuitive way of communicating that colony loss is not a good thing.
+
+### Overlaying a line graph on top of a jittered scatterplot can draw attention to the main trend
+Tamayo-Leiva's second graph is composed of both a jittered scatterplot (using geom_point()) and a line graph (I think using stat_summary(geom="line"...)). In this way, he was able to present the colony loss and renovation data in its entirety while also drawing attention to the average colony loss and renovation rate each year. His choice of line weight and data labels also helped draw the reader's attention to the averages.

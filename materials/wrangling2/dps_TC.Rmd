@@ -1,0 +1,86 @@
+---
+title: "DPS Covid"
+subtitle: "Can you wrangle the dashboard?"
+css: custom_report.css
+output: 
+  bookdown::html_document2:
+    toc: true
+    toc_float: true
+    toc_depth: 1
+    code_folding: show
+    theme: default
+    highlight: tango
+    fig_captions: no
+    number_sections: false
+---
+
+```{r setup, include=FALSE, warning = FALSE, message = FALSE}
+  knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
+  options(scipen=999) # turns off scientific notation
+
+# define colors
+  glhlth562_colors <- c(
+    `blue`       = "#1f9ac9",
+    `yellow`     = "#ffd966",
+    `black`      = "#000000",
+    `lightgrey`  = "#D3D3D3",
+    `darkgrey`   = "#444444",
+    `grey`       = "#808080"
+  )
+
+# load packages
+  library(tidyverse)
+```
+
+
+Durham Public Schools publishes a COVID-19 "dashboard". Check it out [here](https://www.dpsnc.net/Page/5339). 
+
+Click on any of the links and you will find a PDF. There are tools for extracting data from pdfs, but fortunately you'll find a [link to a spreadsheet](https://docs.google.com/spreadsheets/d/1kQ35JKpk3vNaM7ZfFK2DFb1B9kQIQ4IODr7lOM394nQ/edit#gid=769268401). Please open it.
+
+## 1. Describe the data structure. 
+
+The spreadsheet records the number of positive COVID-19 cases by week, as well as the total number of cumulative cases since August 2021. The data are disaggregated by: week, school, central services/elementary/middle/high, and staff/students/clusters. Each school appears to have its own unique ID in the column "Code."
+
+## 2. This sheet appears to be updated weekly. What are some barriers to feeding this sheet into a data pipeline that will always plot the latest results?
+
+Date is not in its own column, so case data are not associated with dates except visually in the spreadsheet. That is, cases for a given week are in three columns headed by the name of that week.
+
+## 3. Import this sheet into R and assign it to an object called `raw`. (hint: you need to do this in a way that your analysis will update every time you knit this document)
+
+```{r}
+library(googlesheets4)
+gs4_deauth()
+raw <- read_sheet("https://docs.google.com/spreadsheets/d/1kQ35JKpk3vNaM7ZfFK2DFb1B9kQIQ4IODr7lOM394nQ/edit#gid=769268401") 
+```
+
+## 4. What are the steps you need to do to get this into a tidy dataframe?
+
+I want to get each week's observations into its own row. For each week, I want different columns for students, staff, clusters. The unique identifier for each row will be the combination of id-week.
+
+code | name      | week       | cases_students | cases_staff | cases_clusters
+xx   | xx        | YYYY-MM-DD | xx             | xx          | xx
+
+Let's tackle student, staff and clusters one at a time. Student cases are currently wide and I want them to go long. This requires each of my student columns to be labeled with the date. Assuming I do that, the next step is:
+pivot_longer(c(`2022-01-23`, `2022-01-16`), names_to = "week", values_to = "cases_students")
+
+## 5. Go!
+
+```{r}
+tidyraw <- raw %>%
+  select(-c(3:5)) # get rid of the cumulative columns
+  
+           
+date_vector <- tidyraw %>%
+  slice(2) %>%
+  unlist(use.names = FALSE) %>%
+  as_tibble() %>%
+  mutate(value = str_remove(value, "Positive COVID-19 Cases\n")) %>%
+  mutate(value = str_trim(value, "both"))
+
+# first, fix strings
+  
+# str_sub()
+# rep(date_vector[c(3, 28)], each=3)
+
+```
+

@@ -1,0 +1,98 @@
+---
+title: "week04"
+author: "tamsin-chen"
+date: "2/1/2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(readr)
+```
+
+# Week 4
+
+## R4DS Chapter 12
+
+### Principles of tidy data
+
+We will focus on tidyr, a package within tidyverse that provides a bunch of tools to help tidy up messy datasets.
+
+There are three interrelated rules that make a dataset tidy:
+1. Each variable must have its own column.
+2. Each observation must have its own row.
+3. Each value must have its own cell.
+It's actually impossible to satisfy only two of the three. So we can actually simplify to two rules:
+1. Put each dataset in a tibble.
+2. Put each variable in a column.
+
+Why tidy?
+1. Consistency -> ease
+2. Most built-in R functions work with vectors of values. dplyr, ggplot2, and all other packages in the tidyverse are designed to work with tidy data.
+
+Here's an example of manipulating a tidy table using count(). This manipulates table1 into a frequency table, putting distinct years in one column and the number of cases for that year in the next column.
+
+Compute cases per year
+table1 %>% 
+  count(year, wt = cases)
+
+A tibble: 2 x 2
+year      n
+<int>  <int>
+1999 250740
+2000 296920
+
+### Transforming data using pivot_longer() and pivot_wider()
+
+pivot_longer() is used when some of the column names are not names of variables, but values of a variable.
+
+pivot_longer(c(`1999`, `2000`), names_to = "year", values_to = "cases")
+turns this:
+   country     `1999` `2000`
+   <chr>        <int>  <int>
+ 1 Afghanistan    745   2666
+ 2 Brazil       37737  80488
+ 3 China       212258 213766
+into this:
+   country     year   cases
+   <chr>       <chr>  <int>
+ 1 Afghanistan 1999     745
+ 2 Afghanistan 2000    2666
+ 3 Brazil      1999   37737
+ 4 Brazil      2000   80488
+ 5 China       1999  212258
+ 6 China       2000  213766
+ 
+pivot_wider() is used when an observation is scattered across multiple rows. For instance, for Afghanistan in 1999, you have cases in one row and population in a second row, but both counts are associated with Afghanistan in 1999 and should be in the same row (just organized into two columns).
+
+pivot_wider(names_from = type, values_from = count)
+^ this takes the names from the values in the type column (which were "cases" and "population") and turns them into their own columns, then enters the corresponding values from the count column.
+
+### Separating and uniting
+
+separate() pulls apart one column into multiple columns by splitting wherever a separator character appears or by passing a vector of integers telling R which positions to split at.
+* separate(rate, into = c("cases", "population"), sep = "/")
+* separate(year, into = c("century", "year"), sep = 2)
+By default, the separate() function assigns the same column type to the newly created columns as the original column.
+* separate_rows() puts the separated information from columns into new rows (equivalent to putting into a )
+
+unite() is the inverse of separate(), combining multiple columns into a single column.
+* unite(new, century, year)
+^ by default, the above will insert an underscore "_" as a separator. If you want no separator, just pass "".
+* unite(new, century, year, sep = "")
+
+### Missing values
+
+Missing values can be explicit ("NA") or implicit (just not present). 
+
+values_drop_na = TRUE turns explicit missing values into implicit missing values.
+
+complete() creates missing possible combinations of values, filling in remaining variables with NA. It can make implicit NAs explicit.
+^ VERY POWERFUL FUNCTION
+
+fill() takes a set of columns where you want missing values to be replaced by the most recent non-missing value (sometimes called last observation carried forward).
+
+drop_na() drops rows containing NAs in certain columns.
+
+replace_na() allows you to specify a value to replace NAs in selected columns.

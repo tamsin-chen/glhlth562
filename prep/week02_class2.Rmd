@@ -1,0 +1,230 @@
+---
+title: "week02_class2"
+author: "tamsin-chen"
+date: "1/20/2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(gapminder)
+library(ggokabeito)
+library(ggridges)
+
+# If using Google Fonts, also load in library(sysfonts) and then pick your font, e.g., font_add_google("Alegraya Sans", "aleg")
+```
+
+# Week 2, class 2
+
+## Walkthrough of Nicci Potts' code
+* font_add_google()
+* {r fig.width=12.25, fig.height=18}
+
+## SOCVIZ Chapter 4 ggplot
+
+Every geom has an associated stat function that it uses by default. The reverse is also true. Consider geom_bar(), which executes a count function behind the scenes. geom_bar() is associated with stat_count().
+
+geom_bar() can also do relative frequencies, or proportions. That's the ..prop.. stat. But when we use ..prop.., we need to tell ggplot to ignore the x-categories when calculating the denominator of proportions. To do that, we specify group = 1 inside aes(). The value of 1 is just a dummy group that tells ggplot to use the whole dataset when calculating the denominator for proportions.
+
+p <- ggplot(data = gss_sm,
+            mapping = aes(x = bigregion))
+p + geom_bar(mapping = aes(y = ..prop.., group = 1)) 
+
+## Kieran Healy - Comparing Distributions
+
+* geom_histogram vs. geom_density
+* Neat trick using ridgeline plots via geom_density_ridges() from the ggridges package
+
+```{r faceted line and smooth line plots}
+p <- ggplot(data = gapminder, mapping = aes(x = year, y = gdpPercap))
+p + geom_line(color="gray70", aes(group = country)) +
+    geom_smooth(size = 1.1, method = "loess", se = FALSE) +
+    scale_y_log10(labels=scales::dollar) +
+    facet_wrap(~ continent, ncol = 5) +
+    labs(x = "Year",
+         y = "GDP per capita",
+         title = "GDP per capita on Five Continents", 
+         subtitle = "Individual countries shown in gray, trend in blue.")
+```
+
+```{r prep data for subpopulations}
+## Keep track of labels for as_labeller() functions in plots later.
+grp_names <- c(`a` = "Group A",
+               `b` = "Group B",
+               `c` = "Group C",
+               `pop_a` = "Group A",
+               `pop_b` = "Group B",  
+               `pop_c` = "Group C",  
+               `pop_total` = "Total",                 
+               `A` = "Group A", 
+               `B` = "Group B", 
+               `C` = "Group C")
+
+# make it reproducible
+set.seed(1243098)
+
+# 3,000 "counties"
+N <- 3e3
+
+# Means and standard deviations of groups
+mus <- c(0.2, 1, -0.1)
+sds <- c(1.1, 0.9, 1)
+grp <- c("pop_a", "pop_b", "pop_c")
+
+# Make the parameters into a list
+params <- list(mean = mus, 
+                sd = sds)
+
+# Feed the parameters to rnorm() to make three columns, 
+# switch to rowwise() to take the average of the columns for
+# each row.
+df <- pmap_dfc(params, rnorm, n = N) %>% 
+  rename_with(~ grp) %>%
+  rowid_to_column("unit") %>% 
+  rowwise() %>% 
+  mutate(pop_total = mean(c(pop_a, pop_b, pop_c))) %>% 
+  ungroup()
+df
+
+my_oka <- palette_okabe_ito(order = c(1, 2, 3, 5, 7), 
+                            alpha = NULL)
+
+df %>%
+  pivot_longer(cols = pop_a:pop_total) %>%
+  ggplot() + 
+  geom_density(mapping = aes(x = value, 
+                          color = name, fill = name), 
+            alpha = 0.5) + 
+  scale_color_manual(values = alpha(c( my_oka[1:3], "gray40"), 1),
+                     labels = as_labeller(grp_names)) + 
+  scale_fill_manual(values = alpha(c( my_oka[1:3], "gray40"), 0.6),
+                    labels = as_labeller(grp_names)) + 
+  labs(x = "Measure", y = "Density", 
+       title = "Comparing Subgroups: Density", 
+       color = "Group", 
+       fill = "Group")
+```
+
+```{r ridgeline plots}
+df %>%
+  pivot_longer(cols = pop_a:pop_total) %>%
+  ggplot() + 
+  geom_density_ridges(mapping = aes(x = value, 
+                                    y = name, 
+                                    fill = name), 
+                      color = "white") + 
+  scale_fill_manual(values = alpha(c(my_oka[1:3], "gray40"), 0.7)) + 
+  scale_y_discrete(labels = as_labeller(grp_names)) + 
+  guides(color = "none", fill = "none") + 
+  labs(x = "Measure", y = NULL, title = "Comparing Total and Subgroups: Ridgelines") + 
+  theme_ridges(font_family = "")
+```
+
+```{r faceted histograms with a reference group}
+df %>% 
+   pivot_longer(cols = pop_a:pop_c) %>%
+   ggplot() + 
+   geom_histogram(mapping = aes(x = value, y = ..density.., 
+                           color = name, fill = name), 
+             stat = "bin", bins = 20, size = 0.5,
+             alpha = 0.7) + 
+   geom_step(mapping = aes(x = pop_total, y = ..density..), 
+                 bins = 20, alpha = 0.9,
+                 color = "gray30", size = 0.6, 
+             stat = "bin",
+             direction = "mid") + 
+   scale_fill_manual(values = alpha(my_oka, 0.8)) + 
+   scale_color_manual(values = alpha(my_oka, 1)) + 
+   guides(color = "none", fill = "none") + 
+   labs(x = "Measure", y = "Density", 
+        title = "Comparing Subgroups: Histograms", 
+        subtitle = "Overall distribution shown in outline") + 
+   facet_wrap(~ name, nrow = 1, labeller = as_labeller(grp_names)) 
+```
+
+```{r frequency polygons}
+#regular
+df %>% 
+  pivot_longer(cols = pop_a:pop_c) %>%
+  ggplot() + 
+  geom_area(mapping = aes(x = value, y = ..count.., 
+                          color = name, fill = name), 
+            stat = "bin", bins = 20, size = 0.5) + 
+  geom_freqpoly(mapping = aes(x = pop_total, y = ..count..), 
+                bins = 20, 
+                color = "gray20", size = 0.5) + 
+  scale_fill_manual(values = alpha(my_oka, 0.7)) + 
+  scale_color_manual(values = alpha(my_oka, 1)) + 
+  guides(color = "none", fill = "none") + 
+  labs(x = "Measure", y = "Count", 
+       title = "Comparing Subgroups: Frequency Polygons", 
+       subtitle = "Overall distribution shown in outline") + 
+  facet_wrap(~ name, nrow = 1, labeller = as_labeller(grp_names))
+
+# with scaled counts
+df %>% 
+  pivot_longer(cols = pop_a:pop_c) %>%
+  ggplot() + 
+  geom_area(mapping = aes(x = value, y = ..ncount.., 
+                          color = name, fill = name), 
+            stat = "bin", bins = 20, size = 0.5) + 
+  geom_freqpoly(mapping = aes(x = pop_total, y = ..ncount..), 
+                bins = 20, 
+                color = "gray20", size = 0.5) + 
+  scale_fill_manual(values = alpha(my_oka, 0.7)) + 
+  scale_color_manual(values = alpha(my_oka, 1)) + 
+  guides(color = "none", fill = "none") + 
+  labs(x = "Measure", y = "Count", 
+       title = "Comparing Subgroups: Frequency Polygons (Scaled Counts)", 
+       subtitle = "Overall distribution shown in outline") + 
+  facet_wrap(~ name, nrow = 1, labeller = as_labeller(grp_names)) 
+```
+
+```{r kernel densities}
+
+#regular
+df %>% 
+  pivot_longer(cols = pop_a:pop_c) %>%
+  ggplot() + 
+  geom_density(mapping = aes(x = value, 
+                          color = name, fill = name), 
+            size = 0.5) + 
+  geom_density(mapping = aes(x = pop_total), 
+                color = "gray20", size = 0.5) + 
+  scale_fill_manual(values = alpha(my_oka, 0.7)) + 
+  scale_color_manual(values = alpha(my_oka, 1)) + 
+  guides(color = "none", fill = "none") + 
+  labs(x = "Measure", y = "Density", 
+       title = "Comparing Subgroups: Kernel Densities", 
+       subtitle = "Overall distribution shown in outline") + 
+  facet_wrap(~ name, nrow = 1, labeller = as_labeller(grp_names)) 
+
+
+# scaled kernel densities
+df %>% 
+  pivot_longer(cols = pop_a:pop_c) %>%
+  ggplot() + 
+  geom_density(mapping = aes(x = value, 
+                             y = ..ndensity..,
+                          color = name, fill = name), 
+            size = 0.5) + 
+  geom_density(mapping = aes(x = pop_total, 
+                             y = ..ndensity..), 
+                color = "gray20", size = 0.5) + 
+  scale_fill_manual(values = alpha(my_oka, 0.7)) + 
+  scale_color_manual(values = alpha(my_oka, 1)) + 
+  guides(color = "none", fill = "none") + 
+  labs(x = "Measure", y = "Density", 
+       title = "Comparing Subgroups: Kernel Densities (Scaled)", 
+       subtitle = "Overall distribution shown in outline") + 
+  facet_wrap(~ name, nrow = 1, labeller = as_labeller(grp_names)) 
+```
+
+## "Learning to use the patchwork R package" by Riffomonas Project
+
+* CRAN is the official repository of all R packages!
+* patchwork composes an array of plots together using the + sign.
+* patchwork is a nice alternative to cowplot.
+* patchwork defaults to plotting things in a square.
+* operators are very important in patchwork. &, *, +, |, \ all mean specific things.

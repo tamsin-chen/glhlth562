@@ -1,0 +1,442 @@
+---
+title: "#TidyTuesday"
+subtitle: "Class Week 2 / TT Week 3"
+author: "Tamsin Chen"
+css: custom_report.css
+output: 
+  bookdown::html_document2:
+    toc: true
+    toc_float: true
+    toc_depth: 1
+    code_folding: show
+    theme: default
+    highlight: tango
+    fig_captions: no
+    number_sections: false
+---
+
+```{r setup, include = FALSE, warning = FALSE, message = FALSE}
+  knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
+  options(scipen=999) # turns off scientific notation
+
+# load packages
+  library(tidyverse)
+  library(tidytuesdayR) # run install.packages("tidytuesdayR") again to get new data for this week
+  library(ggridges)
+  library(dplyr)
+  library(treemapify)
+  library(ggsci)
+  library(patchwork)
+  library(showtext)
+
+# load data
+  tuesdata <- tidytuesdayR::tt_load('2022-01-18')
+  chocolate <- tuesdata$chocolate
+```
+
+# Exploration
+
+I am interested in the most_memorable_characteristics column of the data frame. I am curious about two main things. First, how do raters use words to describe chocolate bars containing lower vs. higher cocoa percentages? Second, how do raters use words to describe worse and better chocolate bars? I have some assumptions coming in. From my own experience eating chocolate, I would assume that the word "bitter" comes up a lot with high-cocoa-percentage chocolate bars and that "sweet" comes up a lot for low-cocoa-percentage chocolate bars. I would also assume that words with more positive valence come up in describing highly-rated chocolate bars and more negative words come up in describing low-rated chocolate bars.
+
+## Plot 1
+
+For plot 1, I wanted to focus on just the "bitter" and "sweet" descriptors to explore my assumptions.
+
+```{r plot1 data prep}
+
+# Explore data
+View(chocolate)
+class(chocolate$most_memorable_characteristics) # this is a character variable containing a comma-delimited list of descriptors for each chocolate bar
+
+# Create a column that takes value 1 if the chocolate bar's most_memorable_characteristics column includes the string "bitter"
+chocolate2 <- chocolate %>%
+  mutate(bitter = ifelse(grepl("bitter", most_memorable_characteristics), 1, 0))
+
+# Create a column that takes value 1 if the chocolate bar's most_memorable_characteristics column includes the string "sweet"
+chocolate2 <- chocolate2 %>%
+  mutate(sweet = ifelse(grepl("sweet", most_memorable_characteristics), 1, 0))
+
+# Check that no chocolate bars are BOTH bitter AND sweet
+chocolate2 <- chocolate2 %>%
+  mutate(bitter_and_sweet = ifelse(bitter == 1 & sweet == 1, 1, 0))
+table(chocolate$bitter_and_sweet) # This confirms there are no chocolate bars that are both bitter and sweet
+
+# Keep only chocolate bars that are bitter or sweet, and create column "characteristic" that contains "bitter" if bitter, "sweet" if sweet
+chocolate2 <- chocolate2 %>%
+  filter(bitter == 1 | sweet == 1) %>%
+  mutate(characteristic = ifelse(bitter == 1, "bitter", "sweet"))
+
+# Convert cocoa_percent from string to number
+chocolate2 <- chocolate2 %>%
+  mutate(cocoa_percent = stringr::str_remove(cocoa_percent, "%"),
+         cocoa_percent = as.numeric(cocoa_percent))
+```
+
+Some kind of density/frequency plot could be useful for visualizing how often each descriptor comes up for chocolate bars of different cocoa percentages.
+
+```{r plot1, fig.width = 12, fig.height = 8}
+
+# Regular density plot, and trying out geom_curve() and annotate() for a fun annotation
+ggplot(chocolate2, aes(x = cocoa_percent)) +
+  geom_density(aes(fill = characteristic, color = characteristic),
+               alpha = 0.5,
+               position = "identity") +
+  scale_fill_manual(values = c("#825325","#ffcccc")) +
+  scale_color_manual(values = c("#825325","#ffcccc")) +
+  scale_x_continuous(labels = scales::label_percent(scale = 1, accuracy = 1)) +
+  scale_y_continuous(breaks = seq(0, 0.1, by = 0.05)) +
+  theme_minimal() +
+  geom_curve(aes(x = 84, xend = 74.2, y = 0.07, yend = 0.03),
+             size = 0.4,
+             color = "#bf656f",
+             arrow = arrow(type = "closed", length = unit(2, "mm"))) +
+  annotate("text", x = 88, y = 0.07,
+           label = paste('74% cocoa is a', "\n", 'nice balance of', "\n", 'bitter and sweet'),
+           size = 3.5, color = "#bf656f") +
+  labs(title = "Chocolate with a higher percentage of cocoa tastes more bitter, while lower-cocoa chocolate tastes more sweet",
+       subtitle = "How often 'bitter' and 'sweet' were used to describe chocolate bars of different cocoa percentages",
+       x = "Cocoa percent",
+       y = "Density")
+
+# Scaled density plot, plus more annotations with geom_segment() instead of geom_curve()
+# Just trying out what scaled densities looks like. I can see how it might help focus the reader's attention in some cases, but in this case, scaling seems to obscure the story of the data. I prefer being able to see (with an un-scaled density plot) that "sweet" has a taller, tighter distribution, while "bitter" is used with more moderation but across a pretty wide range of cocoa percentages.
+ggplot(chocolate2, aes(x = cocoa_percent, y = ..ndensity..)) +
+  geom_density(aes(fill = characteristic, color = characteristic),
+               alpha = 0.5,
+               position = "identity") +
+  scale_fill_manual(values = c("#825325","#ffcccc")) +
+  scale_color_manual(values = c("#825325","#ffcccc")) +
+  scale_x_continuous(labels = scales::label_percent(scale = 1, accuracy = 1)) +
+  scale_y_continuous(breaks = seq(0, 1, by = 0.25)) +
+  theme_minimal() +
+  geom_segment(aes(x = 80, xend = 74, y = 0.4, yend = 0.4),
+               size = 0.4,
+               color = "#bf656f",
+               arrow = arrow(type = "closed", length = unit(2, "mm"))) +
+  annotate("text", x = 83.5, y = 0.4,
+           label = paste('74% cocoa is a', "\n", 'nice balance of', "\n", 'bitter and sweet'),
+           size = 5, color = "#bf656f") +
+  geom_segment(aes(x = 90, xend = 95, y = 0.12, yend = 0.07),
+               size = 0.4,
+               color = "#bf656f",
+               arrow = arrow(type = "closed", length = unit(2, "mm"))) +
+  annotate("text", x = 89, y = 0.2,
+           label = paste('Perceived bitterness', "\n", 'tends to rise for chocolate', "\n", 'above 95% cocoa'),
+           size = 5, color = "#bf656f") +
+  labs(title = "Chocolate with a higher percentage of cocoa tastes more bitter, while lower-cocoa chocolate tastes more sweet",
+       subtitle = "How often 'bitter' and 'sweet' were used to describe chocolate bars of different cocoa percentages",
+       x = "Cocoa percent",
+       y = "Density")
+
+# Ridgeline density plot
+ggplot(chocolate2, aes(x = cocoa_percent, y = characteristic)) +
+  geom_density_ridges2(aes(fill = characteristic, color = characteristic), alpha = 0.5, scale = 3) +
+  scale_fill_manual(values = c("#825325","#ffcccc")) +
+  scale_color_manual(values = c("#825325","#ffcccc")) +
+  theme_minimal() +
+  scale_x_continuous(labels = scales::label_percent(scale = 1, accuracy = 1)) +
+  labs(title = "Chocolate with a higher percentage of cocoa tastes more bitter, while lower-cocoa chocolate tastes more sweet",
+       subtitle = "How often 'bitter' and 'sweet' were used to describe chocolate bars of different cocoa percentages",
+       x = "Cocoa percent",
+       y = "Density")
+```
+
+Before I made the above plots, I tried and abandoned a number of others. Because my intention was to graph how frequently the descriptors "bitter" or "sweet" are used to describe chocolate bars of particular cocoa percentages, my first instinct was to create frequency tables. (Of course, the geoms I wanted to use already have underlying stats that tally up frequencies and instead want to have a column of descriptors fed into them, but this lesson had not fully sunk in for me.) So below you will see me using very roundabout ways to approximate the same result as above using more of a "frequency table" approach.
+
+```{r abandoned, eval = FALSE}
+
+# I created the data frame "bittersweet," where each row is a cocoa_percent and there are columns for the number of times "sweet" or "bitter" have been used to describe that cocoa_percent
+bittersweet <- chocolate2 %>%
+  group_by(cocoa_percent) %>%
+  summarize_at(c("bitter", "sweet"), sum)
+
+# I created the data frame "bitterchocolate" containing just the chocolate bars described as bitter.
+bitterchocolate <- chocolate2 %>%
+  filter(bitter == 1)
+
+# I created the data frame "sweetchocolate" containing just the chocolate bars described as sweet.
+sweetchocolate <- chocolate2 %>%
+  filter(sweet == 1)
+
+# I used the "bittersweet" data frame and two separate scatterplots to graph the number of times each cocoa_percent has been described as "bitter" or "sweet."
+ggplot(bittersweet) +
+  geom_point(aes(x = cocoa_percent, y = bitter),
+             color = "#825325",
+             alpha = 0.5,
+             size = 2,
+             shape = 16) +
+  geom_point(aes(x = cocoa_percent, y = sweet),
+             color = "#ffcccc",
+             alpha = 0.5,
+             size = 2,
+             shape = 17) +
+  theme_minimal()
+
+# This is the same as the previous scatterplot, but using two separate column graphs.
+ggplot(bittersweet) +
+  geom_col(aes(x = cocoa_percent, y = bitter),
+           fill = "#825325",
+           alpha = 0.5,
+           width = 2) +
+  geom_col(aes(x = cocoa_percent, y = sweet),
+           fill = "#ffcccc",
+           alpha = 0.5,
+           width = 2) +
+  theme_minimal()
+
+# This is two histograms overlaid, each using different data frames (bitterchocolate and sweetchocolate).
+ggplot() +
+  geom_histogram(data = bitterchocolate,
+                 mapping = aes(x = cocoa_percent),
+                 fill = "#825325",
+                 alpha = 0.5) +
+  geom_histogram(data = sweetchocolate,
+                 mapping = aes(x = cocoa_percent),
+                 fill = "#ffcccc",
+                 alpha = 0.5) +
+  theme_minimal()
+
+# Same as the two histograms, but using density plots, and adding some annotation to a part of the graph I found interesting.
+ggplot() +
+  geom_density(data = bitterchocolate,
+               mapping = aes(x = cocoa_percent),
+               fill = "#825325",
+               color = "#825325",
+                 alpha = 0.5) +
+  geom_density(data = sweetchocolate,
+               mapping = aes(x = cocoa_percent),
+               fill = "#ffcccc",
+               color = "#ffcccc",
+               alpha = 0.5) +
+  scale_x_continuous(labels = scales::label_percent(scale = 1, accuracy = 1)) +
+  scale_y_continuous(breaks = seq(0, 0.1, by = 0.05)) +
+  theme_minimal() +
+  geom_curve(aes(x = 85, xend = 74.2, y = 0.07, yend = 0.03),
+             size = 0.4,
+             color = "#bf656f",
+             arrow = arrow(type = "closed", length = unit(2, "mm"))) +
+  annotate("text", x = 88, y = 0.07,
+           label = paste('74% cocoa is a', "\n", 'nice balance of', "\n", 'bitter and sweet'),
+           size = 3.5, color = "#bf656f") +
+  labs(title = "Mmm chocolate is yummy",
+       x = "Cocoa percent",
+       y = "Density")
+```
+
+## Plot 2
+
+I used what I learned from Nicola Rennie's Tidy Tuesday submission (linked below) about using geom_treemap to visualize descriptor frequency by chocolate rating.
+
+Rating key from [Flavors of Cacao](http://flavorsofcacao.com/review_guide.html):
+
+* 4.0 - 5.0   = Outstanding
+* 3.5 - 3.9   = Highly Recommended
+* 3.0 - 3.49 = Recommended
+* 2.0 - 2.9   = Disappointing
+* 1.0 - 1.9   = Unpleasant
+
+Aside: It was too late when I realized that I might be able to create the same graphs using one faceted ggplot rather than four separate ggplots!
+
+```{r plot2 data prep}
+characteristics <- chocolate %>% 
+  mutate(most_memorable_characteristics = strsplit(as.character(most_memorable_characteristics), ", ")) %>% 
+  unnest(most_memorable_characteristics) %>%
+  mutate(rating_bin = case_when(
+    (rating >= 4.0 & rating <= 5) ~ 'Outstanding',
+    (rating >= 3.5 & rating <= 3.9) ~ 'Highly Recommend',
+    (rating >= 3.0 & rating <= 3.49) ~ 'Recommend',
+    (rating >= 2.0 & rating <= 2.9) ~ 'Disappointing',
+    (rating <= 1.9) ~ 'Unpleasant'))
+
+outstanding <- characteristics %>%
+  filter(rating_bin == 'Outstanding') %>%
+  group_by(most_memorable_characteristics) %>%
+  summarize(count = n()) %>%
+  arrange(desc(count))
+
+highly_recommend <- characteristics %>%
+  filter(rating_bin == 'Highly Recommend') %>%
+  group_by(most_memorable_characteristics) %>%
+  summarize(count = n()) %>%
+  arrange(desc(count))
+
+recommend <- characteristics %>%
+  filter(rating_bin == 'Recommend') %>%
+  group_by(most_memorable_characteristics) %>%
+  summarize(count = n()) %>%
+  arrange(desc(count))
+
+disappointing <- characteristics %>%
+  filter(rating_bin == 'Disappointing') %>%
+  group_by(most_memorable_characteristics) %>%
+  summarize(count = n()) %>%
+  arrange(desc(count))
+
+unpleasant <- characteristics %>%
+  filter(rating_bin == 'Unpleasant') %>%
+  group_by(most_memorable_characteristics) %>%
+  summarize(count = n()) %>%
+  arrange(desc(count))
+```
+
+```{r plot2, fig.width = 12, fig.height = 8}
+outstanding_plot <-
+  ggplot(outstanding, aes(area = count, fill= count, label = most_memorable_characteristics)) +
+  geom_treemap() +
+  geom_treemap_text(fontface = "bold", 
+                    family = "sans",
+                    place = "center",
+                    grow = TRUE) +
+  scale_fill_material(palette = "brown",
+                      name = "Number of times descriptor was used",
+                      guide = guide_colorbar(title.position = "top")) +
+  labs(title = "Outstanding chocolate tastes like...", 
+       subtitle = "Words most frequently used to describe chocolate that scored at least 4 out of 5",
+       caption = "Data: Flavors of Cacao") +
+  theme(legend.position = "bottom")
+
+highly_recommend_plot <-
+  ggplot(highly_recommend, aes(area = count, fill= count, label = most_memorable_characteristics)) +
+  geom_treemap() +
+  geom_treemap_text(fontface = "bold", 
+                    family="sans",
+                    place = "center",
+                    grow = TRUE) +
+  scale_fill_material(palette = "brown",
+                      name = "Number of times descriptor was used",
+                      guide = guide_colorbar(title.position = "top")) +
+  labs(title = "Highly recommended chocolate tastes like...", 
+       subtitle = "Words most frequently used to describe chocolate that scored 3.5 to 3.9 out of 5",
+       caption = "Data: Flavors of Cacao") +
+  theme(legend.position = "bottom")
+
+recommend_plot <-
+  ggplot(recommend, aes(area = count, fill= count, label = most_memorable_characteristics)) +
+  geom_treemap() +
+  geom_treemap_text(fontface = "bold", 
+                    family="sans",
+                    place = "center",
+                    grow = TRUE) +
+  scale_fill_material(palette = "brown",
+                      name = "Number of times descriptor was used",
+                      guide = guide_colorbar(title.position = "top")) +
+  labs(title = "Recommended chocolate tastes like...", 
+       subtitle = "Words most frequently used to describe chocolate that scored 3.0 to 3.49 out of 5",
+       caption = "Data: Flavors of Cacao") +
+  theme(legend.position = "bottom")
+
+disappointing_plot <-
+  ggplot(disappointing, aes(area = count, fill= count, label = most_memorable_characteristics)) +
+  geom_treemap() +
+  geom_treemap_text(fontface = "bold", 
+                    family="sans",
+                    place = "center",
+                    grow = TRUE) +
+  scale_fill_material(palette = "brown",
+                      name = "Number of times descriptor was used",
+                      guide = guide_colorbar(title.position = "top")) +
+  labs(title = "Disappointing chocolate tastes like...", 
+       subtitle = "Words most frequently used to describe chocolate that scored 2 to 2.9 out of 5",
+       caption = "Data: Flavors of Cacao") +
+  theme(legend.position = "bottom")
+
+unpleasant_plot <-
+  ggplot(unpleasant, aes(area = count, fill= count, label = most_memorable_characteristics)) +
+  geom_treemap() +
+  geom_treemap_text(fontface = "bold", 
+                    family="sans",
+                    place = "center",
+                    grow = TRUE) +
+  scale_fill_material(palette = "brown",
+                      name = "Number of times descriptor was used",
+                      guide = guide_colorbar(title.position = "top")) +
+  labs(title = "Unpleasant chocolate tastes like...", 
+       subtitle = "Words most frequently used to describe chocolate that scored less than 2 out of 5",
+       caption = "Data: Flavors of Cacao") +
+  theme(legend.position = "bottom")
+
+# Assemble the plots with the patchwork package
+(outstanding_plot | recommend_plot) / (disappointing_plot | unpleasant_plot)
+```
+
+# Review
+
+## Find and run
+
+| Name | Details |
+|:--   |:--      |
+| Author | Nicola Rennie |
+| Tweet | [url](https://twitter.com/nrennie35/status/1483774741613789184) |
+| Code | [url](https://github.com/nrennie/tidytuesday/blob/main/2022/2022-01-18/20220118.R) |
+
+```{r rennie data prep}
+# load libraries
+# library(tidyverse) # already loaded
+# library(treemapify) # already loaded
+# library(showtext) # already loaded
+# library(ggsci) # already loaded
+
+# load data
+# tuesdata <- tidytuesdayR::tt_load('2022-01-18') # already loaded
+# chocolate <- tuesdata$chocolate # already loaded
+
+# add fonts
+font_add_google(name = "Bebas Neue", family = "bebas")
+showtext_auto()
+
+# prep data
+plot_data <- chocolate %>%
+  group_by(country_of_bean_origin) %>% 
+  summarise(n = n(), 
+            rating = mean(rating)) %>%
+  arrange(desc(n))
+plot_data
+```
+
+
+```{r rennie treemap, fig.width = 12, fig.height = 8}
+# treemap plot
+ggplot(plot_data, aes(area = n, fill = rating, label = country_of_bean_origin)) +
+  geom_treemap(colour = "#452d28") +
+  geom_treemap_text(fontface = "italic", 
+                    family="bebas",
+                    colour = "#452d28", 
+                    place = "centre",
+                    grow = TRUE, 
+                    padding.x = grid::unit(4, "mm"),
+                    padding.y = grid::unit(4, "mm")) +
+  scale_fill_material(palette="brown", name="", 
+                      limits=c(2.8, 3.6), 
+                      breaks=c(2.8, 3.6), 
+                      labels=c("<--\nLower rating", "-->\nHigher rating"), 
+                      guide = guide_colourbar(title.position = "top")) +
+  labs(title = "Where do cacao beans come from?", 
+       subtitle = "\nCacoa beans from countries which are used by a larger number of manufacturers tend to result in higher rated\nchocolate. The exception is blended beans which are commonly used but score lower. \n\n N. Rennie | Data: Flavors of Cacao\n\n") +
+  theme_void() +
+  theme(plot.background = element_rect(fill = "#452d28", colour="#452d28"),
+        panel.background = element_rect(fill = "#452d28", colour="#452d28"),
+        legend.position = "bottom",
+        plot.title = element_text(colour = '#b29e97', family="bebas", face = "bold", size=22),
+        plot.subtitle = element_text(colour = '#b29e97', family="bebas", size=14),
+        legend.text = element_text(colour = '#b29e97', family="bebas", size=12), 
+        legend.title = element_text(colour = '#b29e97', family="bebas", size=12), 
+        plot.margin = unit(c(0.5, 0.5, 0.5, 0.5), "cm"))
+```
+
+## Notes
+
+### Data wrangling
+
+I learned from Nicola Rennie's code how to use the n() function inside the summarize() function to summarize counts across a group. Before, I had only used sum() and mean() inside of summarize(). This was very helpful in creating the frequency tables needed to power my treemaps
+
+### Treemaps
+
+Mimicking Rennie's code was an extremely helpful way to learn geom_treemap for the first time. A few things in particular that she did very effectively:
+
+* Rennie's data viz works along two dimensions: the size of each rectangle corresponds to frequency while the color of each rectangle (shade of brown) corresponds to rating. Her use of two dimensions in the treemap helps surface the positive relationship between ratings and country-frequency. She summarizes this takeaway in a helpful subtitle. She also points out that "Blend" is an important exception to the trend. (In contrast, I used just one dimension in my treemap. I mapped both size and color in my treemaps to the frequency of chocolate descriptors.)
+
+* Rennie's treemap works so well because there is a healthy spread in the distribution of chocolate bars across countries. On the other hand, in my treemaps, only a handful of descriptors were used over and over, with most of the rest being "singleton sets." As a result, my treemaps were not visually very striking. A different geom might have been a better way to visualize descriptors (picking, say, just the top five of each rating category).
+
+* I love that Rennie's brown rectangular treemap visually resembles a bar of chocolate.
+
+### 
