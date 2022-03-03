@@ -40,7 +40,7 @@ output:
 
 ## During Class
 
-Deck / Materials
+[Deck 1](https://tmv.netlify.app/site/slides/rmed02-workflows.html) / [Deck 2](https://tmv.netlify.app/site/slides/rmed03-tune.html) / Materials ([zip](https://www.dropbox.com/s/nlzhyye4bumcona/models2.zip?dl=1))
 
 ## After Class (Optional)
 
