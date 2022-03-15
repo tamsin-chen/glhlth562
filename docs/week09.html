@@ -87,29 +87,29 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 
 
   <!--radix_placeholder_meta_tags-->
-  <title>GLHLTH562: Data Science and Visualization with R: Week 1</title>
+  <title>GLHLTH562: Data Science and Visualization with R: Week 9</title>
 
-  <meta property="description" itemprop="description" content="The grammar of graphics and ggplot2 API and designing effective plots"/>
+  <meta property="description" itemprop="description" content="Reproducible workflows and RMarkdown"/>
 
 
 
   <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
-  <meta property="og:title" content="GLHLTH562: Data Science and Visualization with R: Week 1"/>
+  <meta property="og:title" content="GLHLTH562: Data Science and Visualization with R: Week 9"/>
   <meta property="og:type" content="article"/>
-  <meta property="og:description" content="The grammar of graphics and ggplot2 API and designing effective plots"/>
+  <meta property="og:description" content="Reproducible workflows and RMarkdown"/>
   <meta property="og:locale" content="en_US"/>
   <meta property="og:site_name" content="GLHLTH562: Data Science and Visualization with R"/>
 
   <!--  https://dev.twitter.com/cards/types/summary -->
   <meta property="twitter:card" content="summary"/>
-  <meta property="twitter:title" content="GLHLTH562: Data Science and Visualization with R: Week 1"/>
-  <meta property="twitter:description" content="The grammar of graphics and ggplot2 API and designing effective plots"/>
+  <meta property="twitter:title" content="GLHLTH562: Data Science and Visualization with R: Week 9"/>
+  <meta property="twitter:description" content="Reproducible workflows and RMarkdown"/>
 
   <!--/radix_placeholder_meta_tags-->
   <!--radix_placeholder_rmarkdown_metadata-->
 
   <script type="text/json" id="radix-rmarkdown-metadata">
-  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","subtitle","description","output"]}},"value":[{"type":"character","attributes":{},"value":["Week 1"]},{"type":"character","attributes":{},"value":["Data visualization"]},{"type":"character","attributes":{},"value":["The grammar of graphics and ggplot2 API and designing effective plots\n"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["toc","toc_depth"]}},"value":[{"type":"logical","attributes":{},"value":[true]},{"type":"integer","attributes":{},"value":[2]}]}]}]}
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","subtitle","description","output"]}},"value":[{"type":"character","attributes":{},"value":["Week 9"]},{"type":"character","attributes":{},"value":["Communicating Data Science"]},{"type":"character","attributes":{},"value":["Reproducible workflows and RMarkdown\n"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["toc","toc_depth"]}},"value":[{"type":"logical","attributes":{},"value":[true]},{"type":"integer","attributes":{},"value":[2]}]}]}]}
   </script>
   <!--/radix_placeholder_rmarkdown_metadata-->
   <!--radix_placeholder_navigation_in_header-->
@@ -2140,7 +2140,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <!--radix_placeholder_front_matter-->
 
 <script id="distill-front-matter" type="text/json">
-{"title":"Week 1","description":"The grammar of graphics and ggplot2 API and designing effective plots","authors":[]}
+{"title":"Week 9","description":"Reproducible workflows and RMarkdown","authors":[]}
 </script>
 
 <!--/radix_placeholder_front_matter-->
@@ -2190,10 +2190,10 @@ Content
 <!--/radix_placeholder_site_before_body-->
 
 <div class="d-title">
-<h1>Week 1</h1>
+<h1>Week 9</h1>
 <!--radix_placeholder_categories-->
 <!--/radix_placeholder_categories-->
-<p><p>The grammar of graphics and ggplot2 API and designing effective plots</p></p>
+<p><p>Reproducible workflows and RMarkdown</p></p>
 </div>
 
 
@@ -2202,14 +2202,13 @@ Content
 <nav class="l-text toc figcaption" id="TOC">
 <h3>Contents</h3>
 <ul>
-<li><a href="#resource-roundup">Resource Roundup</a></li>
-<li><a href="#jan-11-the-grammar-of-graphics-and-ggplot2-api">Jan 11: The grammar of graphics and ggplot2 API</a>
+<li><a href="#mar-15-reproducible-workflows">Mar 15: Reproducible workflows</a>
 <ul>
 <li><a href="#prepare">Prepare</a></li>
 <li><a href="#during-class">During Class</a></li>
 <li><a href="#after-class-optional">After Class (Optional)</a></li>
 </ul></li>
-<li><a href="#jan-13-designing-effective-plots">Jan 13: Designing effective plots</a>
+<li><a href="#mar-17-rmarkdown">Mar 17: RMarkdown</a>
 <ul>
 <li><a href="#prepare-1">Prepare</a></li>
 <li><a href="#during-class-1">During Class</a></li>
@@ -2219,49 +2218,26 @@ Content
 </ul>
 </nav>
 </div>
-<h1 id="resource-roundup">Resource Roundup</h1>
-<p>We’ll work our way through most of <a href="https://r4ds.had.co.nz/index.html"><em>R for Data Science</em></a> by Hadley Wickham and Garrett Grolemund (R4DS). You can use the free online version or order a physical copy from <a href="http://amzn.to/2aHLAQ1">Amazon</a>.</p>
-<p>We’ll also read several chapters in Professor Kieran Healy’s book <a href="https://socviz.co/"><em>Data Visualization</em></a> (SOCVIZ). You can use the free online version or order a physical copy from <a href="https://www.amazon.com/gp/product/0691181624/ref=as_li_tl?ie=UTF8&amp;tag=kieranhealysw-20&amp;camp=1789&amp;creative=9325&amp;linkCode=as2&amp;creativeASIN=0691181624&amp;linkId=16d53b3cc1ec3bc3aac60b27c29b92e8">Amazon</a> (it’s a beautiful book that should probably be on your bookshelf at some point).</p>
-<p>It’s important that you read the chapters AND run the code as you go. If you read without coding you are likely to trick yourself into thinking you’ve learned more than you have. This type of material requires most of us to be active learners. <code>Read/Type/Run</code> &gt; <code>Read/Copy/Paste/Run</code> &gt; <code>Read only</code>.</p>
-<h1 id="jan-11-the-grammar-of-graphics-and-ggplot2-api">Jan 11: The grammar of graphics and ggplot2 API</h1>
+<h1 id="mar-15-reproducible-workflows">Mar 15: Reproducible workflows</h1>
 <h2 id="prepare">Prepare</h2>
 <ul>
-<li>⬇️: <a href="https://github.com/rstudio/cheatsheets/raw/main/rstudio-ide.pdf">RStudio IDE cheatsheet</a></li>
-<li>📖: <a href="https://socviz.co/index.html#install">SOCVIZ Preface (Before you begin)</a></li>
-<li>📖: <a href="https://socviz.co/lookatdata.html#lookatdata">SOCVIZ Chapter 1</a></li>
-<li>📖: <a href="https://socviz.co/gettingstarted.html#gettingstarted">SOCVIZ Chapter 2</a></li>
-<li>📖: <a href="https://r4ds.had.co.nz/introduction.html">R4DS Chapter 1</a></li>
+<li>📖: <a href="https://www.annualreviews.org/doi/abs/10.1146/annurev-publhealth-012420-105110">Reproducible Research: A Retrospective Roger D. Peng and Stephanie C. Hicks, Annual Review of Public Health 2021 42:1, 79-93</a></li>
 </ul>
 <h2 id="during-class">During Class</h2>
-<p><a href="https://ericpgreen.github.io/glhlth562/materials/dataviz1/dataviz1_deck.html">Deck</a> / Materials (<a href="https://www.dropbox.com/s/m1vkvenokyftpa9/dataviz1.zip?dl=1">zip</a> or <a href="https://github.com/ericpgreen/glhlth562/tree/main/materials/dataviz1">github</a>)</p>
+<p>Deck / Materials</p>
 <h2 id="after-class-optional">After Class (Optional)</h2>
-<ul>
-<li>📖: <a href="https://moderndive.netlify.app/1-getting-started.html">ModernDive Chapter 1</a>, provides a nice intro to R, RStudio, and packages if you’re feeling a bit shaky.</li>
-<li>💻: {<code>learnr</code>} tutorial on <a href="https://aosmith.shinyapps.io/part1_rbasics_getting_started/">getting started with R/RStudio</a></li>
-</ul>
-<h1 id="jan-13-designing-effective-plots">Jan 13: Designing effective plots</h1>
+<h1 id="mar-17-rmarkdown">Mar 17: RMarkdown</h1>
 <h2 id="prepare-1">Prepare</h2>
 <ul>
-<li>📺: Reporting on and visualising the pandemic (<a href="https://www.rstudio.com/resources/rstudioglobal-2021/reporting-on-and-visualising-the-pandemic/">video</a> 50 min)</li>
-<li>⬇️: <a href="https://github.com/rstudio/cheatsheets/raw/main/data-visualization-2.1.pdf">Data visualization cheatsheet</a></li>
-<li>📖: <a href="https://r4ds.had.co.nz/data-visualisation.html">R4DS Chapter 3</a></li>
-<li>📖: <a href="https://socviz.co/workgeoms.html#workgeoms">SOCVIZ Chapter 5</a></li>
+<li>📖: <a href="https://r4ds.had.co.nz/r-markdown.html">R4DS, CH 27</a></li>
+<li>📖: <a href="https://r4ds.had.co.nz/r-markdown-formats.html">R4DS, CH 29</a></li>
+<li>REFERENCE: 📖: <a href="https://bookdown.org/yihui/rmarkdown/">R Markdown: The Definitive Guide</a></li>
 </ul>
 <h2 id="during-class-1">During Class</h2>
-<p><a href="https://ericpgreen.github.io/glhlth562/materials/dataviz2/dataviz2_deck.html">Deck</a> / Materials (<a href="https://www.dropbox.com/s/bl45y3gs9amy3ou/dataviz2.zip?dl=1">zip</a> or <a href="https://github.com/ericpgreen/glhlth562/tree/main/materials/dataviz2">github</a>)</p>
+<p>Deck / Materials</p>
 <h2 id="after-class-optional-1">After Class (Optional)</h2>
-<ul>
-<li>💻: Tutorials: <a href="https://rstudio.cloud/learn/primers/3">Visualize Data</a></li>
-</ul>
 <h2 id="tidytuesday">TidyTuesday</h2>
-<blockquote class="twitter-tweet">
-<p lang="en" dir="ltr">
-The <a href="https://twitter.com/R4DScommunity?ref_src=twsrc%5Etfw"><span class="citation" data-cites="R4DScommunity">@R4DScommunity</span></a> welcomes you to week 2 of <a href="https://twitter.com/hashtag/TidyTuesday?src=hash&amp;ref_src=twsrc%5Etfw">#TidyTuesday</a>! We're exploring Bee colony loss!<br><br>📂 <a href="https://t.co/sElb4fcv3u">https://t.co/sElb4fcv3u</a><br>🗞 <a href="https://t.co/6TiLX8FWE4">https://t.co/6TiLX8FWE4</a><a href="https://twitter.com/hashtag/r4ds?src=hash&amp;ref_src=twsrc%5Etfw">#r4ds</a> <a href="https://twitter.com/hashtag/tidyverse?src=hash&amp;ref_src=twsrc%5Etfw">#tidyverse</a> <a href="https://twitter.com/hashtag/rstats?src=hash&amp;ref_src=twsrc%5Etfw">#rstats</a> <a href="https://twitter.com/hashtag/dataviz?src=hash&amp;ref_src=twsrc%5Etfw">#dataviz</a> <a href="https://t.co/xY5CFgeMf9">pic.twitter.com/xY5CFgeMf9</a>
-</p>
-— Tom Mock (<span class="citation" data-cites="thomas_mock">@thomas_mock</span>) <a href="https://twitter.com/thomas_mock/status/1480724289955454984?ref_src=twsrc%5Etfw">January 11, 2022</a>
-</blockquote>
-<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-<p>Bees! <a href="https://github.com/rfordatascience/tidytuesday/blob/master/data/2022/2022-01-11/readme.md">Data</a> / <a href="https://www.dropbox.com/s/i1mf75oja07985u/tidytuesday.zip?dl=1">Template</a></p>
+<p>No assignment this week.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
