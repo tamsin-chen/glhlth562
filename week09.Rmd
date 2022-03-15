@@ -22,10 +22,11 @@ Roger D. Peng and Stephanie C. Hicks, Annual Review of Public Health 2021 42:1, 
   
 ## During Class
 
-Deck / Materials
+[Materials](https://www.dropbox.com/s/3vpw7yr33eivhvq/models3.zip?dl=1)
 
 ## After Class (Optional)
 
+`r emo::ji("tv")`: [How reproducible am I? A retrospective on a year of commercial data science projects in R](https://www.rstudio.com/resources/rstudioglobal-2021/how-reproducible-am-i-a-retrospective-on-a-year-of-commercial-data-science-projects-in-r/)
 
 # Mar 17: RMarkdown
 
@@ -35,15 +36,14 @@ Deck / Materials
 * `r emo::ji("open_book")`: [R4DS, CH 29](https://r4ds.had.co.nz/r-markdown-formats.html)
 * REFERENCE: `r emo::ji("open_book")`: [R Markdown: The Definitive Guide](https://bookdown.org/yihui/rmarkdown/)
 
-
-
 ## During Class
 
 Deck / Materials
 
 ## After Class (Optional)
 
+`r emo::ji("tv")`: [Reproducible Reporting](https://www.rstudio.com/resources/webinars/reproducible-reporting/)
 
 ## TidyTuesday
 
-No assignment this week.
+The Office! 
