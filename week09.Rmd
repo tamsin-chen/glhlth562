@@ -22,7 +22,7 @@ Roger D. Peng and Stephanie C. Hicks, Annual Review of Public Health 2021 42:1, 
   
 ## During Class
 
-[Materials](https://www.dropbox.com/s/3vpw7yr33eivhvq/models3.zip?dl=1)
+Materials ([zip](https://www.dropbox.com/s/3vpw7yr33eivhvq/models3.zip?dl=1))
 
 ## After Class (Optional)
 
@@ -32,13 +32,14 @@ Roger D. Peng and Stephanie C. Hicks, Annual Review of Public Health 2021 42:1, 
 
 ## Prepare
 
+* `r emo::ji("down_arrow")`: [RMarkdown cheatsheet](https://raw.githubusercontent.com/rstudio/cheatsheets/main/rmarkdown.pdf)
 * `r emo::ji("open_book")`: [R4DS, CH 27](https://r4ds.had.co.nz/r-markdown.html)
 * `r emo::ji("open_book")`: [R4DS, CH 29](https://r4ds.had.co.nz/r-markdown-formats.html)
 * REFERENCE: `r emo::ji("open_book")`: [R Markdown: The Definitive Guide](https://bookdown.org/yihui/rmarkdown/)
 
 ## During Class
 
-Deck / Materials
+Materials ([zip](https://www.dropbox.com/s/qlld80bnd8n3rvj/communicating1.zip?dl=1))
 
 ## After Class (Optional)
 

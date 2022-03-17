@@ -5,9 +5,11 @@ output: github_document
 ---
 
 ```{r load-packages, message = FALSE}
-# credit to https://datasciencebox.org/index.html and Alison Hill for her Alzheimer's tutorial
+# credit: Modified from Data Science in a Box 
+# credit: Inspired by Alison Hill's Alzheimer's tutorial
 
   library(tidymodels)
+  library(stringr)
   library(schrute)
   library(lubridate)
 ```
