@@ -87,29 +87,29 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 
 
   <!--radix_placeholder_meta_tags-->
-  <title>GLHLTH562: Data Science and Visualization with R: Week 9</title>
+  <title>GLHLTH562: Data Science and Visualization with R: The Office</title>
 
-  <meta property="description" itemprop="description" content="Reproducible workflows and RMarkdown"/>
+  <meta property="description" itemprop="description" content="Use tidymodels to predict ratings of The Office"/>
 
 
 
   <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
-  <meta property="og:title" content="GLHLTH562: Data Science and Visualization with R: Week 9"/>
+  <meta property="og:title" content="GLHLTH562: Data Science and Visualization with R: The Office"/>
   <meta property="og:type" content="article"/>
-  <meta property="og:description" content="Reproducible workflows and RMarkdown"/>
+  <meta property="og:description" content="Use tidymodels to predict ratings of The Office"/>
   <meta property="og:locale" content="en_US"/>
   <meta property="og:site_name" content="GLHLTH562: Data Science and Visualization with R"/>
 
   <!--  https://dev.twitter.com/cards/types/summary -->
   <meta property="twitter:card" content="summary"/>
-  <meta property="twitter:title" content="GLHLTH562: Data Science and Visualization with R: Week 9"/>
-  <meta property="twitter:description" content="Reproducible workflows and RMarkdown"/>
+  <meta property="twitter:title" content="GLHLTH562: Data Science and Visualization with R: The Office"/>
+  <meta property="twitter:description" content="Use tidymodels to predict ratings of The Office"/>
 
   <!--/radix_placeholder_meta_tags-->
   <!--radix_placeholder_rmarkdown_metadata-->
 
   <script type="text/json" id="radix-rmarkdown-metadata">
-  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","subtitle","description","output"]}},"value":[{"type":"character","attributes":{},"value":["Week 9"]},{"type":"character","attributes":{},"value":["Communicating Data Science"]},{"type":"character","attributes":{},"value":["Reproducible workflows and RMarkdown\n"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["toc","toc_depth"]}},"value":[{"type":"logical","attributes":{},"value":[true]},{"type":"integer","attributes":{},"value":[2]}]}]}]}
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","subtitle","description","output"]}},"value":[{"type":"character","attributes":{},"value":["The Office"]},{"type":"character","attributes":{},"value":["Practicing with tidymodels"]},{"type":"character","attributes":{},"value":["Use tidymodels to predict ratings of The Office\n"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["toc","toc_depth"]}},"value":[{"type":"logical","attributes":{},"value":[true]},{"type":"integer","attributes":{},"value":[2]}]}]}]}
   </script>
   <!--/radix_placeholder_rmarkdown_metadata-->
   <!--radix_placeholder_navigation_in_header-->
@@ -2140,7 +2140,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <!--radix_placeholder_front_matter-->
 
 <script id="distill-front-matter" type="text/json">
-{"title":"Week 9","description":"Reproducible workflows and RMarkdown","authors":[]}
+{"title":"The Office","description":"Use tidymodels to predict ratings of The Office","authors":[]}
 </script>
 
 <!--/radix_placeholder_front_matter-->
@@ -2190,56 +2190,19 @@ Content
 <!--/radix_placeholder_site_before_body-->
 
 <div class="d-title">
-<h1>Week 9</h1>
+<h1>The Office</h1>
 <!--radix_placeholder_categories-->
 <!--/radix_placeholder_categories-->
-<p><p>Reproducible workflows and RMarkdown</p></p>
+<p><p>Use tidymodels to predict ratings of The Office</p></p>
 </div>
 
 
 <div class="d-article">
-<div class="d-contents d-contents-float">
-<nav class="l-text toc figcaption" id="TOC">
-<h3>Contents</h3>
-<ul>
-<li><a href="#mar-15-reproducible-workflows">Mar 15: Reproducible workflows</a>
-<ul>
-<li><a href="#prepare">Prepare</a></li>
-<li><a href="#during-class">During Class</a></li>
-<li><a href="#after-class-optional">After Class (Optional)</a></li>
-</ul></li>
-<li><a href="#mar-17-rmarkdown">Mar 17: RMarkdown</a>
-<ul>
-<li><a href="#prepare-1">Prepare</a></li>
-<li><a href="#during-class-1">During Class</a></li>
-<li><a href="#after-class-optional-1">After Class (Optional)</a></li>
-<li><a href="#tidytuesday">TidyTuesday</a></li>
-</ul></li>
-</ul>
-</nav>
+<div class="layout-chunk" data-layout="l-body">
+<p><img src="https://ntvb.tmsimg.com/assets/p7893514_b_h8_ab.jpg?w=1280&amp;h=720" /><!-- --></p>
 </div>
-<h1 id="mar-15-reproducible-workflows">Mar 15: Reproducible workflows</h1>
-<h2 id="prepare">Prepare</h2>
-<ul>
-<li>📖: <a href="https://www.annualreviews.org/doi/abs/10.1146/annurev-publhealth-012420-105110">Reproducible Research: A Retrospective Roger D. Peng and Stephanie C. Hicks, Annual Review of Public Health 2021 42:1, 79-93</a></li>
-</ul>
-<h2 id="during-class">During Class</h2>
-<p><a href="https://www.dropbox.com/s/3vpw7yr33eivhvq/models3.zip?dl=1">Materials</a></p>
-<h2 id="after-class-optional">After Class (Optional)</h2>
-<p>📺: <a href="https://www.rstudio.com/resources/rstudioglobal-2021/how-reproducible-am-i-a-retrospective-on-a-year-of-commercial-data-science-projects-in-r/">How reproducible am I? A retrospective on a year of commercial data science projects in R</a></p>
-<h1 id="mar-17-rmarkdown">Mar 17: RMarkdown</h1>
-<h2 id="prepare-1">Prepare</h2>
-<ul>
-<li>📖: <a href="https://r4ds.had.co.nz/r-markdown.html">R4DS, CH 27</a></li>
-<li>📖: <a href="https://r4ds.had.co.nz/r-markdown-formats.html">R4DS, CH 29</a></li>
-<li>REFERENCE: 📖: <a href="https://bookdown.org/yihui/rmarkdown/">R Markdown: The Definitive Guide</a></li>
-</ul>
-<h2 id="during-class-1">During Class</h2>
-<p>Deck / Materials</p>
-<h2 id="after-class-optional-1">After Class (Optional)</h2>
-<p>📺: <a href="https://www.rstudio.com/resources/webinars/reproducible-reporting/">Reproducible Reporting</a></p>
-<h2 id="tidytuesday">TidyTuesday</h2>
-<p><a href="office.html">The Office!</a></p>
+<p><a href="https://en.wikipedia.org/wiki/The_Office_(American_TV_series)">The Office</a> (2005-2013) is one of the greatest American TV shows of all time, currently ranked #27 by IMDB users. In class we created an analysis dataset from the <a href="https://bradlindblad.github.io/schrute/"><strong>schrute</strong></a> package consisting of several episode-level features and the average IMDB rating. You’ll take this dataset and use the <a href="https://www.tidymodels.org/"><strong>tidymodels</strong></a> framework to train and test two models to predict the IMDB rating.</p>
+<p><a href="https://www.dropbox.com/s/nc9gqottxxy62us/theoffice2.Rmd?dl=1">Download Rmd</a></p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
