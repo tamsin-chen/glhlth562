@@ -1,0 +1,23 @@
+---
+title: "The Office"
+subtitle: "Practicing with tidymodels"
+description: |
+  Use tidymodels to predict ratings of The Office
+output:
+  distill::distill_article:
+    toc: true
+    toc_depth: 2
+---
+
+```{r, include=FALSE}
+  library(emo)
+```
+
+```{r, echo=FALSE}
+knitr::include_graphics("https://ntvb.tmsimg.com/assets/p7893514_b_h8_ab.jpg?w=1280&h=720")
+```
+
+
+[The Office](https://en.wikipedia.org/wiki/The_Office_(American_TV_series)) (2005-2013) is one of the greatest American TV shows of all time, currently ranked #27 by IMDB users. In class we created an analysis dataset from the [**schrute**](https://bradlindblad.github.io/schrute/) package consisting of several episode-level features and the average IMDB rating. You'll take this dataset and use the [**tidymodels**](https://www.tidymodels.org/) framework to train and test two models to predict the IMDB rating.
+
+[Download Rmd](https://www.dropbox.com/s/nc9gqottxxy62us/theoffice2.Rmd?dl=1)

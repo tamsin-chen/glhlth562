@@ -1,0 +1,59 @@
+---
+title: "Communicating Data Science"
+subtitle: "RMarkdown"
+css: custom_report.css
+bibliography: refs.bib
+csl: nature.csl
+output: 
+  bookdown::html_document2:
+    toc: true
+    toc_float: true
+    toc_depth: 1
+    code_folding: show
+    theme: default
+    highlight: tango
+    fig_captions: no
+    number_sections: false
+---
+
+```{r example, include=FALSE, warning = FALSE, message = FALSE}
+```
+
+```{r setup}
+#| include = FALSE,
+#| warning = FALSE,
+#| message = FALSE
+  
+  knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
+  options(scipen=999) # turns off scientific notation
+
+# define colors
+  glhlth562_colors <- c(
+    `blue`       = "#1f9ac9",
+    `yellow`     = "#ffd966",
+    `black`      = "#000000",
+    `lightgrey`  = "#D3D3D3",
+    `darkgrey`   = "#444444",
+    `grey`       = "#808080"
+  )
+
+# load packages
+  library(tidyverse)
+  library(gapminder)
+```
+
+# Reproducible Research
+
+* Goals per @peng:2021
+  * The original goal was to better reveal the process of doing the research.
+  * Some have suggested that making data and computer code available to others is a per se goal of reproducible research because both can be built on and leveraged to further scientific knowledge.
+  * Another goal of reproducible research is to provide a kind of audit trail, should one be needed.
+  * One could summarize the goal of reproducible research as providing a means to answer the question, "Do I understand and trust this data analysis?"
+
+
+
+# References
+
+
+
+
