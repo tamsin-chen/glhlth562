@@ -13,7 +13,7 @@ output:
   library(emo)
 ```
 
-# Mar 22: Reproducible workflows
+# Mar 22: Dashboards
 
 ## Prepare
 
@@ -27,7 +27,7 @@ Materials
 
 `r emo::ji("tv")`: [R Shiny Masterclass: Building, Styling, and Scaling Shiny Applications](https://youtu.be/MYVojGHeKAc)
 
-# Mar 24: RMarkdown
+# Mar 24: Slide decks
 
 ## Prepare
 
